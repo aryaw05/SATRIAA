@@ -29,7 +29,16 @@ export default function Home() {
     //     }
     // }
     useEffect(() => {
-        const map = L.map("map").setView([-7.8238, 112.0109], 15);
+        // Bounds
+        const southWest = L.latLng(-7.84306, 111.97746);
+        const northEast = L.latLng(-7.79468, 112.0451);
+        const bounds = L.latLngBounds(southWest, northEast);
+        const map = L.map("map", {
+            maxBounds: bounds,
+            center: [-7.8238, 112.0109],
+            zoom: 16,
+            minZoom: 15,
+        });
         L.tileLayer(
             "https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png",
             {
@@ -37,6 +46,7 @@ export default function Home() {
                     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             }
         ).addTo(map);
+
         let marker = null;
 
         // Lokasi User
@@ -46,7 +56,6 @@ export default function Home() {
 
         // Lokasi Terminal
         // looping lokasi dengan data latlangs diambil dari array
-
         kediriPolygon.map((coord) => {
             L.marker([coord[1], coord[0]], { icon: halteIcon }).addTo(map);
         });
