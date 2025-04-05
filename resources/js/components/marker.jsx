@@ -1,4 +1,4 @@
-export default function createCustomIcon(iconType, label, id) {
+export default function createCustomIcon(iconType, label) {
     const iconConfig = {
         halte: {
             iconUrl: "icon/Halte.svg",
@@ -19,7 +19,7 @@ export default function createCustomIcon(iconType, label, id) {
     return L.divIcon({
         className: `my-div-icon ${config.className}`,
         html: `
-            <img src="${config.iconUrl}" class="w-9 h-9" id = "${id}"/>
+            <img src="${config.iconUrl}" class="w-9 h-9" />
             <span class="my-div-span font-semibold">${label}</span>
         `,
         iconAnchor: [17, 35],

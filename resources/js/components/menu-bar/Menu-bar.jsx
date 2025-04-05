@@ -1,7 +1,7 @@
 import { useState } from "react";
 import NavigationButton from "./Navigation-button";
 export default function MenuBar(props) {
-    const { onClick, totalBus } = props;
+    const { onClickBus, onClickUser, totalBus } = props;
     const [isOpen, setIsOpen] = useState({
         position: "bottom-25",
     });
@@ -20,12 +20,12 @@ export default function MenuBar(props) {
             className={`w-full relative z-10 h-96  ${isOpen.position}  overflow-hidden`}
         >
             <div className="mb-4 px-2 flex  justify-between">
-                <NavigationButton icon={"Lokasi"} />
+                <NavigationButton icon={"Lokasi"} onClick={onClickUser} />
                 <div className="flex gap-2">
                     {jumlahBus.map((item) => {
                         return (
                             <NavigationButton
-                                onClick={() => onClick(item.id)}
+                                onClick={() => onClickBus(item.id)}
                                 id={item.id}
                                 key={item.id}
                                 icon={`Bus ${item.id}`}

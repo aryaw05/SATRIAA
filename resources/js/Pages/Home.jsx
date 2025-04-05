@@ -9,7 +9,8 @@ export default function Home() {
         lat: null,
         long: null,
     });
-    const [busId, setBusId] = useState(null);
+    const [busState, setBusState] = useState({ id: null, ver: 0 });
+
     function Location() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(success, error);
@@ -29,13 +30,13 @@ export default function Home() {
         }
     }
 
-    function busSearch(id) {
-        if (busId === null) {
-            setBusId(id);
-        } else {
-            setBusId(id);
-        }
+    function busSearch(BusId) {
+        setBusState((prev) => ({
+            id: BusId,
+            ver: prev.ver + 1,
+        }));
     }
+
     //jika jumlah diambil dari database
     let jumlahBus = [
         {
@@ -60,7 +61,7 @@ export default function Home() {
         const northEast = L.latLng(-7.79468, 112.0451);
         const bounds = L.latLngBounds(southWest, northEast);
         const map = L.map("map", {
-            maxBounds: bounds,
+            // maxBounds: bounds,
             center: [-7.8238, 112.0209],
             zoom: 17,
             minZoom: 15,
@@ -73,17 +74,23 @@ export default function Home() {
             }
         ).addTo(map);
 
-        let marker = null;
+        function clickZoom(e) {
+            map.setView(e.target.getLatLng(), 25);
+        }
+
         // Lokasi User
-        // if (myLocation.lat && myLocation.long) {
-        //     marker = L.marker([myLocation.lat, myLocation.long], {
-        //         icon: UserMarker,
-        //     }).addTo(map);
-        // }
+        if (myLocation.lat && myLocation.long) {
+            const userMarker = L.marker([myLocation.lat, myLocation.long], {
+                icon: createCustomIcon("user", ""),
+            })
+                .addTo(map)
+                .on("click", clickZoom);
+            const userPosition = userMarker.getLatLng();
+            map.panTo(userPosition);
+        }
 
         // Lokasi Terminal
-        // looping lokasi dengan data latlangs diambil dari array
-        kediriPolygon.map((coord, index) => {
+        kediriPolygon.map((coord) => {
             L.marker([coord[1], coord[0]], {
                 icon: createCustomIcon("halte", coord[1]),
                 alt: "halte",
@@ -92,45 +99,39 @@ export default function Home() {
                 .on("click", clickZoom);
         });
 
-        function clickZoom(e) {
-            map.setView(e.target.getLatLng(), 25);
-        }
-
+        // Lokasi Bus
         jumlahBus.map((bus) => {
-            const marker = L.marker([bus.lat, bus.lng], {
+            const busMarker = L.marker([bus.lat, bus.lng], {
                 icon: createCustomIcon("bus", "", bus.id),
             })
                 .addTo(map)
                 .on("click", clickZoom);
-            let markerId = (marker._leaflet_id = bus.id);
-            const position = marker.getLatLng();
-            if (markerId === busId) {
-                map.setView(position, 17);
+            let busMarkerId = (busMarker._leaflet_id = bus.id);
+            const busPosition = busMarker.getLatLng();
+            if (busMarkerId === busState.id) {
+                map.panTo(busPosition);
             }
         });
         // Lokasi Bus
         const flipCoords = kediriPolygon.map((coord) => [coord[1], coord[0]]);
         L.polyline(flipCoords, { color: "#9EC6F3" }).addTo(map);
         // Bersihkan map saat komponen unmount
+        let marker = null;
         return () => {
             map.remove();
             if (marker) marker.remove();
         };
-    }, [myLocation.lat, myLocation.long, busId]);
+    }, [myLocation.lat, myLocation.long, busState]);
     return (
         <div className=" ">
             <div id="map" className="w-full h-screen z-1"></div>
             {/* <button onClick={Location()}>Lokasi Saya</button> */}
-            {/* <button className="btn" onClick={() => busSearch(1)}>
-                bus 1
-            </button>
-            <button className="btn" onClick={() => busSearch(2)}>
-                bus 2
-            </button>
-            <button className="btn" onClick={() => busSearch(3)}>
-                bus 3
-            </button> */}
-            <MenuBar totalBus={jumlahBus} onClick={busSearch} />
+
+            <MenuBar
+                totalBus={jumlahBus}
+                onClickBus={busSearch}
+                onClickUser={Location}
+            />
         </div>
     );
 }
