@@ -1,40 +1,4 @@
-// export function HalteMarker(Data) {
-//     return L.divIcon({
-//         className: "my-div-icon",
-//         html:
-//             `<img src="icon/Halte.svg" class = "w-9 h-9"/>` +
-//             `<span class="my-div-span font-semibold">${Data}</span>`,
-//         iconAnchor: [17, 35],
-//         shadowAnchor: [4, 62],
-//         popupAnchor: [-3, -76],
-//     });
-// }
-
-// export function UserMarker(Data) {
-//     return L.divIcon({
-//         className: "my-div-icon",
-//         html:
-//             `<img src="icon/User.svg" class = "w-9 h-9"/>` +
-//             `<span class="my-div-span font-semibold">${Data}</span>`,
-//         iconAnchor: [17, 35],
-//         shadowAnchor: [4, 62],
-//         popupAnchor: [-3, -76],
-//     });
-// }
-
-// export function BusMarker(Data) {
-//     return L.divIcon({
-//         className: "my-div-icon",
-//         html:
-//             `<img src="icon/Halte.svg" class = "w-9 h-9"/>` +
-//             `<span class="my-div-span font-semibold">${Data}</span>`,
-//         iconAnchor: [17, 35],
-//         shadowAnchor: [4, 62],
-//         popupAnchor: [-3, -76],
-//     });
-// }
-
-export default function createCustomIcon(iconType, label) {
+export default function createCustomIcon(iconType, label, id) {
     const iconConfig = {
         halte: {
             iconUrl: "icon/Halte.svg",
@@ -55,7 +19,7 @@ export default function createCustomIcon(iconType, label) {
     return L.divIcon({
         className: `my-div-icon ${config.className}`,
         html: `
-            <img src="${config.iconUrl}" class="w-9 h-9"/>
+            <img src="${config.iconUrl}" class="w-9 h-9" id = "${id}"/>
             <span class="my-div-span font-semibold">${label}</span>
         `,
         iconAnchor: [17, 35],
