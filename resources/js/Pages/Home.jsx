@@ -1,15 +1,18 @@
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import React, { useState, useEffect } from "react";
-import kediriPolygon from "../data/map-koordinat";
+import React, { useState, useEffect, useRef } from "react";
+import { kediriPolygon, halteCoords } from "../data/map-koordinat";
 import createCustomIcon from "../components/marker";
 import MenuBar from "../components/menu-bar/Menu-bar";
 export default function Home() {
+    const mapRef = useRef(null);
+    const userMarkerRef = useRef(null);
+    const busMarkerRef = useRef({});
+
     const [myLocation, setMyLocation] = useState({
         lat: null,
         long: null,
     });
-    const [busState, setBusState] = useState({ id: null, ver: 0 });
 
     function Location() {
         if (navigator.geolocation) {
@@ -23,20 +26,23 @@ export default function Home() {
                 long: position.coords.longitude,
                 lat: position.coords.latitude,
             });
+
+            mapRef.current.flyTo(
+                [position.coords.latitude, position.coords.longitude],
+                17
+            );
         }
 
         function error() {
             alert("Lokasi Tidak Ditemukan");
         }
     }
-
-    function busSearch(BusId) {
-        setBusState((prev) => ({
-            id: BusId,
-            ver: prev.ver + 1,
-        }));
-    }
-
+    const busSearch = (busId) => {
+        const bus = jumlahBus.find((b) => b.id === busId);
+        if (bus && mapRef.current) {
+            mapRef.current.flyTo([bus.lat, bus.lng], 17);
+        }
+    };
     //jika jumlah diambil dari database
     let jumlahBus = [
         {
@@ -55,6 +61,8 @@ export default function Home() {
             lng: 112.0256,
         },
     ];
+
+    // inisiasi map
     useEffect(() => {
         // Bounds
         const southWest = L.latLng(-7.84306, 111.97746);
@@ -74,54 +82,65 @@ export default function Home() {
             }
         ).addTo(map);
 
-        function clickZoom(e) {
-            map.setView(e.target.getLatLng(), 25);
-        }
+        mapRef.current = map;
+    }, []);
+    function clickZoom(e) {
+        mapRef.current.setView(e.target.getLatLng(), 25);
+    }
+    // inisiasi Lokasi User
+    useEffect(() => {
+        if (!mapRef.current || !myLocation.lat) return;
 
         // Lokasi User
-        if (myLocation.lat && myLocation.long) {
-            const userMarker = L.marker([myLocation.lat, myLocation.long], {
-                icon: createCustomIcon("user", ""),
-            })
-                .addTo(map)
+        if (userMarkerRef.current) {
+            userMarkerRef.current.setLatLng([myLocation.lat, myLocation.long]);
+        } else {
+            userMarkerRef.current = L.marker(
+                [myLocation.lat, myLocation.long],
+                {
+                    icon: createCustomIcon("user", ""),
+                }
+            )
+                .addTo(mapRef.current)
                 .on("click", clickZoom);
-            const userPosition = userMarker.getLatLng();
-            map.panTo(userPosition);
+            // const userPosition = userMarker.getLatLng();
+            // map.panTo(userPosition);
         }
+    }, [myLocation]);
 
-        // Lokasi Terminal
-        kediriPolygon.map((coord) => {
+    // inisiasi Lokasi Bus
+    useEffect(() => {
+        if (!mapRef.current) return;
+        // Lokasi Bus
+        jumlahBus.map((bus) => {
+            if (!busMarkerRef.current[bus.id]) {
+                const busMarker = (busMarkerRef.current[bus.id] = L.marker(
+                    [bus.lat, bus.lng],
+                    {
+                        icon: createCustomIcon("bus", `bus${bus.id}`),
+                    }
+                )
+                    .addTo(mapRef.current)
+                    .on("click", clickZoom));
+            }
+        });
+    }, [jumlahBus]);
+
+    // jalur Bus
+    useEffect(() => {
+        const flipCoords = kediriPolygon.map((coord) => [coord[1], coord[0]]);
+        L.polyline(flipCoords, { color: "#9EC6F3" }).addTo(mapRef.current);
+        // terminal
+        halteCoords.map((coord) => {
             L.marker([coord[1], coord[0]], {
                 icon: createCustomIcon("halte", coord[1]),
                 alt: "halte",
             })
-                .addTo(map)
+                .addTo(mapRef.current)
                 .on("click", clickZoom);
         });
+    });
 
-        // Lokasi Bus
-        jumlahBus.map((bus) => {
-            const busMarker = L.marker([bus.lat, bus.lng], {
-                icon: createCustomIcon("bus", "", bus.id),
-            })
-                .addTo(map)
-                .on("click", clickZoom);
-            let busMarkerId = (busMarker._leaflet_id = bus.id);
-            const busPosition = busMarker.getLatLng();
-            if (busMarkerId === busState.id) {
-                map.panTo(busPosition);
-            }
-        });
-        // Lokasi Bus
-        const flipCoords = kediriPolygon.map((coord) => [coord[1], coord[0]]);
-        L.polyline(flipCoords, { color: "#9EC6F3" }).addTo(map);
-        // Bersihkan map saat komponen unmount
-        let marker = null;
-        return () => {
-            map.remove();
-            if (marker) marker.remove();
-        };
-    }, [myLocation.lat, myLocation.long, busState]);
     return (
         <div className=" ">
             <div id="map" className="w-full h-screen z-1"></div>
