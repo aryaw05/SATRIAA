@@ -19,16 +19,19 @@ export default function MenuBar(props) {
         <div
             className={`w-full relative z-10 h-96  ${isOpen.position}  overflow-hidden`}
         >
-            <div className="mb-4 px-2 flex  justify-between">
-                <NavigationButton icon={"Lokasi"} onClick={onClickUser} />
-                <div className="flex gap-2">
+            <div className="mb-4 px-2 flex h-16 items-center justify-between">
+                {/* <button className="btn" onClick={onClickUser} /> </button> */}
+                <button className="btn" oncClick={onClickUser}>
+                    +
+                </button>
+                <div div className="flex gap-4  ">
                     {jumlahBus.map((item) => {
                         return (
                             <NavigationButton
                                 onClick={() => onClickBus(item.id)}
                                 id={item.id}
                                 key={item.id}
-                                icon={`Bus ${item.id}`}
+                                icon={"icon/Bus.svg"}
                             />
                         );
                     })}
