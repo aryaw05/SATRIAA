@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Halte;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
@@ -16,34 +18,48 @@ class AdminController extends Controller
 
     public function createHalte(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'nama_halte' => 'required',
-            'lokasi_lat' => 'required|numeric',
-            'lokasi_long' => 'required|numeric'
+            'lokasi_lat' => 'required|numeric|between:-90,90',
+            'lokasi_long' => 'required|numeric|between:-180,180',
         ]);
-
-        Halte::create([
-            'nama_halte' => $request->nama_halte,
-            'lokasi_lat' => $request->lokasi_lat,
-            'lokasi_long' => $request->lokasi_long
-        ]);
-
-        return redirect('/halte');
+    
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error', 'Terjadi kesalahan pada input. Silakan ulangi kembali.');
+        }
+    
+        try {
+            Halte::create([
+                'nama_halte' => $request->nama_halte,
+                'lokasi_lat' => $request->lokasi_lat,
+                'lokasi_long' => $request->lokasi_long
+            ]);
+    
+            return redirect()->back()->with('success', 'Data halte berhasil disimpan!');
+        } catch (QueryException $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Gagal menyimpan data. Periksa kembali input Anda!');
+        }
     }
     
     public function editHalte(Request $request, $id)
-        {
-    $request->validate([
-        'nama_halte' => 'required',
-        'lokasi_lat' => 'required|numeric',
-        'lokasi_long' => 'required|numeric'
-    ]);
+    {
+        $request->validate([
+            'nama_halte'   => 'required',
+            'lokasi_lat'   => 'required|numeric|between:-90,90',
+            'lokasi_long'  => 'required|numeric|between:-180,180',
+        ]);
 
-    $halte = Halte::findOrFail($id);
-    $halte->update($request->all());
+        $halte = Halte::findOrFail($id);
+        $halte->update($request->only(['nama_halte', 'lokasi_lat', 'lokasi_long']));
 
-    return redirect('/halte')->with('success', 'Data Halte berhasil diupdate!');
+        return redirect('/halte')->with('success', 'Data Halte berhasil diupdate!');
     }
+
 
 
     public function deleteHalte($id)
