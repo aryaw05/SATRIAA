@@ -69,7 +69,7 @@ export default function Home() {
         const northEast = L.latLng(-7.79468, 112.0451);
         const bounds = L.latLngBounds(southWest, northEast);
         const map = L.map("map", {
-            maxBounds: bounds,
+            // maxBounds: bounds,
             center: [-7.8238, 112.0209],
             zoom: 17,
             minZoom: 15,

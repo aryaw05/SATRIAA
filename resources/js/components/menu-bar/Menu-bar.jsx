@@ -21,7 +21,7 @@ export default function MenuBar(props) {
         >
             <div className="mb-4 px-2 flex h-16 items-center justify-between">
                 {/* <button className="btn" onClick={onClickUser} /> </button> */}
-                <button className="btn" oncClick={onClickUser}>
+                <button className="btn" onClick={onClickUser}>
                     +
                 </button>
                 <div div className="flex gap-4  ">
