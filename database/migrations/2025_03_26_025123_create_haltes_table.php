@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama_halte', 100);
             $table->decimal('lokasi_lat', 9, 6);
             $table->decimal('lokasi_long', 9, 6);
+            $table->timestamps();
         });
     }
 
