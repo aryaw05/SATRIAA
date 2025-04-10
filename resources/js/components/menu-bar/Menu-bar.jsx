@@ -1,5 +1,6 @@
 import { useState } from "react";
 import NavigationButton from "./Navigation-button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default function MenuBar(props) {
     const { onClickBus, onClickUser, totalBus } = props;
     const [isOpen, setIsOpen] = useState({
@@ -19,19 +20,30 @@ export default function MenuBar(props) {
         <div
             className={`w-full relative z-10 h-96  ${isOpen.position}  overflow-hidden`}
         >
-            <div className="mb-4 px-2 flex h-16 items-center justify-between">
-                {/* <button className="btn" onClick={onClickUser} /> </button> */}
-                <button className="btn" onClick={onClickUser}>
-                    +
+            <div
+                className="px-2 py-2 flex h-20  items-center
+             justify-between"
+            >
+                <button
+                    className="btn bg-orange-primary  rounded-xl px-3 py-6"
+                    onClick={onClickUser}
+                >
+                    <FontAwesomeIcon
+                        icon="fa-solid fa-location-crosshairs"
+                        className="text-2xl text-white"
+                        color="bg-red-500"
+                    />
                 </button>
-                <div div className="flex gap-4  ">
+                <div div className="flex gap-4   ">
                     {jumlahBus.map((item) => {
                         return (
                             <NavigationButton
                                 onClick={() => onClickBus(item.id)}
                                 id={item.id}
                                 key={item.id}
-                                icon={"icon/Bus.svg"}
+                                icon={"fa-solid fa-bus"}
+                                className={"text-white text-2xl "}
+                                buttonColor={"orange-primary"}
                             />
                         );
                     })}
