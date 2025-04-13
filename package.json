@@ -20,9 +20,10 @@
         "@fortawesome/free-regular-svg-icons": "^6.7.2",
         "@fortawesome/free-solid-svg-icons": "^6.7.2",
         "@fortawesome/react-fontawesome": "^0.2.2",
-        "@inertiajs/react": "^2.0.5",
+        "@inertiajs/react": "^2.0.7",
         "@vitejs/plugin-react": "^4.3.4",
         "leaflet": "^1.9.4",
-        "react-dom": "^19.1.0"
+        "react-dom": "^19.1.0",
+        "react-swipeable": "^7.0.2"
     }
 }

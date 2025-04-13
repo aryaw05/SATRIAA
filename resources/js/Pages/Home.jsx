@@ -4,7 +4,10 @@ import React, { useState, useEffect, useRef } from "react";
 import { kediriPolygon, halteCoords } from "../data/map-koordinat";
 import createCustomIcon from "../components/marker";
 import MenuBar from "../components/menu-bar/Menu-bar";
-export default function Home() {
+export default function Home(props) {
+    const { halte } = props;
+    console.log(halte);
+
     const mapRef = useRef(null);
     const userMarkerRef = useRef(null);
     const busMarkerRef = useRef({});
@@ -134,9 +137,9 @@ export default function Home() {
     // halte
     useEffect(() => {
         // terminal
-        halteCoords.map((coord) => {
-            L.marker([coord[1], coord[0]], {
-                icon: createCustomIcon("halte", coord[1]),
+        halte.map((data) => {
+            L.marker([data.lokasi_lat, data.lokasi_long], {
+                icon: createCustomIcon("halte", data.nama_halte),
                 alt: "halte",
             })
                 .addTo(mapRef.current)
