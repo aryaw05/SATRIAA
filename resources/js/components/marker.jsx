@@ -14,7 +14,7 @@ export default function createCustomIcon(iconType, label) {
         },
     };
 
-    const config = iconConfig[iconType] || iconConfig.halte; // Fallback ke halte jika type tidak ada
+    const config = iconConfig[iconType] || iconConfig.halte;
 
     return L.divIcon({
         className: `my-div-icon ${config.className}`,

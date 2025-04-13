@@ -4,7 +4,7 @@ export default function NavigationButton(props) {
 
     return (
         <div className="indicator ">
-            <span className="indicator-item indicator-start badge py-3 bg-purple text-white rounded-lg">
+            <span className="indicator-item indicator-start badge py-3 bg-orange-primary text-white rounded-lg">
                 {id}
             </span>
             <button

@@ -64,11 +64,11 @@ export default function MenuBar(props) {
     return (
         <div
             {...swipeHandlers}
-            className={`fixed bottom-0 left-0 right-0 z-10 transition-all duration-300 ease-in-out shadow-lg ${getHeightClass()}`}
+            className={`fixed bottom-0 left-0 right-0 z-10 transition-all duration-300 ease-in-out  ${getHeightClass()}`}
         >
             <div className="mb-4 mx-4 px-2 flex h-16 items-center justify-between">
                 <button
-                    className="bg-purple size-13 p-3 rounded-xl flex items-center justify-center"
+                    className="bg-orange-primary p-3 rounded-xl flex items-center justify-center"
                     onClick={onClickUser}
                     aria-label="Tambah user"
                 >
@@ -101,7 +101,7 @@ export default function MenuBar(props) {
                 </div>
                 <div className="bg-white-500 justify-items-center h-[calc(100%-20px)] overflow-y-auto">
                     <div className="flex items-center m-7 space-x-4">
-                        <div className="bg-orange-secondary rounded-3xl shadow-lg">
+                        <div className="bg-orange-secondary rounded-3xl ">
                             <FontAwesomeIcon
                                 icon="fa-solid fa-wheelchair"
                                 className="text-5xl text-white p-4"
@@ -115,7 +115,7 @@ export default function MenuBar(props) {
                         </div>
                     </div>
                     <p className="text-xl font-medium mt-9 mb-4">Detail Bus</p>
-                    <div className="flex w-fit rounded-3xl overflow-hidden shadow-lg bg-orange-primary">
+                    <div className="flex w-fit rounded-3xl overflow-hidden  bg-orange-primary">
                         {/* Kiri: Ikon dan Nama */}
                         <div className="bg-orange-secondary flex flex-col items-center justify-center px-5 py-4 rounded-3xl">
                             <FontAwesomeIcon
@@ -157,7 +157,7 @@ export default function MenuBar(props) {
                         Jadwal Kedatangan Satria
                     </p>
 
-                    <div className="flex items-center bg-orange-primary rounded-2xl px-6 py-5  shadow-lg mb-5">
+                    <div className="flex items-center bg-orange-primary rounded-2xl px-6 py-5   mb-5">
                         {/* Keterangan Terminal */}
                         <span className="text-md font-medium text-black">
                             Terminal Tamanan
@@ -165,13 +165,13 @@ export default function MenuBar(props) {
 
                         {/* Jam-jam Keberangkatan */}
                         <div className="flex space-x-2">
-                            <span className="bg-white text-black text-md font-semibold px-2 py-2 rounded-md shadow">
+                            <span className="bg-white text-black text-md font-semibold px-2 py-2 rounded-md ">
                                 07:30
                             </span>
-                            <span className="bg-white text-black text-md font-semibold px-2 py-2 rounded-md shadow">
+                            <span className="bg-white text-black text-md font-semibold px-2 py-2 rounded-md ">
                                 07:30
                             </span>
-                            <span className="bg-white text-black text-md font-semibold px-2 py-2 rounded-md shadow">
+                            <span className="bg-white text-black text-md font-semibold px-2 py-2 rounded-md ">
                                 07:30
                             </span>
                         </div>

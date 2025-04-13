@@ -6,7 +6,6 @@ import createCustomIcon from "../components/marker";
 import MenuBar from "../components/menu-bar/Menu-bar";
 export default function Home(props) {
     const { halte } = props;
-    console.log(halte);
 
     const mapRef = useRef(null);
     const userMarkerRef = useRef(null);
@@ -72,7 +71,7 @@ export default function Home(props) {
         const northEast = L.latLng(-7.79468, 112.0451);
         const bounds = L.latLngBounds(southWest, northEast);
         const map = L.map("map", {
-            // maxBounds: bounds,
+            maxBounds: bounds,
             center: [-7.8238, 112.0209],
             zoom: 17,
             minZoom: 15,
@@ -132,7 +131,9 @@ export default function Home(props) {
     // jalur Bus
     useEffect(() => {
         const flipCoords = kediriPolygon.map((coord) => [coord[1], coord[0]]);
-        L.polyline(flipCoords, { color: "#9EC6F3" }).addTo(mapRef.current);
+        L.polyline(flipCoords, { color: "#F48502", weight: 4 }).addTo(
+            mapRef.current
+        );
     });
     // halte
     useEffect(() => {
@@ -145,7 +146,7 @@ export default function Home(props) {
                 .addTo(mapRef.current)
                 .on("click", clickZoom);
         });
-    });
+    },);
     return (
         <div className=" ">
             <div id="map" className="w-full h-screen z-1"></div>
