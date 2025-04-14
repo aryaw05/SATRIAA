@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/', function () {
-    return view('admin');
-});
+// Route::get('/', function () {
+//     return view('admin');
+// });
 
 Route::get('/halte', [AdminController::class,'storeHalte'])->name('storeHalte');
 Route::post('/createHalte', [AdminController::class,'createHalte'])->name('createHalte');
