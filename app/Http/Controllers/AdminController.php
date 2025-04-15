@@ -7,15 +7,26 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
+use Inertia\Inertia;
 
 class AdminController extends Controller
 {
     public function storeHalte()
     {
         $halte = Halte::get();
-        return view('admin', compact('halte'));
+        return Inertia::render('Admin/HalteList' , [
+        'halte' => $halte
+    ]);
+    }
+    public function retrieveHalte()
+    {
+        $halte = Halte::get();
+        return Inertia::render('Home', [
+            'halte' => $halte
+        ]);
     }
 
+  
     public function createHalte(Request $request)
     {
         $validator = Validator::make($request->all(), [
