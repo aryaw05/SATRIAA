@@ -1,22 +1,23 @@
+import React, { useEffect, useRef } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import React, { useState, useEffect, useRef } from "react";
-import { kediriPolygon, halteCoords } from "../data/map-koordinat";
-import createCustomIcon from "../components/marker";
-import MenuBar from "../components/menu-bar/Menu-bar";
+import { kediriPolygon } from "../data/map-koordinat";
+import createCustomIcon from "./marker";
 
-export default function Home(props) {
-    const { halte } = props;
-    const mapRef = useRef(null);
-    const userMarkerRef = useRef(null);
-    const busMarkerRef = useRef({});
+export default function MapComponent({
+    halte,
+    jumlahBus,
+    myLocation,
+    setMyLocation,
+    mapRef,
+    userMarkerRef,
+    busMarkerRef,
+}) {
+    function clickZoom(e) {
+        mapRef.current.setView(e.target.getLatLng(), 25);
+    }
 
-    const [myLocation, setMyLocation] = useState({
-        lat: null,
-        long: null,
-    });
-
-    function Location() {
+    function initLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(success, error);
         } else {
@@ -39,43 +40,19 @@ export default function Home(props) {
             alert("Lokasi Tidak Ditemukan");
         }
     }
-    const busSearch = (busId) => {
-        const bus = jumlahBus.find((b) => b.id === busId);
-        if (bus && mapRef.current) {
-            mapRef.current.flyTo([bus.lat, bus.lng], 17);
-        }
-    };
-    //jika jumlah diambil dari database
-    let jumlahBus = [
-        {
-            id: 1,
-            lat: -7.8238,
-            lng: 112.0209,
-        },
-        {
-            id: 2,
-            lat: -7.8165,
-            lng: 112.0173,
-        },
-        {
-            id: 3,
-            lat: -7.8302,
-            lng: 112.0256,
-        },
-    ];
 
-    // inisiasi map
     useEffect(() => {
-        // Bounds
         const southWest = L.latLng(-7.84306, 111.97746);
         const northEast = L.latLng(-7.79468, 112.0451);
         const bounds = L.latLngBounds(southWest, northEast);
+
         const map = L.map("map", {
             maxBounds: bounds,
             center: [-7.8238, 112.0209],
             zoom: 17,
             minZoom: 15,
         });
+
         L.tileLayer(
             "https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png",
             {
@@ -85,15 +62,15 @@ export default function Home(props) {
         ).addTo(map);
 
         mapRef.current = map;
+
+        return () => {
+            map.remove();
+        };
     }, []);
-    function clickZoom(e) {
-        mapRef.current.setView(e.target.getLatLng(), 25);
-    }
-    // inisiasi Lokasi User
+
     useEffect(() => {
         if (!mapRef.current || !myLocation.lat) return;
 
-        // Lokasi User
         if (userMarkerRef.current) {
             userMarkerRef.current.setLatLng([myLocation.lat, myLocation.long]);
         } else {
@@ -105,16 +82,13 @@ export default function Home(props) {
             )
                 .addTo(mapRef.current)
                 .on("click", clickZoom);
-            // const userPosition = userMarker.getLatLng();
-            // map.panTo(userPosition);
         }
     }, [myLocation]);
 
-    // inisiasi Lokasi Bus
     useEffect(() => {
         if (!mapRef.current) return;
-        // Lokasi Bus
-        jumlahBus.map((bus) => {
+
+        jumlahBus.forEach((bus) => {
             if (!busMarkerRef.current[bus.id]) {
                 const busMarker = (busMarkerRef.current[bus.id] = L.marker(
                     [bus.lat, bus.lng],
@@ -128,17 +102,15 @@ export default function Home(props) {
         });
     }, [jumlahBus]);
 
-    // jalur Bus
     useEffect(() => {
         const flipCoords = kediriPolygon.map((coord) => [coord[1], coord[0]]);
         L.polyline(flipCoords, { color: "#F48502", weight: 4 }).addTo(
             mapRef.current
         );
-    });
-    // halte
+    }, []);
+
     useEffect(() => {
-        // terminal
-        halte.map((data) => {
+        halte.forEach((data) => {
             L.marker([data.lokasi_lat, data.lokasi_long], {
                 icon: createCustomIcon("halte", data.nama_halte),
                 alt: "halte",
@@ -146,17 +118,7 @@ export default function Home(props) {
                 .addTo(mapRef.current)
                 .on("click", clickZoom);
         });
-    });
-    return (
-        <div className=" ">
-            <div id="map" className="w-full h-screen z-1"></div>
-            {/* <button onClick={Location()}>Lokasi Saya</button> */}
+    }, [halte]);
 
-            <MenuBar
-                totalBus={jumlahBus}
-                onClickBus={busSearch}
-                onClickUser={Location}
-            />
-        </div>
-    );
+    return <div id="map" className="w-full h-screen z-1"></div>;
 }

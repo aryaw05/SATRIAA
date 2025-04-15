@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedInteger('id_halte');
             $table->time('waktu_berangkat');
             $table->time('waktu_tiba');
+            $table->timestamps();
 
             $table->foreign('id_bus')->references('id_bus')->on('buses')->onDelete('cascade');
             $table->foreign('id_halte')->references('id_halte')->on('haltes')->onDelete('cascade');

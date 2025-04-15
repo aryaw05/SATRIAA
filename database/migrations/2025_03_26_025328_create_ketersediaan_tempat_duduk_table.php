@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('ketersediaan_tempat_duduk', function (Blueprint $table) {
             $table->increments('id_ketersediaan');
             $table->unsignedInteger('id_bus');
-            $table->integer('tempat_duduk_tersedia');
+            $table->integer('tempat_duduk_tersedia')->unsigned();
             $table->timestamp('waktu_update')->useCurrent();
 
             $table->foreign('id_bus')->references('id_bus')->on('buses')->onDelete('cascade');
