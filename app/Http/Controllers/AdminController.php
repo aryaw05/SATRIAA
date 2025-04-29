@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Halte;
+use App\Events\HalteCreated;
+use App\Events\HalteDeleted;
+use App\Events\HalteUpdated;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -12,7 +15,7 @@ class AdminController extends Controller
 {
     public function storeHalte()
     {
-        $halte = Halte::get();
+        $halte = Halte::all();
         return view('admin', compact('halte'));
     }
 
@@ -32,12 +35,12 @@ class AdminController extends Controller
         }
     
         try {
-            Halte::create([
+            $halte = Halte::create([
                 'nama_halte' => $request->nama_halte,
                 'lokasi_lat' => $request->lokasi_lat,
                 'lokasi_long' => $request->lokasi_long
             ]);
-    
+            broadcast(new HalteCreated($halte))->toOthers();
             return redirect()->back()->with('success', 'Data halte berhasil disimpan!');
         } catch (QueryException $e) {
             return redirect()->back()
@@ -56,17 +59,16 @@ class AdminController extends Controller
 
         $halte = Halte::findOrFail($id);
         $halte->update($request->only(['nama_halte', 'lokasi_lat', 'lokasi_long']));
-
+        broadcast(new HalteUpdated($halte))->toOthers();
         return redirect('/halte')->with('success', 'Data Halte berhasil diupdate!');
     }
-
 
 
     public function deleteHalte($id)
     {
         $halte = Halte::findOrFail($id);
         $halte->delete();
-
+        broadcast(new HalteDeleted($halte))->toOthers();
         return redirect('/halte')->with('success', 'Data Halte berhasil dihapus!');
     }
 }

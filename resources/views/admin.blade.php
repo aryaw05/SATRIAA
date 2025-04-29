@@ -1,3 +1,16 @@
+@vite(['resources/js/bootstrap.js'])
+@if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -109,7 +122,7 @@
             </tr>
             <?php $no=0 ;?>
             @foreach($halte as $h)
-            <tr>
+            <tr id="halte-{{ $h->id_halte }}">
                 <td><?php echo ++$no ?></td>
                 <td>{{ $h->nama_halte }}</td>
                 <td>{{ $h->lokasi_lat }}</td>
@@ -172,3 +185,61 @@
     </div>
 @endif
 
+
+
+
+<!-- Tambahkan JavaScript di bawah -->
+<script src="https://cdn.jsdelivr.net/npm/laravel-echo/dist/echo.iife.js"></script>
+<script>
+window.Echo.channel('haltes')
+    .listen('.halte.created', (e) => {
+        const el = document.createElement('tr');
+        el.id = `halte-${e.halte.id_halte}`; // ID yang unik untuk setiap halte
+        el.innerHTML = `
+            <td>${e.halte.id_halte}</td>
+            <td><b>${e.halte.nama_halte}</b></td>
+            <td>${e.halte.lokasi_lat}</td>
+            <td>${e.halte.lokasi_long}</td>
+            <td>
+                <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal${e.halte.id_halte}">Edit</button>
+                <form action="{{ url('deleteHalte', '${e.halte.id_halte}') }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn-delete">Hapus</button>
+                </form>
+            </td>
+        `;
+        document.querySelector('table').appendChild(el); // Menambahkan halte ke tabel
+    })
+    .listen('.halte.updated', (e) => {
+        const el = document.getElementById(`halte-${e.halte.id_halte}`);
+        if (el) {
+            el.innerHTML = `
+                <td>${e.halte.id_halte}</td>
+                <td><b>${e.halte.nama_halte}</b></td>
+                <td>${e.halte.lokasi_lat}</td>
+                <td>${e.halte.lokasi_long}</td>
+                <td>
+                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal${e.halte.id_halte}">Edit</button>
+                    <form action="{{ url('deleteHalte', '${e.halte.id_halte}') }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn-delete">Hapus</button>
+                    </form>
+                </td>
+            `;
+        }
+    })
+    .listen('.halte.deleted', (e) => {
+        const el = document.getElementById(`halte-${e.halteId}`);
+        if (el) {
+            el.remove(); // Menghapus baris yang sesuai
+        }
+    });
+
+</script>
+
+<script>
+    console.log('Echo:', window.Echo);
+    console.log('Env Key:', import.meta.env.VITE_REVERB_APP_KEY);
+</script>
