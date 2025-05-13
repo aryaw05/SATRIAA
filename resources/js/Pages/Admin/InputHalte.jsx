@@ -9,9 +9,27 @@ const HalteSatria = (props) => {
         lokasi_lat: "",
         lokasi_long: "",
     });
+
+    const [dataHalte, setDataHalte] = useState({
+        lat: null,
+        lng: null,
+        halteName: null,
+    });
     const mapRef = useRef(null);
     function clickZoom(e) {
         mapRef.current.setView(e.target.getLatLng(), 25);
+        // console.log(e.target.options.alt);
+        const halteLatLng = e.target.getLatLng();
+        const halteName = e.target.options.alt;
+        // console.log(halteLatLng);
+
+        setDataHalte({
+            lat: halteLatLng.lat,
+            lng: halteLatLng.lng,
+            halteName: halteName,
+        });
+
+        console.log(dataHalte);
     }
     useEffect(() => {
         // Bounds
@@ -40,7 +58,7 @@ const HalteSatria = (props) => {
         halte.map((data) => {
             L.marker([data.lokasi_lat, data.lokasi_long], {
                 icon: createCustomIcon("halte", data.nama_halte),
-                alt: "halte",
+                alt: data.nama_halte,
             })
                 .addTo(mapRef.current)
                 .on("click", clickZoom);
@@ -144,20 +162,26 @@ xt-lg active:!bg-transparent active:!text-inherit"
                                 {/* Bus Stop Details */}
                                 <div className="px-5 py-4 space-y-1">
                                     <div className="sm:text-xl text-center font-bold">
-                                        Halte Sukorame
+                                        {!dataHalte.halteName
+                                            ? "-"
+                                            : dataHalte.halteName}
                                     </div>
                                     <div className="grid grid-cols-[90px_10px_1fr] text-sm font-medium">
                                         <span>Latitude</span>
                                         <span>:</span>
                                         <span className="text-black font-bold">
-                                            238234234
+                                            {!dataHalte.lat
+                                                ? "-"
+                                                : dataHalte.lat}
                                         </span>
                                     </div>
                                     <div className="grid grid-cols-[90px_10px_1fr] text-sm font-medium">
                                         <span>Longitude</span>
                                         <span>:</span>
                                         <span className="text-black font-bold">
-                                            238234234
+                                            {!dataHalte.lng
+                                                ? "-"
+                                                : dataHalte.lng}
                                         </span>
                                     </div>
                                 </div>
