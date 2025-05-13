@@ -11,9 +11,9 @@ Route::post('/createHalte', [AdminController::class,'createHalte'])->name('creat
 Route::put('/editHalte/{id}', [AdminController::class, 'editHalte']);
 Route::delete('/deleteHalte/{id}', [AdminController::class, 'deleteHalte']);
 
-Route::get('/admin/input-halte', function () {
-    return Inertia::render('Admin/InputHalte');
-});
+// Route::get('/admin/input-halte', function () {
+//     return Inertia::render('Admin/InputHalte');
+// });
 Route::get('/admin/input-data', function () {
     return Inertia::render('Admin/InputData');
 });
