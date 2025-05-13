@@ -1,6 +1,8 @@
-import { Head, router } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 import { useEffect, useRef, useState } from "react";
 import createCustomIcon from "../../components/marker";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Navbar from "./Navbar";
 const HalteSatria = (props) => {
     const { halte } = props;
 
@@ -32,6 +34,9 @@ const HalteSatria = (props) => {
         console.log(dataHalte);
     }
     useEffect(() => {
+        if (mapRef.current !== null) {
+            mapRef.current.remove();
+        }
         // Bounds
         const southWest = L.latLng(-7.84306, 111.97746);
         const northEast = L.latLng(-7.79468, 112.0451);
@@ -90,50 +95,12 @@ const HalteSatria = (props) => {
     return (
         <>
             <Head>
-                <title>Halte SATRIA</title>
+                <title>Halte SATRIAAAAA</title>
             </Head>
 
             <div className="bg-white min-h-screen items-center justify-center">
                 {/* Navbar */}
-                <div className="navbar bg-base-100 fixed top-0 w-full z-50">
-                    {/* Left Side */}
-                    <div className="flex-1">
-                        <ul className="menu menu-horizontal px-auto text-xl relative z-50">
-                            <li>
-                                <details className="dropdown">
-                                    <summary className="sm:text-3xl hover:bg-transparent focus:!bg-transparent focus:!text-inherit">
-                                        Jadwal SATRIA
-                                    </summary>
-                                    <ul className="menu dropdown rounded-t-none p-2">
-                                        <li>
-                                            <a
-                                                className="whitespace-nowrap sm:tehttps://unpkg.com/react@17/umd/react.development.js
-https://unpkg.com/react-dom@17/umd/react-dom.development.js
-https://unpkg.com/babel-standalone@6/babel.min.js
-xt-lg active:!bg-transparent active:!text-inherit"
-                                            >
-                                                Jadwal SATRIA
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a className="whitespace-nowrap sm:text-lg active:!bg-transparent active:!text-inherit">
-                                                Data SATRIA
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </details>
-                            </li>
-                        </ul>
-                    </div>
-
-                    {/* Right Side */}
-                    <div className="flex-none pr-4 text-md sm:text-2xl flex flex-col items-end">
-                        <div className="font-bold">Admin Dishub</div>
-                        <div className="text-sm sm:text-base text-gray-500">
-                            Admin
-                        </div>
-                    </div>
-                </div>
+                <Navbar />
 
                 {/* Grid Layout for Desktop */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-4 sm:h-screen pt-17 sm:pl-2">
@@ -146,43 +113,76 @@ xt-lg active:!bg-transparent active:!text-inherit"
                         {/* Input Form at the bottom */}
                         <div className="fixed bottom-0 w-full bg-white pb-3 pt-4 sm:relative sm:w-4/6 sm:ml-auto sm:h-full sm:flex sm:flex-col sm:justify-start sm:items-end">
                             {/* Bus Stop Information */}
-                            <div className="flex w-fit mx-auto rounded-3xl overflow-hidden bg-[#f1c65d] mb-1 order-1 sm:order-2 sm:py-auto sm:mt-5 sm:w-[85%]">
-                                {/* Bus Stop Icon */}
-                                <div className="bg-orange-500 flex items-center justify-center px-5 py-4 rounded-3xl">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="text-white size-[60px]"
-                                        viewBox="0 0 32 32"
-                                        fill="currentColor"
-                                    >
-                                        <path d="M 9 4 C 6.800781 4 5 5.800781 5 8 L 5 13 L 3 13 L 3 16 L 5 16 L 5 27 C 5 27.550781 5.449219 28 6 28 L 9 28 L 9.34375 27 L 22.65625 27 L 23 28 L 26 28 C 26.550781 28 27 27.550781 27 27 L 27 16 L 29 16 L 29 13 L 27 13 L 27 8 C 27 5.800781 25.199219 4 23 4 Z M 9 6 L 23 6 C 24.117188 6 25 6.882813 25 8 L 7 8 C 7 6.882813 7.882813 6 9 6 Z M 7 10 L 15 10 L 15 17 L 7 17 Z M 17 10 L 25 10 L 25 17 L 17 17 Z M 7 19 L 25 19 L 25 25 L 7 25 Z M 8 21 L 8 23 L 12 23 L 12 21 Z M 20 21 L 20 23 L 24 23 L 24 21 Z" />
-                                    </svg>
+                            <div className="flex w-fit mx-auto  justify-between rounded-3xl overflow-hidden bg-[#f1c65d] mb-1 order-1 sm:order-2 sm:py-auto sm:mt-5 sm:w-[85%]">
+                                <div className=" flex flex-row">
+                                    {/* Bus Stop Icon */}
+                                    <div className="bg-orange-500 flex items-center justify-center px-5 py-4 rounded-3xl">
+                                        <FontAwesomeIcon
+                                            icon={"fa-solid fa-bus"}
+                                            className="text-4xl text-white"
+                                        />
+                                    </div>
+
+                                    {/* Bus Stop Details */}
+                                    <div className="px-5 py-4 space-y-1">
+                                        <div className="sm:text-xl text-center font-bold">
+                                            {!dataHalte.halteName
+                                                ? "-"
+                                                : dataHalte.halteName}
+                                        </div>
+                                        <div className="grid grid-cols-[90px_10px_1fr] text-sm font-medium">
+                                            <span>Latitude</span>
+                                            <span>:</span>
+                                            <span className="text-black font-bold">
+                                                {!dataHalte.lat
+                                                    ? "-"
+                                                    : dataHalte.lat}
+                                            </span>
+                                        </div>
+                                        <div className="grid grid-cols-[90px_10px_1fr] text-sm font-medium">
+                                            <span>Longitude</span>
+                                            <span>:</span>
+                                            <span className="text-black font-bold">
+                                                {!dataHalte.lng
+                                                    ? "-"
+                                                    : dataHalte.lng}
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                {/* Bus Stop Details */}
-                                <div className="px-5 py-4 space-y-1">
-                                    <div className="sm:text-xl text-center font-bold">
-                                        {!dataHalte.halteName
-                                            ? "-"
-                                            : dataHalte.halteName}
-                                    </div>
-                                    <div className="grid grid-cols-[90px_10px_1fr] text-sm font-medium">
-                                        <span>Latitude</span>
-                                        <span>:</span>
-                                        <span className="text-black font-bold">
-                                            {!dataHalte.lat
-                                                ? "-"
-                                                : dataHalte.lat}
-                                        </span>
-                                    </div>
-                                    <div className="grid grid-cols-[90px_10px_1fr] text-sm font-medium">
-                                        <span>Longitude</span>
-                                        <span>:</span>
-                                        <span className="text-black font-bold">
-                                            {!dataHalte.lng
-                                                ? "-"
-                                                : dataHalte.lng}
-                                        </span>
+                                <div className=" flex justify-center px-5 py-4">
+                                    {/* <div className="dropdown dropdown-bottom dropdown-end">
+                                        <div tabIndex={0} role="button">
+                                            <FontAwesomeIcon icon="fa-solid fa-ellipsis" />
+                                        </div>
+                                        <ul
+                                            tabIndex={0}
+                                            className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm "
+                                        >
+                                            <li>
+                                                <a>Item 1</a>
+                                            </li>
+                                            <li>
+                                                <a>Item 2</a>
+                                            </li>
+                                        </ul>
+                                    </div> */}
+                                    <div className="dropdown dropdown-top dropdown-end z-10 ">
+                                        <div tabIndex={0} className="btn m-1">
+                                            Click ⬆️
+                                        </div>
+                                        <ul
+                                            tabIndex={0}
+                                            className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+                                        >
+                                            <li>
+                                                <a>Item 1</a>
+                                            </li>
+                                            <li>
+                                                <a>Item 2</a>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -194,6 +194,7 @@ xt-lg active:!bg-transparent active:!text-inherit"
                                         Nama Halte
                                     </p>
                                     <input
+                                        required
                                         type="text"
                                         name="nama_halte"
                                         value={formData.nama_halte}
@@ -207,6 +208,7 @@ xt-lg active:!bg-transparent active:!text-inherit"
                                         Latitude
                                     </p>
                                     <input
+                                        required
                                         type="number"
                                         step="any"
                                         name="lokasi_lat"
@@ -221,6 +223,7 @@ xt-lg active:!bg-transparent active:!text-inherit"
                                         Longitude
                                     </p>
                                     <input
+                                        required
                                         type="number"
                                         step="any"
                                         name="lokasi_long"
