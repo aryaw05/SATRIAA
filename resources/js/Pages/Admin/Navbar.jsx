@@ -1,3 +1,4 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "@inertiajs/react";
 
 export default function Navbar() {
@@ -36,9 +37,29 @@ text-lg active:!bg-transparent active:!text-inherit"
             </div>
 
             {/* Right Side */}
-            <div className="flex-none pr-4 text-md sm:text-2xl flex flex-col items-end">
-                <div className="font-bold">Admin Dishub</div>
-                <div className="text-sm sm:text-base text-gray-500">Admin</div>
+            <div className=" pr-4 text-md sm:text-2xl flex  items-center gap-4">
+                <div>
+                    <div className="font-bold">Admin Dishub</div>
+                    <div className="text-sm sm:text-base text-gray-500">
+                        Admin
+                    </div>
+                </div>
+                <div className="dropdown dropdown-end">
+                    <div tabIndex={0} role="button">
+                        <FontAwesomeIcon
+                            icon="fa-solid fa-circle-user "
+                            className="md:text-5xl cursor-pointer"
+                        />
+                    </div>
+                    <ul
+                        tabIndex={0}
+                        className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm "
+                    >
+                        <li>
+                            <a className="text-red-500">Log Out</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     );

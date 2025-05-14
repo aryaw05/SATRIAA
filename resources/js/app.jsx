@@ -8,6 +8,8 @@ import {
     faLocationCrosshairs,
     faBus,
     faWheelchair,
+    faEllipsis,
+    faCircleUser,
 } from "@fortawesome/free-solid-svg-icons";
 
 createInertiaApp({
@@ -17,6 +19,13 @@ createInertiaApp({
     },
     setup({ el, App, props }) {
         createRoot(el).render(<App {...props} />);
-        library.add(faTwitter, faLocationCrosshairs, faBus, faWheelchair);
+        library.add(
+            faTwitter,
+            faLocationCrosshairs,
+            faBus,
+            faWheelchair,
+            faEllipsis,
+            faCircleUser
+        );
     },
 });
