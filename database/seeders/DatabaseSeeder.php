@@ -18,9 +18,9 @@ class DatabaseSeeder extends Seeder {
 
         // Seeder Buses
         DB::table('buses')->insert([
-            ['nomor_bus' => 'B001', 'rute' => 'Rute A', 'kapasitas_tempat_duduk' => 40, 'status' => 'aktif'],
-            ['nomor_bus' => 'B002', 'rute' => 'Rute B', 'kapasitas_tempat_duduk' => 35, 'status' => 'aktif'],
-            ['nomor_bus' => 'B003', 'rute' => 'Rute C', 'kapasitas_tempat_duduk' => 45, 'status' => 'tidak aktif']
+            ['nomor_bus' => 'B001', 'rute' => 'Rute A', 'kapasitas_tempat_duduk' => 40, 'status' => 'aktif', 'kondisi' => 'baik'],
+            ['nomor_bus' => 'B002', 'rute' => 'Rute B', 'kapasitas_tempat_duduk' => 35, 'status' => 'aktif', 'kondisi' => 'baik'],
+            ['nomor_bus' => 'B003', 'rute' => 'Rute C', 'kapasitas_tempat_duduk' => 45, 'status' => 'tidak aktif', 'kondisi' => 'baik']
         ]);
 
         // Seeder Tracking Bus

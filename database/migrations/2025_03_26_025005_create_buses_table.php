@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('rute', 255);
             $table->integer('kapasitas_tempat_duduk');
             $table->string('status', 255);
+            $table->string('kondisi', 255);
             $table->timestamps();
         });
     }
