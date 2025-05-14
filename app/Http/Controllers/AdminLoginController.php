@@ -32,6 +32,6 @@ class AdminLoginController extends Controller
         Auth::logout();  // Logout pengguna
 
         // Redirect ke halaman login setelah logout
-        return redirect()->route('admin.login');
+        return redirect()->route('/login');
     }
 }

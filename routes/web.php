@@ -13,9 +13,9 @@ Route::put('/editHalte/{id}', [AdminController::class, 'editHalte']);
 Route::delete('/deleteHalte/{id}', [AdminController::class, 'deleteHalte']);
 
 // Login routes
-Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm'])->name('login');  // Route untuk halaman login
+Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('login');  // Route untuk halaman login
 Route::post('/admin/login', [AdminLoginController::class, 'login'])->name('admin.login.post');  // Route untuk proses login
-Route::post('/admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');  // Route untuk logout
+Route::get('/logout', [AdminLoginController::class, 'logout'])->name('logout');  // Route untuk logout
 
 // Route untuk menambah kernet
 Route::get('/admin/kernet/tambah', [KernetController::class, 'create'])->name('addKernet');
