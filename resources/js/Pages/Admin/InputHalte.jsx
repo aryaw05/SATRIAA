@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import createCustomIcon from "../../components/marker";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Navbar from "./Navbar";
+import { kediriPolygon } from "../../data/map-koordinat";
 const HalteSatria = (props) => {
     const { halte } = props;
 
@@ -68,6 +69,13 @@ const HalteSatria = (props) => {
                 .addTo(mapRef.current)
                 .on("click", clickZoom);
         });
+    });
+    // jalur Bus
+    useEffect(() => {
+        const flipCoords = kediriPolygon.map((coord) => [coord[1], coord[0]]);
+        L.polyline(flipCoords, { color: "#F48502", weight: 4 }).addTo(
+            mapRef.current
+        );
     });
     const handleChange = (e) => {
         setFormData({
