@@ -1,4 +1,4 @@
-import { Head, Link, router } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import { useEffect, useRef, useState } from "react";
 import createCustomIcon from "../../components/marker";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,6 +13,7 @@ const HalteSatria = (props) => {
     });
 
     const [dataHalte, setDataHalte] = useState({
+        halte_id: null,
         lat: null,
         lng: null,
         halteName: null,
@@ -20,18 +21,16 @@ const HalteSatria = (props) => {
     const mapRef = useRef(null);
     function clickZoom(e) {
         mapRef.current.setView(e.target.getLatLng(), 25);
-        // console.log(e.target.options.alt);
         const halteLatLng = e.target.getLatLng();
         const halteName = e.target.options.alt;
-        // console.log(halteLatLng);
+        const halteId = e.target.options.id;
 
         setDataHalte({
+            halte_id: halteId,
             lat: halteLatLng.lat,
             lng: halteLatLng.lng,
             halteName: halteName,
         });
-
-        console.log(dataHalte);
     }
     useEffect(() => {
         if (mapRef.current !== null) {
@@ -62,6 +61,7 @@ const HalteSatria = (props) => {
         // terminal
         halte.map((data) => {
             L.marker([data.lokasi_lat, data.lokasi_long], {
+                id: data.id_halte,
                 icon: createCustomIcon("halte", data.nama_halte),
                 alt: data.nama_halte,
             })
@@ -113,7 +113,7 @@ const HalteSatria = (props) => {
                         {/* Input Form at the bottom */}
                         <div className="fixed bottom-0 w-full bg-white pb-3 pt-4 sm:relative sm:w-4/6 sm:ml-auto sm:h-full sm:flex sm:flex-col sm:justify-start sm:items-end">
                             {/* Bus Stop Information */}
-                            <div className="flex w-fit mx-auto  justify-between rounded-3xl overflow-hidden bg-[#f1c65d] mb-1 order-1 sm:order-2 sm:py-auto sm:mt-5 sm:w-[85%]">
+                            <div className="flex w-fit mx-auto  justify-between rounded-3xl  bg-[#f1c65d] mb-1 order-1 sm:order-2 sm:py-auto sm:mt-5 sm:w-[85%] ">
                                 <div className=" flex flex-row">
                                     {/* Bus Stop Icon */}
                                     <div className="bg-orange-500 flex items-center justify-center px-5 py-4 rounded-3xl">
@@ -151,36 +151,30 @@ const HalteSatria = (props) => {
                                     </div>
                                 </div>
 
-                                <div className=" flex justify-center px-5 py-4">
-                                    {/* <div className="dropdown dropdown-bottom dropdown-end">
-                                        <div tabIndex={0} role="button">
+                                <div className=" flex justify-center px-5 py-4  ">
+                                    <div className="dropdown dropdown-top dropdown-end ">
+                                        <div tabIndex={0}>
                                             <FontAwesomeIcon icon="fa-solid fa-ellipsis" />
-                                        </div>
-                                        <ul
-                                            tabIndex={0}
-                                            className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm "
-                                        >
-                                            <li>
-                                                <a>Item 1</a>
-                                            </li>
-                                            <li>
-                                                <a>Item 2</a>
-                                            </li>
-                                        </ul>
-                                    </div> */}
-                                    <div className="dropdown dropdown-top dropdown-end z-10 ">
-                                        <div tabIndex={0} className="btn m-1">
-                                            Click ⬆️
                                         </div>
                                         <ul
                                             tabIndex={0}
                                             className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
                                         >
                                             <li>
-                                                <a>Item 1</a>
+                                                <a>Edit Halte</a>
                                             </li>
                                             <li>
-                                                <a>Item 2</a>
+                                                <button
+                                                    type="button"
+                                                    className="text-red-500"
+                                                    onClick={() =>
+                                                        handleDelete(
+                                                            dataHalte.halte_id
+                                                        )
+                                                    }
+                                                >
+                                                    Delete Halte
+                                                </button>
                                             </li>
                                         </ul>
                                     </div>
