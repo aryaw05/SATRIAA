@@ -69,4 +69,9 @@ class AdminController extends Controller
 
         return redirect('/halte')->with('success', 'Data Halte berhasil dihapus!');
     }
+
+    public function dasboard()
+    {
+        return view('dasbordadmin'); 
+    }
 }
