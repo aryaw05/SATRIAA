@@ -34,4 +34,15 @@ class KondisiBusController extends Controller
     
         return redirect()->back()->with('success', 'Data bus berhasil diperbarui.');
     }
+
+    public function pageAdmin()
+    {
+        $Bus = Bus::get();
+        return view('pageAdmin', compact('Bus'));
+    }
+    public function pageUser()
+    {
+        $Bus = Bus::get();
+        return view('pageUser', compact('Bus'));
+    }
 }

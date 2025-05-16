@@ -43,5 +43,9 @@ class DatabaseSeeder extends Seeder {
             ['nama_halte' => 'Halte B', 'lokasi_lat' => -6.221000, 'lokasi_long' => 106.831000],
             ['nama_halte' => 'Halte C', 'lokasi_lat' => -6.222000, 'lokasi_long' => 106.832000]
         ]);
+        $this->call([
+        UserSeeder::class,
+    ]);
     }
+    
 }
