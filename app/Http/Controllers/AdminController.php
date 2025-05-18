@@ -14,7 +14,7 @@ class AdminController extends Controller
     public function storeHalte()
     {
         $halte = Halte::get();
-        return Inertia::render('Admin/HalteList' , [
+        return Inertia::render('Admin/InputHalte' , [
         'halte' => $halte
     ]);
     }

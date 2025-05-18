@@ -76,13 +76,10 @@ export default function Home(props) {
             zoom: 17,
             minZoom: 15,
         });
-        L.tileLayer(
-            "https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png",
-            {
-                attribution:
-                    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            }
-        ).addTo(map);
+        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution:
+                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }).addTo(map);
 
         mapRef.current = map;
     }, []);
@@ -131,7 +128,7 @@ export default function Home(props) {
     // jalur Bus
     useEffect(() => {
         const flipCoords = kediriPolygon.map((coord) => [coord[1], coord[0]]);
-        L.polyline(flipCoords, { color: "#F48502", weight: 4 }).addTo(
+        L.polyline(flipCoords, { color: "#7C4585", weight: 4 }).addTo(
             mapRef.current
         );
     });
