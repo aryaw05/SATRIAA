@@ -39,10 +39,5 @@ class KondisiBusController extends Controller
     {
         $Bus = Bus::get();
         return view('pageAdmin', compact('Bus'));
-    }
-    public function pageUser()
-    {
-        $Bus = Bus::get();
-        return view('pageUser', compact('Bus'));
-    }
+    }   
 }

@@ -14,16 +14,16 @@ class UserSeeder extends Seeder
         User::create([
             'nama' => 'Admin Satu',
             'username' => 'admin',
-            'password' => Hash::make('123'), // password: admin123
+            'password' => Hash::make('123'), // password: 123
             'role' => 'admin',
         ]);
 
         // Bus user
         User::create([
             'nama' => 'Petugas Bus',
-            'username' => 'bus',
-            'password' => Hash::make('123'), // password: bus123
-            'role' => 'bus',
+            'username' => 'kernet',
+            'password' => Hash::make('123'), // password: 123
+            'role' => 'kernet',
         ]);
     }
 }

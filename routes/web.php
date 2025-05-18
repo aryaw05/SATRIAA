@@ -5,6 +5,7 @@ use App\Http\Controllers\KondisiBusController;
 use App\Http\Controllers\updateKursiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BusLoginController;
 
 Route::middleware('web')->group(function () {
   Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -22,8 +23,12 @@ Route::middleware('web')->group(function () {
     Route::put('/editHalte/{id}', [AdminController::class, 'editHalte']);
     Route::delete('/deleteHalte/{id}', [AdminController::class, 'deleteHalte']);
   });
-  Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':bus'])->group(function () {
-    Route::get('/pageUser', [KondisiBusController::class, 'pageUser'])->name('pageUser');
+  Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':kernet'])->group(function () {
+    Route::get('/pageUser', [BusLoginController::class, 'pageUser'])->name('pageUser');
+    Route::post('/logBus', [BusLoginController::class, 'prosesLoginBus'])->name('prosesLoginBus')->middleware('auth');
+    Route::post('/logoutBus', [BusLoginController::class, 'logoutBus'])->name('logoutBus')->middleware('auth');
+
+    Route::get('/Bus', [BusLoginController::class,'dashboard'])->name('dashboard');
     Route::get('/', [AdminController::class,'retrieveHalte'])->name('retrieveHalte');
   });
 });
