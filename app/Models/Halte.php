@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Halte extends Model
 {
     use HasFactory;
+
+    use HasFactory;
     protected $table = 'haltes'; // Ubah sesuai dengan nama tabel yang sesuai
     protected $primaryKey = 'id_halte';
     protected $fillable = [

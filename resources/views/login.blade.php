@@ -1,23 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+    <!-- @vite(['resources/css/app.css']) -->
 </head>
 <body>
-    <h2>Login</h2>
-    @if ($errors->any())
-        <p style="color:red;">{{ $errors->first() }}</p>
-    @endif
+SATRIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
-    <form method="POST" action="/login">
-        @csrf
-        <label>Username:</label><br>
-        <input type="text" name="username" required><br><br>
-
-        <label>Password:</label><br>
-        <input type="password" name="password" required><br><br>
-
-        <button type="submit">Login</button>
-    </form>
 </body>
 </html>
