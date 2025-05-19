@@ -6,6 +6,7 @@ use App\Http\Controllers\updateKursiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BusLoginController;
+use Inertia\Inertia;
 
 Route::middleware('web')->group(function () {
   Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -29,8 +30,10 @@ Route::middleware('web')->group(function () {
     Route::post('/logoutBus', [BusLoginController::class, 'logoutBus'])->name('logoutBus')->middleware('auth');
 
     Route::get('/Bus', [BusLoginController::class,'dashboard'])->name('dashboard');
+    Route::get('/admin/input-data', function () {
+    return Inertia::render('Admin/InputData');
+});
     Route::get('/', [AdminController::class,'retrieveHalte'])->name('retrieveHalte');
   });
 });
-
 
