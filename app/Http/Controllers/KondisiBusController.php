@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Bus;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class KondisiBusController extends Controller
 {
@@ -39,8 +38,6 @@ class KondisiBusController extends Controller
     public function pageAdmin()
     {
         $Bus = Bus::get();
-        return Inertia::render('Admin/HalteList', [
-            'buses' => $Bus
-        ]);
+        return view('pageAdmin', compact('Bus'));
     }   
 }

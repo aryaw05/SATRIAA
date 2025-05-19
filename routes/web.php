@@ -14,6 +14,8 @@ Route::middleware('web')->group(function () {
   Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
   Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':admin'])->group(function () {
+
+    // UPDATE Kursi
     Route::get('/pageAdmin', [KondisiBusController::class, 'pageAdmin'])->name('pageAdmin');
     Route::get('/updateKursi', [updateKursiController::class,'updateKursi'])->name('updateKursi');
     Route::post('/update', [updateKursiController::class,'update'])->name('update');
