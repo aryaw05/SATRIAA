@@ -70,9 +70,7 @@ class AdminController extends Controller
 
         return redirect('/halte')->with('success', 'Data Halte berhasil diupdate!');
     }
-
-
-
+    
     public function deleteHalte($id)
     {
         $halte = Halte::findOrFail($id);
