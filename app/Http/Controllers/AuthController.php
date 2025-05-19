@@ -24,9 +24,9 @@ class AuthController extends Controller
 
         $user = Auth::user();
         if ($user->role === 'admin') {
-            return redirect('/pageAdmin');
+            return redirect('/admin/dashboard');
         } elseif ($user->role === 'kernet') {
-            return redirect('/pageUser');
+            return redirect('/dashboard/kernet');
         }
     }
 
