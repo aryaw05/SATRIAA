@@ -30,7 +30,7 @@ Route::middleware('web')->group(function () {
   });
 
   Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':kernet'])->group(function () {
-    // Route::get('/pageUser', [BusLoginController::class, 'pageUser'])->name('pageUser');
+    Route::get('/kernet/dashboard', [BusLoginController::class, 'pageUser'])->name('pageUser'); 
     Route::post('/logBus', [BusLoginController::class, 'prosesLoginBus'])->name('prosesLoginBus')->middleware('auth');
     Route::post('/logoutBus', [BusLoginController::class, 'logoutBus'])->name('logoutBus')->middleware('auth');
 

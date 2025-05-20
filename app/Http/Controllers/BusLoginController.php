@@ -40,7 +40,7 @@ class BusLoginController extends Controller
         $id_bus = Session::get('logBus');
 
         if (!$id_bus) {
-            return redirect('/pageUser')->withErrors(['Silakan login terlebih dahulu']);
+            return redirect('/kernet/dashboard')->withErrors(['Silakan login terlebih dahulu']);
         }
 
         $bus = Bus::find($id_bus);
@@ -50,7 +50,7 @@ class BusLoginController extends Controller
     public function logoutBus()
     {
         Session::forget('logBus');
-        return redirect('/pageUser');
+        return redirect('/kernet/dashboard');
     }
 
 }
