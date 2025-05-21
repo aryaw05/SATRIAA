@@ -18,10 +18,38 @@ class DatabaseSeeder extends Seeder {
 
         // Seeder Buses
         DB::table('buses')->insert([
-            ['nomor_bus' => 'B001', 'rute' => 'Rute A', 'kapasitas_tempat_duduk' => 40, 'status' => 'aktif'],
-            ['nomor_bus' => 'B002', 'rute' => 'Rute B', 'kapasitas_tempat_duduk' => 35, 'status' => 'aktif'],
-            ['nomor_bus' => 'B003', 'rute' => 'Rute C', 'kapasitas_tempat_duduk' => 45, 'status' => 'tidak aktif']
-        ]);
+        [
+            'nomor_bus' => 'B001',
+            'rute' => 'Rute A',
+            'kapasitas_tempat_duduk' => 40,
+            'status' => 'aktif',
+            'kondisi' => 'baik',
+            'password' => bcrypt('123'), // tambahkan password bus
+            'created_at' => now(),
+            'updated_at' => now(),
+        ],
+        [
+            'nomor_bus' => 'B002',
+            'rute' => 'Rute B',
+            'kapasitas_tempat_duduk' => 35,
+            'status' => 'aktif',
+            'kondisi' => 'baik',
+            'password' => bcrypt('123'),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ],
+        [
+            'nomor_bus' => 'B003',
+            'rute' => 'Rute C',
+            'kapasitas_tempat_duduk' => 45,
+            'status' => 'tidak aktif',
+            'kondisi' => 'baik',
+            'password' => bcrypt('123'),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ],
+    ]);
+
 
         // Seeder Tracking Bus
         DB::table('tracking_buses')->insert([
@@ -43,5 +71,9 @@ class DatabaseSeeder extends Seeder {
             ['nama_halte' => 'Halte B', 'lokasi_lat' => -6.221000, 'lokasi_long' => 106.831000],
             ['nama_halte' => 'Halte C', 'lokasi_lat' => -6.222000, 'lokasi_long' => 106.832000]
         ]);
+        $this->call([
+        UserSeeder::class,
+    ]);
     }
+    
 }
