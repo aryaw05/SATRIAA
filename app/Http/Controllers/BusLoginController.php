@@ -11,8 +11,7 @@ class BusLoginController extends Controller
 {
     public function pageUser()
     {
-        // Ambil semua bus yang statusnya aktif
-        $buses = DB::table('buses')->where('status', 'aktif')->get();
+        $buses = DB::table('buses')->get();
         return view('pageUser', compact('buses'));
     }
 
