@@ -18,3 +18,16 @@ Route::get('/admin/input-data', function () {
     return Inertia::render('Admin/InputData');
 });
 
+Route::get('/admin/dashboard-kernet', function () {
+    return Inertia::render('Admin/kernet');
+});
+Route::get('/admin/login', function () {
+    return Inertia::render('Admin/login');
+});
+
+Route::get('/admin/gps', function () {
+    return Inertia::render('Admin/gps');
+});
+
+
+
