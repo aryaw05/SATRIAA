@@ -6,6 +6,8 @@ use App\Http\Controllers\updateKursiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BusLoginController;
+use App\Http\Controllers\BusController;
+use App\Http\Controllers\JadwalController;
 use Inertia\Inertia;
 
 Route::middleware('web')->group(function () {
@@ -42,3 +44,12 @@ Route::middleware('web')->group(function () {
 });
 
 Route::get('/', [AdminController::class,'retrieveHalte'])->name('retrieveHalte');
+
+Route::get('/BusTAMBAH', [BusController::class, 'create'])->name('bus.create'); // halaman input
+Route::post('/BusCreate', [BusController::class, 'store'])->name('bus.store');  // simpan data
+Route::get('/BusCreate', [BusController::class, 'index'])->name('bus.index');   // halaman setelah simpan (daftar bus)
+Route::get('/BusEdit/{bus}', [BusController::class, 'edit'])->name('bus.edit');
+Route::put('/BusUpdate/{bus}', [BusController::class, 'update'])->name('bus.update');
+Route::delete('/BusDelete/{bus}', [BusController::class, 'destroy'])->name('bus.destroy');
+
+Route::resource('jadwal', JadwalController::class);
