@@ -11,6 +11,7 @@ class Bus extends Model
     protected $table = 'buses'; // Ubah sesuai dengan nama tabel yang sesuai
     protected $primaryKey = 'id_bus';
     protected $fillable = [
+        'nama_bus',
         'nomor_bus',
         'rute',
         'kapsitas_tempat_duduk',

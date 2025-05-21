@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('buses', function (Blueprint $table) {
             $table->increments('id_bus');
             $table->string('nomor_bus', 20);
+            $table->string('nama_bus', 255);
             $table->string('rute', 255);
             $table->integer('kapasitas_tempat_duduk');
             $table->string('status', 255);

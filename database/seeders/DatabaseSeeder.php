@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder {
         // Seeder Buses
         DB::table('buses')->insert([
         [
+            'nama_bus' => 'si a',
             'nomor_bus' => 'B001',
             'rute' => 'Rute A',
             'kapasitas_tempat_duduk' => 40,
@@ -29,6 +30,8 @@ class DatabaseSeeder extends Seeder {
             'updated_at' => now(),
         ],
         [
+            
+            'nama_bus' => 'si b',
             'nomor_bus' => 'B002',
             'rute' => 'Rute B',
             'kapasitas_tempat_duduk' => 35,
@@ -39,6 +42,7 @@ class DatabaseSeeder extends Seeder {
             'updated_at' => now(),
         ],
         [
+            'nama_bus' => 'si c',
             'nomor_bus' => 'B003',
             'rute' => 'Rute C',
             'kapasitas_tempat_duduk' => 45,

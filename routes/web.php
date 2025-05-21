@@ -42,3 +42,4 @@ Route::middleware('web')->group(function () {
 });
 
 Route::get('/', [AdminController::class,'retrieveHalte'])->name('retrieveHalte');
+Route::resource('crudDataBus', \App\Http\Controllers\JadwalBusController::class);
