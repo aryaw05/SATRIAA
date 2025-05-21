@@ -3,16 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Tambahkan ini di dalam <head> -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<!-- Tambahkan sebelum </body> -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
   <title>crud data bus</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 <div class="container">
-    <h2 class="mb-4">Manajemen Jadwal Bus</h2>
+    <h2 class="mb-4 mt-4">Manajemen Jadwal Bus</h2>
 
     {{-- Flash message --}}
     @if(session('success'))
@@ -23,7 +20,7 @@
     <div class="card mb-4">
         <div class="card-header">Tambah Jadwal Bus</div>
         <div class="card-body">
-            <form action="{{ route('crudDataBus.store') }}" method="POST">
+            <form action="{{ route('store') }}" method="POST">
                 @csrf
                 <div class="row">
                     <div class="col-md-3">  
@@ -83,7 +80,7 @@
                     <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $item->id_jadwal }}">Edit</button>
 
                     <!-- Tombol Hapus -->
-                    <form action="{{ route('crudDataBus.destroy', $item->id_jadwal) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin hapus?')">
+                    <form action="{{ route('destroy', $item->id_jadwal) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin hapus?')">
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-danger btn-sm">Hapus</button>
@@ -95,7 +92,7 @@
             <div class="modal fade" id="editModal{{ $item->id_jadwal }}" tabindex="-1" aria-labelledby="editModalLabel{{ $item->id_jadwal }}" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
-                  <form action="{{ route('crudDataBus.update', $item->id_jadwal) }}" method="POST">
+                  <form action="{{ route('update', $item->id_jadwal) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="modal-header">
@@ -104,8 +101,8 @@
                     </div>
                     <div class="modal-body">
                       <div class="mb-3">
-                        <label for="bus{{ $item->id_jadwal }}" class="form-label">Bus</label>
-                        <select id="bus{{ $item->id_jadwal }}" name="id_bus" class="form-control" required>
+                        <label class="form-label">Bus</label>
+                        <select name="id_bus" class="form-control" required>
                           @foreach($buses as $bus)
                             <option value="{{ $bus->id_bus }}" {{ $item->id_bus == $bus->id_bus ? 'selected' : '' }}>
                               {{ $bus->nama_bus }}
@@ -114,8 +111,8 @@
                         </select>
                       </div>
                       <div class="mb-3">
-                        <label for="halte{{ $item->id_jadwal }}" class="form-label">Halte</label>
-                        <select id="halte{{ $item->id_jadwal }}" name="id_halte" class="form-control" required>
+                        <label class="form-label">Halte</label>
+                        <select name="id_halte" class="form-control" required>
                           @foreach($haltes as $halte)
                             <option value="{{ $halte->id_halte }}" {{ $item->id_halte == $halte->id_halte ? 'selected' : '' }}>
                               {{ $halte->nama_halte }}
@@ -124,12 +121,12 @@
                         </select>
                       </div>
                       <div class="mb-3">
-                        <label for="waktu_berangkat{{ $item->id_jadwal }}" class="form-label">Waktu Berangkat</label>
-                        <input id="waktu_berangkat{{ $item->id_jadwal }}" type="time" name="waktu_berangkat" value="{{ $item->waktu_berangkat }}" class="form-control" required>
+                        <label class="form-label">Waktu Berangkat</label>
+                        <input type="time" name="waktu_berangkat" value="{{ $item->waktu_berangkat }}" class="form-control" required>
                       </div>
                       <div class="mb-3">
-                        <label for="waktu_tiba{{ $item->id_jadwal }}" class="form-label">Waktu Tiba</label>
-                        <input id="waktu_tiba{{ $item->id_jadwal }}" type="time" name="waktu_tiba" value="{{ $item->waktu_tiba }}" class="form-control" required>
+                        <label class="form-label">Waktu Tiba</label>
+                        <input type="time" name="waktu_tiba" value="{{ $item->waktu_tiba }}" class="form-control" required>
                       </div>
                     </div>
                     <div class="modal-footer">
@@ -144,6 +141,5 @@
         </tbody>
     </table>
 </div>
-
 </body>
 </html>

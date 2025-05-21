@@ -2,71 +2,55 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\jadwalBus;
+use Illuminate\Http\Request;
+use App\Models\JadwalBus;
 use App\Models\Bus;
 use App\Models\Halte;
-use Illuminate\Http\Request;
 
 class JadwalBusController extends Controller
 {
     public function index()
     {
-        $jadwal = jadwalBus::with(['bus', 'halte'])->get();
+        $jadwal = JadwalBus::with(['bus', 'halte'])->get();
         $buses = Bus::all();
         $haltes = Halte::all();
         return view('crudDataBus', compact('jadwal', 'buses', 'haltes'));
-    }
-
-
-    public function create()
-    {
-        $buses = Bus::all();
-        $haltes = Halte::all();
-        return view('crudDataBus', compact('buses', 'haltes'));
     }
 
     public function store(Request $request)
     {
+    $request->validate([
+        'id_bus' => 'required|exists:bus,id_bus',
+        'id_halte' => 'required|exists:halte,id_halte',
+        'waktu_berangkat' => 'required|date_format:H:i',
+        'waktu_tiba' => 'required|date_format:H:i|after:waktu_berangkat',
+    ]);
+
+        JadwalBus::create($request->all());
+
+        return redirect()->route('index')->with('success', 'Jadwal berhasil ditambahkan');
+    }
+
+    public function update(Request $request, $id)
+    {
         $request->validate([
-            'id_bus' => 'required|exists:buses,id_bus',
-            'id_halte' => 'required|exists:haltes,id_halte',
+            'id_bus' => 'required|exists:bus,id_bus',
+            'id_halte' => 'required|exists:halte,id_halte',
             'waktu_berangkat' => 'required|date_format:H:i',
             'waktu_tiba' => 'required|date_format:H:i|after:waktu_berangkat',
         ]);
 
-        jadwalBus::create($request->all());
-        return redirect()->route('crudDataBus.index')->with('success', 'Jadwal bus berhasil ditambahkan.');
-    }
-
-    public function show(jadwalBus $jadwal)
-    {
-        return view('crudDataBus', compact('jadwal'));
-    }
-
-    public function edit(jadwalBus $jadwal)
-    {
-        $buses = Bus::all();
-        $haltes = Halte::all();
-        return view('crudDataBus', compact('jadwal', 'buses', 'haltes'));
-    }
-
-    public function update(Request $request, jadwalBus $jadwal)
-    {
-        $request->validate([
-            'id_bus' => 'required|exists:buses,id_bus',
-            'id_halte' => 'required|exists:haltes,id_halte',
-            'waktu_berangkat' => 'required|date_format:H:i',
-            'waktu_tiba' => 'required|date_format:H:i|after:waktu_berangkat',
-        ]);
-
-
+        $jadwal = JadwalBus::findOrFail($id);
         $jadwal->update($request->all());
-        return redirect()->route('crudDataBus.index')->with('success', 'Jadwal bus berhasil diperbarui.');
+
+        return redirect()->back()->with('success', 'Jadwal berhasil diperbarui');
     }
 
-    public function destroy(jadwalBus $jadwal)
+
+    public function destroy($id)
     {
-        $jadwal->delete();
-        return redirect()->route('crudDataBus.index')->with('success', 'Jadwal bus berhasil dihapus.');
+        JadwalBus::destroy($id);
+
+        return redirect()->route('index')->with('success', 'Jadwal berhasil dihapus');
     }
 }

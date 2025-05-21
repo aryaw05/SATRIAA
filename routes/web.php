@@ -6,6 +6,7 @@ use App\Http\Controllers\updateKursiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BusLoginController;
+use App\Http\Controllers\JadwalBusController;
 use Inertia\Inertia;
 
 Route::middleware('web')->group(function () {
@@ -41,5 +42,8 @@ Route::middleware('web')->group(function () {
 });
 });
 
-Route::get('/', [AdminController::class,'retrieveHalte'])->name('retrieveHalte');
-Route::resource('crudDataBus', \App\Http\Controllers\JadwalBusController::class);
+Route::get('/crudDataBus', [JadwalBusController::class,'index'])->name('index');
+Route::post('/crudDataBus/create', [JadwalBusController::class,'store'])->name('store');
+Route::put('/crudDataBus/update/{id}', [JadwalBusController::class,'update'])->name('update');
+Route::delete('/crudDataBus/delete/{id}', [JadwalBusController::class,'destroy'])->name('destroy');
+// Route::resource('crudDataBus', \App\Http\Controllers\JadwalBusController::class);
