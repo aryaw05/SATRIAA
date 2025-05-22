@@ -10,4 +10,7 @@ function handleDelete(id, route) {
     const res = router.delete(`/${route}/${id}`);
 }
 
-export { handleSubmit, handleDelete };
+function handleLogout(route) {
+    const res = router.post(`/${route}`);
+}
+export { handleSubmit, handleDelete, handleLogout };
