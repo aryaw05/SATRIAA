@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Inertia\Inertia;
 
 class BusLoginController extends Controller
 {
@@ -13,7 +14,8 @@ class BusLoginController extends Controller
     {
         // Ambil semua bus yang statusnya aktif
         $buses = DB::table('buses')->where('status', 'aktif')->get();
-        return view('pageUser', compact('buses'));
+        return Inertia::render('Admin/kernet' , compact('buses'));
+        // return view('pageUser', compact('buses'));
     }
 
     public function prosesLoginBus(Request $request)
@@ -45,7 +47,7 @@ class BusLoginController extends Controller
 
         $bus = Bus::find($id_bus);
 
-        return view('bus', compact('bus'));
+        return Inertia::render('Admin/gps' , compact('bus'));
     }
     public function logoutBus()
     {
