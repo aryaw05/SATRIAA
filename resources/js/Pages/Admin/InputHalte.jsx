@@ -4,14 +4,17 @@ import createCustomIcon from "../../components/marker";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Navbar from "./Navbar";
 import { kediriPolygon } from "../../data/map-koordinat";
+import { handleDelete, handleSubmit } from "../../utils/handleCRUD";
+import useActionForm from "../../hooks/useActionForm";
 const HalteSatria = (props) => {
     const { halte } = props;
 
-    const [formData, setFormData] = useState({
+    const { formData, handleChange } = useActionForm({
         nama_halte: "",
         lokasi_lat: "",
         lokasi_long: "",
     });
+    console.log(formData);
 
     const [dataHalte, setDataHalte] = useState({
         halte_id: null,
@@ -77,24 +80,6 @@ const HalteSatria = (props) => {
             mapRef.current
         );
     });
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        const res = router.post("/createHalte", formData);
-        console.log(res);
-    };
-
-    const handleDelete = (id) => {
-        const res = router.delete(`/deleteHalte/${id}`);
-        console.log(res);
-    };
 
     const handleEdit = (id) => {
         const res = router.put(`/editHalte/${id}`, formData);
@@ -117,7 +102,12 @@ const HalteSatria = (props) => {
                         {/* Place for real-time map */}
                         <div id="map" className="w-full h-screen z-1"></div>
                     </div>
-                    <form action="" onSubmit={handleSubmit}>
+                    <form
+                        action=""
+                        onSubmit={(e) => {
+                            handleSubmit(e, "/createHalte", formData);
+                        }}
+                    >
                         {/* Input Form at the bottom */}
                         <div className="fixed bottom-0 w-full bg-white pb-3 pt-4 sm:relative sm:w-4/6 sm:ml-auto sm:h-full sm:flex sm:flex-col sm:justify-start sm:items-end">
                             {/* Bus Stop Information */}
@@ -177,7 +167,8 @@ const HalteSatria = (props) => {
                                                     className="text-red-500"
                                                     onClick={() =>
                                                         handleDelete(
-                                                            dataHalte.halte_id
+                                                            dataHalte.halte_id,
+                                                            "deleteHalte"
                                                         )
                                                     }
                                                 >
