@@ -9,16 +9,16 @@ export default function useActionForm(initialValues = {}, baseEndpoints = "") {
             [name]: value,
         }));
     };
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-    //     const res = router.post(baseEndpoints, formData);
-    //     console.log(res);
-    // };
+        router.post(baseEndpoints, formData);
+    };
 
     return {
         formData,
         setFormData,
         handleChange,
+        handleSubmit,
     };
 }
