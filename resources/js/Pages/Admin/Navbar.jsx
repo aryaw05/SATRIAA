@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "@inertiajs/react";
+import { handleLogout } from "../../utils/handleCRUD";
 
 export default function Navbar() {
     return (
@@ -56,7 +57,9 @@ text-lg active:!bg-transparent active:!text-inherit"
                         className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm "
                     >
                         <li>
-                            <a className="text-red-500">Log Out</a>
+                            <button type="button" onClick={() => {
+                                handleLogout("logout");
+                            }} className="text-red-500">Log Out</button>
                         </li>
                     </ul>
                 </div>
