@@ -15,6 +15,10 @@
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
+    @error('waktu_tiba')
+    <div class="text-danger">{{ $message }}</div>
+    @enderror
+
 
     {{-- Form Create --}}
     <div class="card mb-4">
@@ -126,7 +130,10 @@
                       </div>
                       <div class="mb-3">
                         <label class="form-label">Waktu Tiba</label>
-                        <input type="time" name="waktu_tiba" value="{{ $item->waktu_tiba }}" class="form-control" required>
+                          <input type="time" name="waktu_tiba" value="{{ $item->waktu_tiba }}" class="form-control" required>
+                          @error('waktu_tiba')
+                              <div class="text-danger">{{ $message }}</div>
+                          @enderror
                       </div>
                     </div>
                     <div class="modal-footer">

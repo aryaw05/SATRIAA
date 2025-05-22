@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class jadwalBus extends Model
+class JadwalBus extends Model
 {
     use HasFactory;
     protected $table = 'jadwal_buses'; // Ubah sesuai dengan nama tabel yang sesuai
