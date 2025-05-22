@@ -1,11 +1,15 @@
 import { router } from "@inertiajs/react";
 import { useState } from "react";
+import useActionForm from "../../hooks/useActionForm";
 
 const LoginSatria = (props) => {
     const { errors } = props;
-    const [formData, setFormData] = useState();
+    const { formData, handleChange } = useActionForm({
+        username: "",
+        password: "",
+    });
+
     console.log(errors);
-    const [error, setError] = useState([]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -13,13 +17,6 @@ const LoginSatria = (props) => {
         console.log(res);
         console.log(formData);
     };
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
-    };
-
     return (
         <div className="bg-gray-200 min-h-screen flex items-center justify-center px-4">
             <div className="rounded-3xl w-full sm:w-[90%] md:w-[70%] lg:w-[40%] xl:w-[30%] max-w-md p-6 py-10 bg-white shadow-lg">
