@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Halte;
+use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
@@ -14,10 +16,11 @@ class AdminController extends Controller
     public function storeHalte()
     {
         $halte = Halte::get();
-        return Inertia::render('Admin/InputHalte' , [
-        'halte' => $halte
-    ]);
+        return Inertia::render('Admin/InputHalte', [
+            'halte' => $halte
+        ]);
     }
+
     public function retrieveHalte()
     {
         $halte = Halte::get();
@@ -26,7 +29,6 @@ class AdminController extends Controller
         ]);
     }
 
-  
     public function createHalte(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -77,5 +79,44 @@ class AdminController extends Controller
         $halte->delete();
 
         return redirect('/halte')->with('success', 'Data Halte berhasil dihapus!');
+    }
+
+    // Method untuk simpan akun kernet
+    public function storeKernet(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'nama'     => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username',
+            'password' => 'required|string|min:3',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error', 'Terjadi kesalahan pada input akun kernet. Silakan ulangi kembali.');
+        }
+
+        try {
+            User::create([
+                'nama'     => $request->nama,
+                'username' => $request->username,
+                'password' => Hash::make($request->password),
+                'role'     => 'kernet',
+            ]);
+
+            return redirect()->back()->with('success', 'Akun kernet berhasil dibuat!');
+        } catch (QueryException $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Gagal menyimpan akun kernet. Silakan coba lagi.');
+        }
+    }
+
+    // Method untuk menampilkan daftar akun kernet
+    public function listKernet()
+    {
+        $kernet = User::where('role', 'kernet')->get(); // Ambil semua user dengan role kernet
+        return view('list_kernet', compact('kernet'));
     }
 }

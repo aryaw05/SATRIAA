@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BusLoginController;
 use App\Http\Controllers\BusController;
-use App\Http\Controllers\JadwalController;
+
 use Inertia\Inertia;
 
 Route::middleware('web')->group(function () {
@@ -52,4 +52,19 @@ Route::get('/BusEdit/{bus}', [BusController::class, 'edit'])->name('bus.edit');
 Route::put('/BusUpdate/{bus}', [BusController::class, 'update'])->name('bus.update');
 Route::delete('/BusDelete/{bus}', [BusController::class, 'destroy'])->name('bus.destroy');
 
-Route::resource('jadwal', JadwalController::class);
+
+Route::get('/adminn', function () {
+    return view('admin1');
+});
+Route::post('/adminn/kernet/store', [AdminController::class, 'storeKernet']);
+
+Route::get('/kernet/dashboard', function() {
+    return view('dasbordkernet');
+})->name('dashboardkernet');
+
+// Tampilkan daftar akun kernet
+Route::get('/admin/kernet/store', [App\Http\Controllers\AdminController::class, 'listKernet'])->name('kernet.list');
+
+Route::post('/admin/kernet/store', [AdminController::class, 'storeKernet'])->name('admin.storeKernet');
+
+
