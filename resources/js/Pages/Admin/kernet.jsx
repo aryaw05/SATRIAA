@@ -1,18 +1,13 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, router } from "@inertiajs/react";
 import useActionForm from "../../hooks/useActionForm";
-import { handleSubmit } from "../../utils/handleCRUD";
+import { handleLogout, handleSubmit } from "../../utils/handleCRUD";
 
 const DashboardKernet = (props) => {
     const { buses, errors } = props;
     const { formData, handleChange } = useActionForm({
         password: "",
     });
-
-    function logoutButton() {
-        const res = router.post("/logout");
-        console.log(res);
-    }
 
     return (
         <div className="bg-white min-h-screen flex flex-col">
@@ -38,7 +33,9 @@ const DashboardKernet = (props) => {
                         >
                             <li>
                                 <button
-                                    onClick={logoutButton}
+                                    onClick={() => {
+                                        handleLogout("logout");
+                                    }}
                                     className="text-lg text-red-500"
                                 >
                                     Log Out
