@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bus;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class BusController extends Controller
 {
@@ -11,7 +12,6 @@ class BusController extends Controller
     public function index()
     {
         $buses = Bus::all();
-        return view('bus.index', compact('buses'));  // view untuk list data bus
     }
 
     // Menampilkan form input bus

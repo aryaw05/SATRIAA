@@ -5,6 +5,8 @@ import MapProvider from "../data/MapProvider";
 
 export default function Home(props) {
     const { halte } = props;
+    console.log(props);
+    
     const mapProviderRef = useRef(null);
 
     let jumlahBus = [

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BusLoginController;
 use App\Http\Controllers\BusController;
-
+use App\Http\Controllers\HomeController;
 use Inertia\Inertia;
 
 Route::middleware('web')->group(function () {
@@ -49,7 +49,7 @@ Route::middleware('web')->group(function () {
 });
 });
 
-Route::get('/', [AdminController::class,'retrieveHalte'])->name('retrieveHalte');
+Route::get('/', [HomeController::class,'index'])->name('index');
 
 Route::get('/BusTAMBAH', [BusController::class, 'create'])->name('bus.create'); // halaman input
 Route::post('/BusCreate', [BusController::class, 'store'])->name('bus.store');  // simpan data
