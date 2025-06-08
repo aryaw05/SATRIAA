@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Bus extends Model
 {
     use HasFactory;
-    protected $table = 'buses'; // Ubah sesuai dengan nama tabel yang sesuai
+    protected $table = 'buses'; 
     protected $primaryKey = 'id_bus';
     protected $fillable = [
         'nomor_bus',
+        'plat_nomor',
+        'jenis_bus',
         'rute',
         'kapsitas_tempat_duduk',
         'status',
