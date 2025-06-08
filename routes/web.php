@@ -32,7 +32,6 @@ Route::middleware('web')->group(function () {
     Route::get('/admin/kernet/store', [App\Http\Controllers\AdminController::class, 'listKernet'])->name('kernet.list');
 
 
-
     Route::get('/admin/dashboard', [AdminController::class,'storeHalte'])->name('storeHalte');
     Route::post('/createHalte', [AdminController::class,'createHalte'])->name('createHalte');
     Route::put('/editHalte/{id}', [AdminController::class, 'editHalte']);
@@ -43,10 +42,9 @@ Route::middleware('web')->group(function () {
     Route::get('/kernet/dashboard', [BusLoginController::class, 'pageUser'])->name('pageUser'); 
     Route::post('/logBus', [BusLoginController::class, 'prosesLoginBus'])->name('prosesLoginBus')->middleware('auth');
     Route::post('/logoutBus', [BusLoginController::class, 'logoutBus'])->name('logoutBus')->middleware('auth');
-
     Route::get('/Bus', [BusLoginController::class,'dashboard'])->name('dashboard');
     Route::get('/admin/input-data', function () {
-    return Inertia::render('Admin/InputData');
+    return Inertia::render('Admin/InputData'); 
 });
 });
 });

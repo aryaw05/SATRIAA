@@ -1,100 +1,27 @@
 import { Head, router } from "@inertiajs/react";
-import { useEffect, useRef, useState } from "react";
-import createCustomIcon from "../../components/marker";
+import { useCallback, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Navbar from "./Navbar";
-import { kediriPolygon } from "../../data/map-koordinat";
+import { handleDelete, handleSubmit } from "../../utils/handleCRUD";
+import useActionForm from "../../hooks/useActionForm";
+import MapProvider from "../../data/MapProvider";
 const HalteSatria = (props) => {
     const { halte } = props;
 
-    const [formData, setFormData] = useState({
+    const { formData, handleChange } = useActionForm({
         nama_halte: "",
         lokasi_lat: "",
         lokasi_long: "",
     });
-
     const [dataHalte, setDataHalte] = useState({
         halte_id: null,
         lat: null,
         lng: null,
         halteName: null,
     });
-    const mapRef = useRef(null);
     function clickZoom(e) {
-        mapRef.current.setView(e.target.getLatLng(), 25);
-        const halteLatLng = e.target.getLatLng();
-        const halteName = e.target.options.alt;
-        const halteId = e.target.options.id;
-
-        setDataHalte({
-            halte_id: halteId,
-            lat: halteLatLng.lat,
-            lng: halteLatLng.lng,
-            halteName: halteName,
-        });
+        setDataHalte(e);
     }
-    useEffect(() => {
-        if (mapRef.current !== null) {
-            mapRef.current.remove();
-        }
-        // Bounds
-        const southWest = L.latLng(-7.84306, 111.97746);
-        const northEast = L.latLng(-7.79468, 112.0451);
-        const bounds = L.latLngBounds(southWest, northEast);
-        const map = L.map("map", {
-            maxBounds: bounds,
-            center: [-7.8238, 112.0209],
-            zoom: 17,
-            minZoom: 15,
-        });
-        L.tileLayer(
-            "https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png",
-            {
-                attribution:
-                    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            }
-        ).addTo(map);
-
-        mapRef.current = map;
-    }, []);
-    // halte
-    useEffect(() => {
-        // terminal
-        halte.map((data) => {
-            L.marker([data.lokasi_lat, data.lokasi_long], {
-                id: data.id_halte,
-                icon: createCustomIcon("halte", data.nama_halte),
-                alt: data.nama_halte,
-            })
-                .addTo(mapRef.current)
-                .on("click", clickZoom);
-        });
-    });
-    // jalur Bus
-    useEffect(() => {
-        const flipCoords = kediriPolygon.map((coord) => [coord[1], coord[0]]);
-        L.polyline(flipCoords, { color: "#F48502", weight: 4 }).addTo(
-            mapRef.current
-        );
-    });
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        const res = router.post("/createHalte", formData);
-        console.log(res);
-    };
-
-    const handleDelete = (id) => {
-        const res = router.delete(`/deleteHalte/${id}`);
-        console.log(res);
-    };
 
     const handleEdit = (id) => {
         const res = router.put(`/editHalte/${id}`, formData);
@@ -115,9 +42,18 @@ const HalteSatria = (props) => {
                     {/* Main Content (empty for desktop) */}
                     <div className="bg-gray-400 sm:rounded-3xl sm:m-6 sm:block w-full h-screen sm:h-[92%] sm:w-[132%] overflow-hidden">
                         {/* Place for real-time map */}
-                        <div id="map" className="w-full h-screen z-1"></div>
+                        <MapProvider
+                            halte={halte}
+                            onHalteClick={clickZoom}
+                            isAdmin={true}
+                        />
                     </div>
-                    <form action="" onSubmit={handleSubmit}>
+                    <form
+                        action=""
+                        onSubmit={(e) => {
+                            handleSubmit(e, "/createHalte", formData);
+                        }}
+                    >
                         {/* Input Form at the bottom */}
                         <div className="fixed bottom-0 w-full bg-white pb-3 pt-4 sm:relative sm:w-4/6 sm:ml-auto sm:h-full sm:flex sm:flex-col sm:justify-start sm:items-end">
                             {/* Bus Stop Information */}
@@ -158,7 +94,6 @@ const HalteSatria = (props) => {
                                         </div>
                                     </div>
                                 </div>
-
                                 <div className=" flex justify-center px-5 py-4  ">
                                     <div className="dropdown dropdown-top dropdown-end ">
                                         <div tabIndex={0}>
@@ -177,7 +112,8 @@ const HalteSatria = (props) => {
                                                     className="text-red-500"
                                                     onClick={() =>
                                                         handleDelete(
-                                                            dataHalte.halte_id
+                                                            dataHalte.halte_id,
+                                                            "deleteHalte"
                                                         )
                                                     }
                                                 >
