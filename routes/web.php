@@ -24,6 +24,14 @@ Route::middleware('web')->group(function () {
     Route::get('/updateKondisi', [KondisiBusController::class,'updateKondisi'])->name('updateKondisi');
     Route::post('/updateKondisiBus', [KondisiBusController::class,'update'])->name('update');
 
+    // akun Kernet
+    Route::get('/admin/dashboard/kernet', function () {
+    return view('admin1');
+});
+    Route::post('/admin/kernet/store', [AdminController::class, 'storeKernet'])->name('admin.storeKernet');
+    Route::get('/admin/kernet/store', [App\Http\Controllers\AdminController::class, 'listKernet'])->name('kernet.list');
+
+
 
     Route::get('/admin/dashboard', [AdminController::class,'storeHalte'])->name('storeHalte');
     Route::post('/createHalte', [AdminController::class,'createHalte'])->name('createHalte');
@@ -52,19 +60,5 @@ Route::get('/BusEdit/{bus}', [BusController::class, 'edit'])->name('bus.edit');
 Route::put('/BusUpdate/{bus}', [BusController::class, 'update'])->name('bus.update');
 Route::delete('/BusDelete/{bus}', [BusController::class, 'destroy'])->name('bus.destroy');
 
-
-Route::get('/adminn', function () {
-    return view('admin1');
-});
-Route::post('/adminn/kernet/store', [AdminController::class, 'storeKernet']);
-
-Route::get('/kernet/dashboard', function() {
-    return view('dasbordkernet');
-})->name('dashboardkernet');
-
-// Tampilkan daftar akun kernet
-Route::get('/admin/kernet/store', [App\Http\Controllers\AdminController::class, 'listKernet'])->name('kernet.list');
-
-Route::post('/admin/kernet/store', [AdminController::class, 'storeKernet'])->name('admin.storeKernet');
 
 
