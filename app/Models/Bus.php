@@ -12,11 +12,12 @@ class Bus extends Model
     protected $primaryKey = 'id_bus';
     protected $fillable = [
         'nomor_bus',
-        'rute',
+        'plat_nomor',
+        'jenis_bus',
         'kapasitas_tempat_duduk',
         'status',
-        'kondisi'
-        
+        'kondisi',
+        'password'
+
     ];
 }
-

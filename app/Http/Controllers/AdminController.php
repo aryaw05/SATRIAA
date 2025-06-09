@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bus;
 use App\Models\Halte;
 use App\Models\User;
 use Illuminate\Database\QueryException;
@@ -36,21 +37,21 @@ class AdminController extends Controller
             'lokasi_lat' => 'required|numeric|between:-90,90',
             'lokasi_long' => 'required|numeric|between:-180,180',
         ]);
-    
+
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput()
                 ->with('error', 'Terjadi kesalahan pada input. Silakan ulangi kembali.');
         }
-    
+
         try {
             Halte::create([
                 'nama_halte' => $request->nama_halte,
                 'lokasi_lat' => $request->lokasi_lat,
                 'lokasi_long' => $request->lokasi_long
             ]);
-    
+
             return redirect()->back()->with('success', 'Data halte berhasil disimpan!');
         } catch (QueryException $e) {
             return redirect()->back()
@@ -58,7 +59,7 @@ class AdminController extends Controller
                 ->with('error', 'Gagal menyimpan data. Periksa kembali input Anda!');
         }
     }
-    
+
     public function editHalte(Request $request, $id)
     {
         $request->validate([
@@ -72,7 +73,7 @@ class AdminController extends Controller
 
         return redirect('/halte')->with('success', 'Data Halte berhasil diupdate!');
     }
-    
+
     public function deleteHalte($id)
     {
         $halte = Halte::findOrFail($id);
@@ -118,5 +119,13 @@ class AdminController extends Controller
     {
         $kernet = User::where('role', 'kernet')->get(); // Ambil semua user dengan role kernet
         return view('list_kernet', compact('kernet'));
+    }
+
+    public function inputDataBus()
+    {
+        $buses = Bus::all();
+        return Inertia::render('Admin/InputData', [
+            'buses' => $buses
+        ]);
     }
 }

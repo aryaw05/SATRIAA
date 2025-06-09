@@ -10,14 +10,13 @@ use Inertia\Inertia;
 class HomeController extends Controller
 {
     public function index()
-{
-    $buses = Bus::all();
-    $halte = Halte::all();
+    {
+        $buses = Bus::all();
+        $halte = Halte::all();
 
-    return Inertia::render('Home', [
-        'buses' => $buses,
-        'halte' => $halte
-    ]);
-}
-
+        return Inertia::render('Home', [
+            'buses' => $buses,
+            'halte' => $halte
+        ]);
+    }
 }

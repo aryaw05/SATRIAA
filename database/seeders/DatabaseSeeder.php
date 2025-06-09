@@ -7,8 +7,10 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class DatabaseSeeder extends Seeder {
-    public function run() {
+class DatabaseSeeder extends Seeder
+{
+    public function run()
+    {
         // Seeder Users
         DB::table('users')->insert([
             ['nama' => 'Admin User', 'username' => 'admin@example.com', 'password' => bcrypt('password'), 'role' => 'admin'],
@@ -18,37 +20,40 @@ class DatabaseSeeder extends Seeder {
 
         // Seeder Buses
         DB::table('buses')->insert([
-        [
-            'nomor_bus' => 'B001',
-            'rute' => 'Rute A',
-            'kapasitas_tempat_duduk' => 40,
-            'status' => 'aktif',
-            'kondisi' => 'baik',
-            'password' => bcrypt('123'), // tambahkan password bus
-            'created_at' => now(),
-            'updated_at' => now(),
-        ],
-        [
-            'nomor_bus' => 'B002',
-            'rute' => 'Rute B',
-            'kapasitas_tempat_duduk' => 35,
-            'status' => 'aktif',
-            'kondisi' => 'baik',
-            'password' => bcrypt('123'),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ],
-        [
-            'nomor_bus' => 'B003',
-            'rute' => 'Rute C',
-            'kapasitas_tempat_duduk' => 45,
-            'status' => 'tidak aktif',
-            'kondisi' => 'baik',
-            'password' => bcrypt('123'),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ],
-    ]);
+            [
+                'nomor_bus' => 'B001',
+                'plat_nomor' => 'AG 1234 CC',
+                'jenis_bus' => 'low-floor',
+                'kapasitas_tempat_duduk' => 40,
+                'status' => 'aktif',
+                'kondisi' => 'baik',
+                'password' => bcrypt('123'), // tambahkan password bus
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nomor_bus' => 'B002',
+                'plat_nomor' => 'AG 5678 DD',
+                'jenis_bus' => 'Microbus',
+                'kapasitas_tempat_duduk' => 35,
+                'status' => 'aktif',
+                'kondisi' => 'baik',
+                'password' => bcrypt('123'),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nomor_bus' => 'B003',
+                'plat_nomor' => 'AG 9012 EE',
+                'jenis_bus' => 'Microbus',
+                'kapasitas_tempat_duduk' => 45,
+                'status' => 'tidak aktif',
+                'kondisi' => 'baik',
+                'password' => bcrypt('123'),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
 
 
         // Seeder Tracking Bus
@@ -72,8 +77,7 @@ class DatabaseSeeder extends Seeder {
             ['nama_halte' => 'Halte C', 'lokasi_lat' => -6.222000, 'lokasi_long' => 106.832000]
         ]);
         $this->call([
-        UserSeeder::class,
-    ]);
+            UserSeeder::class,
+        ]);
     }
-    
 }

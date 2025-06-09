@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bus;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 
 class BusController extends Controller
@@ -14,24 +15,22 @@ class BusController extends Controller
         $buses = Bus::all();
     }
 
-    // Menampilkan form input bus
-    public function create()
-    {
-        return view('bus.create'); // view untuk form tambah bus
-    }
 
-    // Simpan data bus
     public function store(Request $request)
     {
         $request->validate([
             'nomor_bus' => 'required|string|max:20',
-            'rute' => 'required|string|max:255',
-            'kapasitas_tempat_duduk' => 'required|integer',
-            'status' => 'required|string|max:255',
-            'kondisi' => 'required|string|max:255',
+            'jenis_bus' => 'required|string|max:20',
+            'plat_nomor' => 'required|string|max:20',
+            'kapasitas_tempat_duduk' => 'integer',
+            'status' => 'string|max:255',
+            'kondisi' => 'string|max:255',
+            'password' => 'required|string|min:3',
         ]);
+        $data = $request->all();
+        $data['password'] = Hash::make($data['password']);
 
-        Bus::create($request->all());
+        Bus::create($data);;
 
         // Redirect ke halaman list bus dengan pesan sukses
         return redirect()->route('bus.index')->with('success', 'Bus berhasil ditambahkan');
@@ -48,14 +47,23 @@ class BusController extends Controller
     {
         $request->validate([
             'nomor_bus' => 'required|string|max:20',
+            'plat_nomor' => 'required|string|max:20',
+            'jenis_bus' => 'required|string|max:20',
             'rute' => 'required|string|max:255',
             'kapasitas_tempat_duduk' => 'required|integer',
             'status' => 'required|string|max:255',
             'kondisi' => 'required|string|max:255',
+            'password' => 'required|string|min:3',
         ]);
 
-        $bus->update($request->all());
+        $data = $request->validated();
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
+        } else {
+            unset($data['password']);
+        }
 
+        $bus->update($data);
         // Redirect ke halaman list bus dengan pesan sukses
         return redirect()->route('bus.index')->with('success', 'Bus berhasil diupdate');
     }
