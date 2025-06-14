@@ -5,8 +5,7 @@ function handleSubmit(e, route, formData) {
     
     router.post(route, formData, {
         onSuccess: () => {
-            console.log("Sukses simpan data");
-            router.visit('/admin/dashboard/bus'); // redirect manual
+            router.visit('/admin/dashboard/bus'); 
         },
         onError: (errors) => {
             console.log("Error:", errors);
@@ -16,7 +15,12 @@ function handleSubmit(e, route, formData) {
 }
 
 function handleDelete(id, route) {
-    const res = router.delete(`/${route}/${id}`);
+
+     const res = router.delete(`/${route}/${id}`);
+     console.log(res);
+     
+
+    
 }
 
 function handleLogout(route) {

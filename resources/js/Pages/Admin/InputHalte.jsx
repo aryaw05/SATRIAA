@@ -1,5 +1,5 @@
 import { Head, router } from "@inertiajs/react";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Navbar from "./Navbar";
 import { handleDelete, handleSubmit } from "../../utils/handleCRUD";

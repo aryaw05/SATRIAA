@@ -16,7 +16,7 @@ export default function Navbar() {
                             <ul className="menu dropdown rounded-t-none p-2">
                                 <li>
                                     <Link
-                                        href="/admin/input-data"
+                                        href="/admin/dashboard/bus"
                                         className="whitespace-nowrap sm:text-lg
 text-lg active:!bg-transparent active:!text-inherit"
                                     >
@@ -25,7 +25,7 @@ text-lg active:!bg-transparent active:!text-inherit"
                                 </li>
                                 <li>
                                     <Link
-                                        href="/halte"
+                                        href="/admin/dashboard"
                                         className="whitespace-nowrap sm:text-lg active:!bg-transparent active:!text-inherit"
                                     >
                                         Halte SATRIA

@@ -23,11 +23,13 @@ class BusController extends Controller
             'jenis_bus' => 'required|string|max:20',
             'plat_nomor' => 'required|string|max:20',
             'kapasitas_tempat_duduk' => 'integer',
-            'status' => 'string|max:255',
+            'status' => 'nullable|string|max:255',
             'kondisi' => 'string|max:255',
             'password' => 'required|string|min:3',
         ]);
         $data = $request->all();
+
+        $validated['status'] = $validated['status'] ?? 'aktif';
         $data['password'] = Hash::make($data['password']);
 
         Bus::create($data);;
@@ -72,8 +74,6 @@ class BusController extends Controller
     public function destroy(Bus $bus)
     {
         $bus->delete();
-
-        // Redirect ke halaman list bus dengan pesan sukses
         return redirect()->route('bus.index')->with('success', 'Bus berhasil dihapus');
     }
 }
