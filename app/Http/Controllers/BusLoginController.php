@@ -15,8 +15,8 @@ class BusLoginController extends Controller
         // Ambil semua bus yang statusnya aktif
         $buses = DB::table('buses')->where('status', 'aktif')->get();
         return Inertia::render('Admin/kernet' , compact('buses'));
-        
     }
+
 
     public function prosesLoginBus(Request $request)
     {

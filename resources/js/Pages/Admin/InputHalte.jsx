@@ -1,13 +1,16 @@
 import { Head, router } from "@inertiajs/react";
-import { useCallback, useState } from "react";
+
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Navbar from "./Navbar";
 import { handleDelete, handleSubmit } from "../../utils/handleCRUD";
 import useActionForm from "../../hooks/useActionForm";
 import MapProvider from "../../data/MapProvider";
-const HalteSatria = (props) => {
-    const { halte } = props;
 
+const HalteSatria = (props) => {
+    console.log(props);
+    
+    const { halte } = props;
     const { formData, handleChange } = useActionForm({
         nama_halte: "",
         lokasi_lat: "",

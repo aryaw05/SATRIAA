@@ -9,6 +9,7 @@ const GpsSatria = (props) => {
     // console.log(props);
     const { bus } = props;
 
+
     const [isActive, setIsActive] = useState(false);
     const [kepadatan, setKepadatan] = useState("Pilih Tingkat Kepadatan");
     const [statusBus, setStatusBus] = useState("Pilih Status Bus");

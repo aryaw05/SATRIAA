@@ -4,7 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSwipeable } from "react-swipeable";
 export default function MenuBar(props) {
     const { onClickBus, onClickUser, totalBus } = props;
-
+    
+    
+    // state id bus 
+    const [idBus , setIdBus]  = useState(null);
     const [swipeCount, setSwipeCount] = useState(0);
     const [openState, setOpenState] = useState("closed");
     // Reset swipe count after 500ms
@@ -36,6 +39,11 @@ export default function MenuBar(props) {
         preventDefaultTouchmoveEvent: true,
     });
 
+
+    const busSearchData = (id , index) => {
+        setIdBus(index);
+        onClickBus(id);
+    }
     // Manual toggle function
     const toggleMenu = () => {
         if (openState === "closed") {
@@ -59,8 +67,6 @@ export default function MenuBar(props) {
                 return "translate-y-[83%]";
         }
     };
-    // data diambil dari database jika terdapat fitur tambah bus
-    let jumlahBus = totalBus;
     return (
         <div
             {...swipeHandlers}
@@ -79,11 +85,11 @@ export default function MenuBar(props) {
                 </button>
 
                 <div className="flex gap-4">
-                    {jumlahBus.map((item) => (
+                    {totalBus.map((item , index) => (
                         <NavigationButton
-                            onClick={() => onClickBus(item.id)}
-                            id={item.id}
-                            key={item.id}
+                            onClick={() => busSearchData(item.id_bus , index)}
+                            id={item.id_bus}
+                            key={index}
                             icon={"fa-solid fa-bus"}
                             className={"text-white text-2xl"}
                             buttonColor={"orange-secondary"}
@@ -109,9 +115,9 @@ export default function MenuBar(props) {
                         </div>
                         <div className="flex-col">
                             <p className="text-lg font-medium">
-                                Kursi Tersedia
+                                Kapasitas  Tersedia
                             </p>
-                            <p className="text-lg font-medium">20</p>
+                            <p className="text-lg font-medium">{idBus  !== null ? totalBus[idBus].kapasitas_tempat_duduk : "-"}%</p>
                         </div>
                     </div>
                     <p className="text-xl font-medium mt-9 mb-4">Detail Bus</p>
@@ -123,31 +129,24 @@ export default function MenuBar(props) {
                                 className="text-4xl text-white"
                             />
                             <p className="text-md text-white font-semibold">
-                                Satria 1
+                                { idBus !== null ? totalBus[idBus].nomor_bus : "-" }
                             </p>
                         </div>
 
                         {/* Kanan: Detail Info */}
                         <div className="bg-orange-primary px-5 py-4 space-y-1">
                             <div className="grid grid-cols-[90px_10px_1fr] text-md font-medium">
-                                <span>Driver</span>
-                                <span>:</span>
-                                <span className="text-black font-normal">
-                                    Yazid
-                                </span>
-                            </div>
-                            <div className="grid grid-cols-[90px_10px_1fr] text-md font-medium">
                                 <span>Jenis Bus</span>
                                 <span>:</span>
                                 <span className="text-black font-bold">
-                                    Hino
+                                    { idBus !== null ? totalBus[idBus].jenis_bus : "-" }
                                 </span>
                             </div>
                             <div className="grid grid-cols-[90px_10px_1fr] text-md font-medium">
                                 <span>Plat Nomor</span>
                                 <span>:</span>
                                 <span className="text-black font-bold">
-                                    AG 224 A
+                                    { idBus !== null ? totalBus[idBus].plat_nomor : "-" }
                                 </span>
                             </div>
                         </div>
