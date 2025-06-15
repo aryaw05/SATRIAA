@@ -1,8 +1,6 @@
 import { router } from "@inertiajs/react";
-
 function handleSubmit(e, route, formData) {
     e.preventDefault();
-    
     router.post(route, formData, {
         onSuccess: () => {
             router.visit('/admin/dashboard/bus'); 
@@ -39,3 +37,4 @@ function handleLogout(route) {
     const res = router.post(`/${route}`);
 }
 export { handleSubmit, handleDelete, handleLogout , handleEdit };
+

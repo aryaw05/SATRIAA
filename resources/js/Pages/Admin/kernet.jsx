@@ -3,12 +3,17 @@ import { Link, router } from "@inertiajs/react";
 import useActionForm from "../../hooks/useActionForm";
 import { handleLogout, handleSubmit } from "../../utils/handleCRUD";
 
+
 const DashboardKernet = (props) => {
     const { buses, errors } = props;
     const { formData, handleChange } = useActionForm({
         password: "",
     });
 
+    function logoutButton() {
+        const res = router.post("/logout");
+        console.log(res);
+    }
     return (
         <div className="bg-white min-h-screen flex flex-col">
             {/* Navbar */}

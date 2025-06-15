@@ -9,6 +9,7 @@ const GpsSatria = (props) => {
     // console.log(props);
     const { bus } = props;
 
+
     const [isActive, setIsActive] = useState(false);
     const [kepadatan, setKepadatan] = useState("Pilih Tingkat Kepadatan");
     const [statusBus, setStatusBus] = useState("Pilih Status Bus");
@@ -32,6 +33,7 @@ const GpsSatria = (props) => {
                     <h1 className="font-bold text-2xl mb-0">
                         SATRIA {bus.id_bus}
                     </h1>
+
                     <h2 className="text-gray-400 text-xl mb-3">ON/OFF GPS</h2>
 
                     {/* ON/OFF Toggle */}

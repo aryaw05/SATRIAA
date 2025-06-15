@@ -5,8 +5,9 @@ import Navbar from "./Navbar";
 import { handleDelete, handleSubmit } from "../../utils/handleCRUD";
 import useActionForm from "../../hooks/useActionForm";
 import MapProvider from "../../data/MapProvider";
+
 const HalteSatria = (props) => {
-    console.log(props   );
+    console.log(props);
     
     const { halte } = props;
     const { formData, handleChange } = useActionForm({
