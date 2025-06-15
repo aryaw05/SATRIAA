@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function useActionForm(initialValues = {}, baseEndpoints = "") {
+export default function useActionForm(initialValues = {}) {
     const [formData, setFormData] = useState(initialValues);
+
+
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
@@ -9,16 +12,10 @@ export default function useActionForm(initialValues = {}, baseEndpoints = "") {
             [name]: value,
         }));
     };
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        router.post(baseEndpoints, formData);
-    };
 
     return {
         formData,
         setFormData,
         handleChange,
-        handleSubmit,
     };
 }

@@ -1,8 +1,12 @@
 import { router } from "@inertiajs/react";
-import { useState } from "react";
+import { useId, useState } from "react";
 import useActionForm from "../../hooks/useActionForm";
 
 const LoginSatria = (props) => {
+    const id = useId();
+    console.log(id);
+
+
     const { errors } = props;
     const { formData, handleChange } = useActionForm({
         username: "",
