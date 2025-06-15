@@ -149,6 +149,13 @@ export default function MenuBar(props) {
                                     { idBus !== null ? totalBus[idBus].plat_nomor : "-" }
                                 </span>
                             </div>
+                              <div className="grid grid-cols-[90px_10px_1fr] text-md font-medium">
+                                <span>Kondisi Bus</span>
+                                <span>:</span>
+                                <span className="text-black font-bold">
+                                    { idBus !== null ? totalBus[idBus].kondisi : "-" }
+                                </span>
+                            </div>
                         </div>
                     </div>
 
