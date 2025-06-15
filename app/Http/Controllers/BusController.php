@@ -49,16 +49,23 @@ class BusController extends Controller
     {
         $request->validate([
             'nomor_bus' => 'required|string|max:20',
-            'plat_nomor' => 'required|string|max:20',
             'jenis_bus' => 'required|string|max:20',
-            'rute' => 'required|string|max:255',
-            'kapasitas_tempat_duduk' => 'required|integer',
-            'status' => 'required|string|max:255',
-            'kondisi' => 'required|string|max:255',
-            'password' => 'required|string|min:3',
+            'plat_nomor' => 'required|string|max:20',
+            'kapasitas_tempat_duduk' => 'integer',
+            'status' => 'nullable|string|max:255',
+            'kondisi' => 'string|max:255',
+            'password' => 'string|min:3',
         ]);
 
-        $data = $request->validated();
+        $data = $request->validate([
+            'nomor_bus' => 'required|string|max:20',
+            'jenis_bus' => 'required|string|max:20',
+            'plat_nomor' => 'required|string|max:20',
+            'kapasitas_tempat_duduk' => 'integer',
+            'status' => 'nullable|string|max:255',
+            'kondisi' => 'string|max:255',
+            'password' => 'string|min:3',
+        ]);
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
         } else {

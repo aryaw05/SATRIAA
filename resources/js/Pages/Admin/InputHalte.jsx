@@ -6,8 +6,9 @@ import { handleDelete, handleSubmit } from "../../utils/handleCRUD";
 import useActionForm from "../../hooks/useActionForm";
 import MapProvider from "../../data/MapProvider";
 const HalteSatria = (props) => {
+    console.log(props   );
+    
     const { halte } = props;
-
     const { formData, handleChange } = useActionForm({
         nama_halte: "",
         lokasi_lat: "",

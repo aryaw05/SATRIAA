@@ -28,8 +28,7 @@ Route::middleware('web')->group(function () {
 
     Route::get('/admin/dashboard/bus', [AdminController::class, 'inputDataBus'])->name('bus.index');   // halaman setelah simpan (daftar bus)
     Route::post('/admin/dashboard/bus/add', [BusController::class, 'store'])->name('bus.store');  // simpan data
-    Route::get('/BusEdit/{bus}', [BusController::class, 'edit'])->name('bus.edit');
-    Route::put('/BusUpdate/{bus}', [BusController::class, 'update'])->name('bus.update');
+    Route::put('/admin/dashboard/bus/edit/{bus}', [BusController::class, 'update'])->name('bus.update');
     Route::delete('/admin/dashboard/bus/delete/{bus}', [BusController::class, 'destroy'])->name('bus.destroy');
 
     // akun Kernet
