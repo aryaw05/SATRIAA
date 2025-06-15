@@ -13,10 +13,12 @@ class Bus extends Model
     protected $fillable = [
         'nama_bus',
         'nomor_bus',
-        'rute',
-        'kapsitas_tempat_duduk',
+        'plat_nomor',
+        'jenis_bus',
+        'kapasitas_tempat_duduk',
         'status',
-        'kondisi'
+        'kondisi',
+        'password'
+
     ];
 }
-

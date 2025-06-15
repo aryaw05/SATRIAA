@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "@inertiajs/react";
+import { handleLogout } from "../../utils/handleCRUD";
 
 export default function Navbar() {
     return (
@@ -15,7 +16,7 @@ export default function Navbar() {
                             <ul className="menu dropdown rounded-t-none p-2">
                                 <li>
                                     <Link
-                                        href="/admin/input-data"
+                                        href="/admin/dashboard/bus"
                                         className="whitespace-nowrap sm:text-lg
 text-lg active:!bg-transparent active:!text-inherit"
                                     >
@@ -24,7 +25,7 @@ text-lg active:!bg-transparent active:!text-inherit"
                                 </li>
                                 <li>
                                     <Link
-                                        href="/halte"
+                                        href="/admin/dashboard"
                                         className="whitespace-nowrap sm:text-lg active:!bg-transparent active:!text-inherit"
                                     >
                                         Halte SATRIA
@@ -56,7 +57,9 @@ text-lg active:!bg-transparent active:!text-inherit"
                         className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm "
                     >
                         <li>
-                            <a className="text-red-500">Log Out</a>
+                            <button type="button" onClick={() => {
+                                handleLogout("logout");
+                            }} className="text-red-500">Log Out</button>
                         </li>
                     </ul>
                 </div>

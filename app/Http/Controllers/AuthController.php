@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class AuthController extends Controller
 {
     public function showLoginForm()
     {
-        return view('login');
+        return Inertia::render('Admin/login');
     }
 
     public function login(Request $request)
