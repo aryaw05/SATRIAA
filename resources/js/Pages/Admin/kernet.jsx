@@ -5,6 +5,8 @@ import { handleLogout, handleSubmit } from "../../utils/handleCRUD";
 
 
 const DashboardKernet = (props) => {
+    console.log(props);
+    
     const { buses, errors } = props;
     const { formData, handleChange } = useActionForm({
         password: "",

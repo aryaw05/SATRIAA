@@ -6,22 +6,18 @@ use Illuminate\Http\Request;
 use App\Models\JadwalBus;
 use App\Models\Bus;
 use App\Models\Halte;
+use Inertia\Inertia;
 
 class JadwalBusController extends Controller
 {
-    public function index()
-    {
-        $jadwal = JadwalBus::with(['bus', 'halte'])->get();
-        $buses = Bus::all();
-        $haltes = Halte::all();
-        return view('crudDataBus', compact('jadwal', 'buses', 'haltes'));
-    }
+
+
 
     public function store(Request $request)
     {
         $request->validate([
-            'id_bus' => 'required|exists:buses,id_bus',
-            'id_halte' => 'required|exists:haltes,id_halte',
+            'id_bus' => 'exists:buses,id_bus',
+            'id_halte' => 'exists:haltes,id_halte',
             'waktu_berangkat' => 'required|date_format:H:i',
             'waktu_tiba' => 'required|date_format:H:i',
         ]);
@@ -32,21 +28,21 @@ class JadwalBusController extends Controller
 
         JadwalBus::create($request->all());
 
-        return redirect()->route('index')->with('success', 'Jadwal berhasil ditambahkan');
+        return redirect()->route('bus.index')->with('success', 'Jadwal berhasil ditambahkan');
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, JadwalBus $id)
     {
         $jadwal = JadwalBus::findOrFail($id);
         $jadwal->update($request->all());
 
-        return redirect()->route('index')->with('success', 'Jadwal berhasil diupdate');
+        return redirect()->route('bus.index')->with('success', 'Jadwal berhasil diupdate');
     }
 
     public function destroy($id)
     {
         JadwalBus::destroy($id);
 
-        return redirect()->route('index')->with('success', 'Jadwal berhasil dihapus');
+        return redirect()->route('bus.index')->with('success', 'Jadwal berhasil dihapus');
     }
 }

@@ -17,13 +17,11 @@ function handleDelete(id, route) {
      console.log(res);
 }
 
-
 function handleEdit (e ,route, id, formData) {
     e.preventDefault();
- router.put(`/${route}/${id}`, formData , 
+    router.put(`/${route}/${id}`, formData , 
 {
     onSuccess: () => {
-        router.visit('/admin/dashboard/bus'); 
         console.log("data berhasil di Edit");
         
     },

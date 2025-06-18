@@ -7,7 +7,6 @@ import useActionForm from "../../hooks/useActionForm";
 import MapProvider from "../../data/MapProvider";
 
 const HalteSatria = (props) => {
-    console.log(props);
     
     const { halte } = props;
     const { formData, handleChange } = useActionForm({
@@ -15,6 +14,7 @@ const HalteSatria = (props) => {
         lokasi_lat: "",
         lokasi_long: "",
     });
+    
     const [dataHalte, setDataHalte] = useState({
         halte_id: null,
         lat: null,

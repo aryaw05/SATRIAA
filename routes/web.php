@@ -20,7 +20,7 @@ Route::middleware('web')->group(function () {
     // jadwal
     Route::post('/admin/dashboard/jadwal/add', [JadwalBusController::class, 'store'])->name('store');
     Route::put('/admin/dashboard/jadwal/edit/{id}', [JadwalBusController::class, 'update'])->name('update');
-    Route::delete('/crudDataBus/delete/{id}', [JadwalBusController::class, 'destroy'])->name('destroy');
+    Route::delete('/admin/dashboard/jadwal/delete/{id}', [JadwalBusController::class, 'destroy'])->name('destroy');
 
     // UPDATE Kursi
     Route::get('/pageAdmin', [KondisiBusController::class, 'pageAdmin'])->name('pageAdmin');
