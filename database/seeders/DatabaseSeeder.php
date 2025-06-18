@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
 
         // Seeder Buses
         DB::table('buses')->insert([
+
             [
                 'nomor_bus' => 'B001',
                 'plat_nomor' => 'AG 1234 CC',
