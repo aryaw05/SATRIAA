@@ -8,14 +8,11 @@ const DashboardKernet = (props) => {
     console.log(props);
     
     const { buses, errors } = props;
+    console.log(errors);
+    
     const { formData, handleChange } = useActionForm({
         password: "",
     });
-
-    function logoutButton() {
-        const res = router.post("/logout");
-        console.log(res);
-    }
     return (
         <div className="bg-white min-h-screen flex flex-col">
             {/* Navbar */}
@@ -67,7 +64,7 @@ const DashboardKernet = (props) => {
                     >
                         <div className="flex items-center justify-between pb-2 mb-3">
                             <h1 className="text-4xl font-bold">
-                                Satria {e.id_bus}
+                                {e.nomor_bus}
                             </h1>
                             <div className="indicator">
                                 <span className="indicator-item badge badge-warning me-2">
@@ -88,11 +85,9 @@ const DashboardKernet = (props) => {
                                     </button>
                                 </form>
                                 <h3 className="font-bold text-lg">
-                                    Masukkan Password Satria {e.id_bus}
+                                    Masukkan Password  {e.nomor_bus}
                                 </h3>
                                 <form
-                                    action=""
-                                    method="POST"
                                     onSubmit={(ev) =>
                                         handleSubmit(ev, "/logBus", {
                                             ...formData,

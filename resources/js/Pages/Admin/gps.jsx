@@ -1,29 +1,48 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faCircleCheck,
     faCircleXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import { handleEdit, handleEditNotForm, handleLogout } from "../../utils/handleCRUD";
 
 const GpsSatria = (props) => {
-    // console.log(props);
+    console.log(props);
     const { bus } = props;
-
 
     const [isActive, setIsActive] = useState(false);
     const [kepadatan, setKepadatan] = useState("Pilih Tingkat Kepadatan");
     const [statusBus, setStatusBus] = useState("Pilih Status Bus");
     const [openKepadatan, setOpenKepadatan] = useState(false);
     const [openStatusBus, setOpenStatusBus] = useState(false);
+console.log(kepadatan);
 
     const toggleGps = () => setIsActive((prev) => !prev);
+
+    
+        useEffect(()=> {
+             if (!bus?.id_bus) return; 
+                if(!isActive) {
+                    handleEditNotForm('kernet/dashboard/bus/updateStatus', bus.id_bus,  {status: "NON-AKTIF"})
+                
+                } else {
+                    handleEditNotForm('kernet/dashboard/bus/updateStatus', bus.id_bus,  {status: "AKTIF"})
+                    if(kepadatan !== "Pilih Tingkat Kepadatan" || statusBus !== "Pilih Status Bus") {
+                     handleEditNotForm('kernet/dashboard/bus/updateKapasitas', bus.id_bus,  {kapasitas_tempat_duduk: kepadatan  , kondisi :  statusBus})
+                    }
+                }
+            } , [isActive , kepadatan] )
+
 
     return (
         <div className="bg-gray-100 min-h-screen items-center justify-center">
             {/* Navbar */}
             <div className="navbar bg-gray-100 w-full z-50">
-                <div className="flex-1">
+                <div className="flex justify-between items-center w-full ">
                     <h1 className="text-2xl font-bold p-4">Dashboard SATRIA</h1>
+                    <button onClick={() => handleLogout(`logoutBus`)}>
+                    <FontAwesomeIcon icon="fa-solid fa-right-from-bracket" />
+                    </button>
                 </div>
             </div>
 
@@ -31,9 +50,8 @@ const GpsSatria = (props) => {
             <div className="bg-gray-100 min-h-screen mx-5">
                 <div className="bg-white rounded-3xl mt-10 mx-5 px-6 py-6 w-full max-w-md mx-auto">
                     <h1 className="font-bold text-2xl mb-0">
-                        SATRIA {bus.id_bus}
+                        {bus.nomor_bus}
                     </h1>
-
                     <h2 className="text-gray-400 text-xl mb-3">ON/OFF GPS</h2>
 
                     {/* ON/OFF Toggle */}
@@ -106,7 +124,7 @@ const GpsSatria = (props) => {
                                             <button
                                                 className="bg-yellow-100"
                                                 onClick={() => {
-                                                    setKepadatan("10% Sedikit");
+                                                    setKepadatan(10);
                                                     setOpenKepadatan(false);
                                                 }}
                                             >
@@ -116,7 +134,7 @@ const GpsSatria = (props) => {
                                         <li>
                                             <button
                                                 onClick={() => {
-                                                    setKepadatan("30% Sedikit");
+                                                    setKepadatan(30);
                                                     setOpenKepadatan(false);
                                                 }}
                                             >
@@ -128,7 +146,7 @@ const GpsSatria = (props) => {
                                                 className="bg-yellow-100"
                                                 onClick={() => {
                                                     setKepadatan(
-                                                        "50% Cukup Ramai"
+                                                        50
                                                     );
                                                     setOpenKepadatan(false);
                                                 }}
@@ -139,7 +157,7 @@ const GpsSatria = (props) => {
                                         <li>
                                             <button
                                                 onClick={() => {
-                                                    setKepadatan("70% Ramai");
+                                                    setKepadatan(70 );
                                                     setOpenKepadatan(false);
                                                 }}
                                             >
@@ -150,7 +168,7 @@ const GpsSatria = (props) => {
                                             <button
                                                 className="bg-yellow-100"
                                                 onClick={() => {
-                                                    setKepadatan("100% Ramai");
+                                                    setKepadatan(100 );
                                                     setOpenKepadatan(false);
                                                 }}
                                             >
