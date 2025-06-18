@@ -4,6 +4,7 @@ import MenuBar from "../components/menu-bar/Menu-bar";
 import MapProvider from "../data/MapProvider";
 
 export default function Home(props) {
+
     const { halte , buses } = props;
     
     const mapProviderRef = useRef(null);

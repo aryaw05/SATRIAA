@@ -8,6 +8,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BusLoginController;
 use App\Http\Controllers\BusController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KernetController;
 use Inertia\Inertia;
 
 Route::middleware('web')->group(function () {
@@ -46,13 +47,12 @@ Route::middleware('web')->group(function () {
   });
 
   Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':kernet'])->group(function () {
-    Route::get('/kernet/dashboard', [BusLoginController::class, 'pageUser'])->name('pageUser');
+    Route::get('/kernet/dashboard', [KernetController::class, 'index'])->name('kernet');
     Route::post('/logBus', [BusLoginController::class, 'prosesLoginBus'])->name('prosesLoginBus')->middleware('auth');
     Route::post('/logoutBus', [BusLoginController::class, 'logoutBus'])->name('logoutBus')->middleware('auth');
-    Route::get('/Bus', [BusLoginController::class, 'dashboard'])->name('dashboard');
-    Route::get('/admin/input-data', function () {
-      return Inertia::render('Admin/InputData');
-    });
+    Route::get('/kernet/dashboard/bus', [BusLoginController::class, 'dashboard'])->name('dashboard');
+    Route::put('/kernet/dashboard/bus/updateStatus/{bus}', [KernetController::class, 'updateBusStatus'])->name('bus.update');
+    Route::put('/kernet/dashboard/bus/updateKapasitas/{bus}', [KernetController::class, 'updateKapasitasDanKondisi'])->name('bus.update');
   });
 });
 
