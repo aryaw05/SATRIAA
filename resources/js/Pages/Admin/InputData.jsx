@@ -5,31 +5,12 @@ import { handleDelete, handleEdit, handleSubmit } from "../../utils/handleCRUD";
 import { useEffect, useState } from "react";
 
 const DataSatria = (props) => {
-<<<<<<< HEAD
-    const {buses} = props;
-    console.log(buses);
-=======
+
     const {buses , jadwal , halte , errors} = props;
->>>>>>> main
     
     
     const [dataBus, setDataBus] = useState({
         idBus : null,
-<<<<<<< HEAD
-        indexBus : null
-    });
-        const { formData, handleChange , setFormData } = useActionForm();
-
-  useEffect(() => {
-    if (dataBus?.indexBus !== null) {
-      const bus = buses[dataBus.indexBus];
-      setFormData({
-        nomor_bus: bus.nomor_bus || "",
-        plat_nomor: bus.plat_nomor || "",
-        jenis_bus: bus.jenis_bus || "",
-        password: "",
-      });
-=======
         indexBus : null,
         component: null,
     });
@@ -64,7 +45,6 @@ const DataSatria = (props) => {
             });
         }
      
->>>>>>> main
     }
   }, [dataBus, buses]);        
     // Fungsi untuk menampilkan modal
