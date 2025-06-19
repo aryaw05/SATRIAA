@@ -266,7 +266,7 @@ const DataSatria = (props) => {
                             Edit Jadwal Bus
                         </h1>
                         <form className="space-y-4 px-2 py-4"  onSubmit={(e)=> {
-                            handleEdit(e,"admin/dashboard/jadwal/edit", dataBus?.idBus ,formData);
+                            handleEdit(e,"admin/dashboard/jadwal/edit", 16,formData);
                         }
                         }>
                              <div>
