@@ -2,9 +2,7 @@ import { router } from "@inertiajs/react";
 function handleSubmit(e, route, formData) {
     e.preventDefault();
     router.post(route, formData, {
-        onSuccess: () => {
-            router.visit('/admin/dashboard/bus'); 
-        },
+
         onError: (errors) => {
             console.log("Error:", errors);
         }
@@ -20,13 +18,19 @@ function handleDelete(id, route) {
 
 function handleEdit (e ,route, id, formData) {
     e.preventDefault();
+    router.put(`/${route}/${id}`, formData , 
+{
+
+    onError: (errors) => {
+        console.log("Error:", errors);
+    }
+}
+ );
+}
+
+function handleEditNotForm (route, id, formData) {
  router.put(`/${route}/${id}`, formData , 
 {
-    onSuccess: () => {
-        router.visit('/admin/dashboard/bus'); 
-        console.log("data berhasil di Edit");
-        
-    },
     onError: (errors) => {
         console.log("Error:", errors);
     }
@@ -36,5 +40,6 @@ function handleEdit (e ,route, id, formData) {
 function handleLogout(route) {
     const res = router.post(`/${route}`);
 }
-export { handleSubmit, handleDelete, handleLogout , handleEdit };
+
+export { handleSubmit, handleDelete, handleLogout , handleEdit  , handleEditNotForm};
 

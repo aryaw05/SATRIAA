@@ -10,7 +10,9 @@ import {
     faWheelchair,
     faEllipsis,
     faCircleUser,
+
 } from "@fortawesome/free-solid-svg-icons";
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 createInertiaApp({
     resolve: (name) => {
@@ -25,7 +27,8 @@ createInertiaApp({
             faBus,
             faWheelchair,
             faEllipsis,
-            faCircleUser
+            faCircleUser,
+            faRightFromBracket
         );
     },
 });

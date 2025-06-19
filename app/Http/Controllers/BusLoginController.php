@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Bus;
@@ -14,7 +15,9 @@ class BusLoginController extends Controller
     {
         // Ambil semua bus yang statusnya aktif
         $buses = DB::table('buses')->where('status', 'aktif')->get();
-        return Inertia::render('Admin/kernet' , compact('buses'));
+
+        return Inertia::render('Admin/kernet', compact('buses'));
+    }
 
     public function prosesLoginBus(Request $request)
     {
@@ -24,12 +27,14 @@ class BusLoginController extends Controller
         ]);
 
         $bus = DB::table('buses')->where('id_bus', $request->id_bus)->first();
+        if (!$bus) {
+            return back()->withErrors(['id_bus' => 'ID bus tidak ditemukan']);
+        }
 
         if ($bus && Hash::check($request->password, $bus->password)) {
-            // Simpan info bus ke session
             session(['logBus' => $bus->id_bus]);
 
-            return redirect('/Bus'); // ganti sesuai halaman kernet
+            return redirect('/kernet/dashboard/bus');
         }
 
         return back()->withErrors(['password' => 'Password bus salah']);
@@ -44,13 +49,15 @@ class BusLoginController extends Controller
         }
 
         $bus = Bus::find($id_bus);
+        if (!$bus) {
+            return redirect('/kernet/dashboard')->withErrors(['Bus tidak ditemukan']);
+        }
 
-        return Inertia::render('Admin/gps' , compact('bus'));
+        return Inertia::render('Admin/gps', compact('bus'));
     }
     public function logoutBus()
     {
         Session::forget('logBus');
         return redirect('/kernet/dashboard');
     }
-
 }

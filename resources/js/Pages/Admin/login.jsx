@@ -6,7 +6,6 @@ const LoginSatria = (props) => {
     const id = useId();
     console.log(id);
 
-
     const { errors } = props;
     const { formData, handleChange } = useActionForm({
         username: "",

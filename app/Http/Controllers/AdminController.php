@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bus;
 use App\Models\Halte;
+use App\Models\JadwalBus;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -22,6 +23,17 @@ class AdminController extends Controller
         ]);
     }
 
+    public function retrieveData()
+    {
+        $halte = Halte::all();
+        $buses = Bus::all();
+        $jadwal = JadwalBus::with(['bus', 'halte'])->get();
+        return Inertia::render('Admin/InputData', [
+            'jadwal' => $jadwal,
+            'buses' => $buses,
+            'halte' => $halte
+        ]);
+    }
     public function retrieveHalte()
     {
         $halte = Halte::get();
@@ -82,6 +94,28 @@ class AdminController extends Controller
         return redirect('/halte')->with('success', 'Data Halte berhasil dihapus!');
     }
 
+
+
+    // Method untuk jadwal Bus
+    public function Jadwalstore(Request $request)
+    {
+        $request->validate([
+            'id_bus' => 'required|exists:buses,id_bus',
+            'id_halte' => 'required|exists:haltes,id_halte',
+            'waktu_berangkat' => 'required|date_format:H:i',
+            'waktu_tiba' => 'required|date_format:H:i',
+        ]);
+
+        if ($request->waktu_tiba <= $request->waktu_berangkat) {
+            return back()->withErrors(['waktu_tiba' => 'Waktu tiba harus setelah waktu berangkat'])->withInput();
+        }
+
+        JadwalBus::create($request->all());
+
+        return redirect()->route('index')->with('success', 'Jadwal berhasil ditambahkan');
+    }
+
+
     // Method untuk simpan akun kernet
     public function storeKernet(Request $request)
     {
@@ -119,13 +153,5 @@ class AdminController extends Controller
     {
         $kernet = User::where('role', 'kernet')->get(); // Ambil semua user dengan role kernet
         return view('list_kernet', compact('kernet'));
-    }
-
-    public function inputDataBus()
-    {
-        $buses = Bus::all();
-        return Inertia::render('Admin/InputData', [
-            'buses' => $buses
-        ]);
     }
 }
