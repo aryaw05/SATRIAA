@@ -14,12 +14,13 @@ return new class extends Migration
         Schema::create('buses', function (Blueprint $table) {
             $table->increments('id_bus');
             $table->string('nomor_bus', 20);
+
+
             $table->string('plat_nomor', 20);
             $table->string('jenis_bus', 20);
-            $table->string('rute', 255);
-            $table->integer('kapasitas_tempat_duduk');
-            $table->string('status', 255);
-            $table->string('kondisi', 255);
+            $table->integer('kapasitas_tempat_duduk')->nullable()->default(100);
+            $table->string('status', 255)->nullable();
+            $table->string('kondisi', 255)->nullable();
             $table->string('password');
             $table->timestamps();
         });

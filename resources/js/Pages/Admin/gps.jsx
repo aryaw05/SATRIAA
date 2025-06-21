@@ -1,12 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ref, set } from "firebase/database";
 import { db } from "../../data/firebaseConfig";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleCheck,
   faCircleXmark,
   faBus,
 } from "@fortawesome/free-solid-svg-icons";
+import { handleEdit, handleEditNotForm, handleLogout } from "../../utils/handleCRUD";
+
+const GpsSatria = (props) => {
+    console.log(props);
+    const { bus } = props;
 
 const GpsSatria = (props) => {
   const { bus } = props;
@@ -16,6 +22,7 @@ const GpsSatria = (props) => {
   const [openKepadatan, setOpenKepadatan] = useState(false);
   const [openStatusBus, setOpenStatusBus] = useState(false);
   const intervalRef = useRef(null);
+
 
   const toggleGps = () => setIsActive((prev) => !prev);
 
@@ -47,6 +54,7 @@ const GpsSatria = (props) => {
         console.error("Gagal dapatkan lokasi:", error);
       },
       { enableHighAccuracy: true }
+
     );
   };
 
@@ -325,5 +333,6 @@ const GpsSatria = (props) => {
     </div>
   );
 };
+};
 
-export default GpsSatria;
+export default GpsSatria ;

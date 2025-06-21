@@ -1,15 +1,15 @@
 export default function createCustomIcon(iconType, label) {
     const iconConfig = {
         halte: {
-            iconUrl: "icon/Halte.svg",
+            iconUrl: "/icon/Halte.svg",
             className: "halte-icon",
         },
         user: {
-            iconUrl: "icon/User.svg",
+            iconUrl: "/icon/User.svg",
             className: "user-icon",
         },
         bus: {
-            iconUrl: "icon/Bus.svg",
+            iconUrl: "/icon/Bus.svg",
             className: "bus-icon",
         },
     };
