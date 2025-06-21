@@ -33,8 +33,6 @@ class AdminController extends Controller
             'halte' => $halte
         ]);
     }
-/*************  ✨ Windsurf Command ⭐  *************/
-/*******  4b68050d-9cc7-4d4b-93c0-350d20b3d006  *******/
     public function retrieveHalte()
     {
         $halte = Halte::get();
@@ -153,6 +151,20 @@ class AdminController extends Controller
     public function listKernet()
     {
         $kernet = User::where('role', 'kernet')->get(); // Ambil semua user dengan role kernet
-        return view('list_kernet', compact('kernet'));
+        return Inertia::render('Admin/InputAkunKernet', [
+            'kernet' => $kernet
+        ]);
+    }
+
+    public function deleteKernet($id)
+    {
+        try {
+            $user = User::where('role', 'kernet')->findOrFail($id);
+            $user->delete();
+
+            return redirect()->back()->with('success', 'Akun kernet berhasil dihapus.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal menghapus akun kernet.');
+        }
     }
 }

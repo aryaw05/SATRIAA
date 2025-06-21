@@ -38,11 +38,11 @@ Route::middleware('web')->group(function () {
     Route::delete('/admin/dashboard/bus/delete/{bus}', [BusController::class, 'destroy'])->name('bus.destroy');
 
     // akun Kernet
-    Route::get('/admin/dashboard/kernet', function () {
-      return view('admin1');
-    });
-    Route::post('/admin/kernet/store', [AdminController::class, 'storeKernet'])->name('admin.storeKernet');
-    Route::get('/admin/kernet/store', [App\Http\Controllers\AdminController::class, 'listKernet'])->name('kernet.list');
+
+    Route::post('/admin/dashboard/kernet/add', [AdminController::class, 'storeKernet'])->name('admin.storeKernet');
+    Route::delete('/admin/dashboard/kernet/delete/{id}', [AdminController::class, 'deleteKernet'])->name('admin.deleteKernet');
+
+    Route::get('/admin/dashboard/kernet', [App\Http\Controllers\AdminController::class, 'listKernet'])->name('kernet.list');
 
 
     Route::get('/admin/dashboard', [AdminController::class, 'storeHalte'])->name('storeHalte');

@@ -31,6 +31,14 @@ text-lg active:!bg-transparent active:!text-inherit"
                                         Halte SATRIA
                                     </Link>
                                 </li>
+                                <li>
+                                    <Link
+                                        href="/admin/dashboard/kernet"
+                                        className="whitespace-nowrap sm:text-lg active:!bg-transparent active:!text-inherit"
+                                    >
+                                        Akun Kernet
+                                    </Link>
+                                </li>
                             </ul>
                         </details>
                     </li>
