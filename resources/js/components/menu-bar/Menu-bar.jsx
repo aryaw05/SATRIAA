@@ -3,7 +3,7 @@ import NavigationButton from "./Navigation-button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSwipeable } from "react-swipeable";
 export default function MenuBar(props) {
-    const { onClickBus, onClickUser, totalBus } = props;
+    const { onClickBus, onClickUser, totalBus , totalJadwal } = props;
     
     
     // state id bus 
@@ -155,26 +155,33 @@ export default function MenuBar(props) {
                     <p className="text-xl font-medium mt-9 mb-4 ">
                         Jadwal Kedatangan Satria
                     </p>
+                    
 
-                    <div className="flex items-center bg-orange-primary rounded-2xl px-6 py-5   mb-5">
-                        {/* Keterangan Terminal */}
-                        <span className="text-md font-medium text-black">
-                            Terminal Tamanan
-                        </span>
-
-                        {/* Jam-jam Keberangkatan */}
-                        <div className="flex space-x-2">
-                            <span className="bg-white text-black text-md font-semibold px-2 py-2 rounded-md ">
-                                07:30
-                            </span>
-                            <span className="bg-white text-black text-md font-semibold px-2 py-2 rounded-md ">
-                                07:30
-                            </span>
-                            <span className="bg-white text-black text-md font-semibold px-2 py-2 rounded-md ">
-                                07:30
-                            </span>
-                        </div>
-                    </div>
+                    {
+                        totalJadwal.find((e) => e.id_bus === (idBus !== null ? totalBus[idBus].id_bus : null)) ? (
+                            <div className="flex flex-col space-y-4">
+                                {totalJadwal
+                                    .filter((e) => e.id_bus === (idBus !== null ? totalBus[idBus].id_bus : null))
+                                    .map((e, index) => (
+                                        <div
+                                            key={index}
+                                            className="flex items-center bg-orange-secondary rounded-2xl px-6 py-5 gap-4"
+                                        >
+                                            <span className="text-md font-medium text-black">
+                                                {e.halte.nama_halte}
+                                            </span>
+                                            <span className="bg-white text-black text-md font-semibold px-2 py-2 rounded-md ">
+                                                {e.waktu_tiba}
+                                            </span>
+                                        </div>
+                                    ))}
+                            </div>
+                        ) : (
+                            <p className="text-center text-gray-500">Tidak ada jadwal untuk bus ini.</p>
+                        )
+                    }
+                    
+                    
                 </div>
             </div>
         </div>

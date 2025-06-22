@@ -20,7 +20,7 @@ Route::middleware('web')->group(function () {
   Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':admin'])->group(function () {
     // jadwal
     Route::post('/admin/dashboard/jadwal/add', [JadwalBusController::class, 'store'])->name('store');
-    Route::put('/admin/dashboard/jadwal/edit/{id}', [JadwalBusController::class, 'update'])->name('update');
+    Route::put('/admin/dashboard/jadwal/edit/{id}', [JadwalBusController::class, 'update'])->name('jadwal.update');
     Route::delete('/admin/dashboard/jadwal/delete/{id}', [JadwalBusController::class, 'destroy'])->name('destroy');
 
     // UPDATE Kursi
@@ -38,11 +38,11 @@ Route::middleware('web')->group(function () {
     Route::delete('/admin/dashboard/bus/delete/{bus}', [BusController::class, 'destroy'])->name('bus.destroy');
 
     // akun Kernet
-    Route::get('/admin/dashboard/kernet', function () {
-      return view('admin1');
-    });
-    Route::post('/admin/kernet/store', [AdminController::class, 'storeKernet'])->name('admin.storeKernet');
-    Route::get('/admin/kernet/store', [App\Http\Controllers\AdminController::class, 'listKernet'])->name('kernet.list');
+
+    Route::post('/admin/dashboard/kernet/add', [AdminController::class, 'storeKernet'])->name('admin.storeKernet');
+    Route::delete('/admin/dashboard/kernet/delete/{id}', [AdminController::class, 'deleteKernet'])->name('admin.deleteKernet');
+
+    Route::get('/admin/dashboard/kernet', [App\Http\Controllers\AdminController::class, 'listKernet'])->name('kernet.list');
 
 
     Route::get('/admin/dashboard', [AdminController::class, 'storeHalte'])->name('storeHalte');

@@ -9,14 +9,16 @@ const DataSatria = (props) => {
     
     
     const [dataBus, setDataBus] = useState({
+        idJadwal : null,
         idBus : null,
         indexBus : null,
         component: null,
     });
-    console.log(dataBus);
+
+
     
-        
-        const { formData, handleChange , setFormData } = useActionForm();
+    
+    const { formData, handleChange , setFormData } = useActionForm();
         
 
 
@@ -58,10 +60,12 @@ const DataSatria = (props) => {
         const modal = document.getElementById(modalId);
         if (modal) modal.showModal();
         setDataBus({
-            idBus : buses[index].id_bus,
+            idJadwal : jadwal[index].id_jadwal ,
+            idBus : jadwal[index].id_bus,
             indexBus : index,
             component , 
         });
+
     };
 
     return (
@@ -266,7 +270,7 @@ const DataSatria = (props) => {
                             Edit Jadwal Bus
                         </h1>
                         <form className="space-y-4 px-2 py-4"  onSubmit={(e)=> {
-                            handleEdit(e,"admin/dashboard/jadwal/edit", dataBus?.idBus ,formData);
+                            handleEdit(e,"admin/dashboard/jadwal/edit", dataBus?.idJadwal ,formData);
                         }
                         }>
                              <div>
@@ -274,7 +278,6 @@ const DataSatria = (props) => {
                                     Nama Bus
                                 </label>
                                 <select className="select w-full bg-gray-100" onChange={handleChange} name="id_bus">
-                                    {/* <option  disabled >Pilih Nama Bus</option> */}
                                     <option  value={dataBus?.idBus}>{buses?.find(bus => bus.id_bus === dataBus?.idBus)?.nomor_bus}</option>
                                 </select>
                             </div>
@@ -296,6 +299,7 @@ const DataSatria = (props) => {
                                     value={formData.waktu_berangkat || ""}
                                     name="waktu_berangkat"
                                     type="time"
+                                    step="1"
                                     className="input w-full bg-gray-100"
                                 />
                             </div>
@@ -309,6 +313,7 @@ const DataSatria = (props) => {
                                     value={formData.waktu_tiba || ""}
                                     name="waktu_tiba"
                                     type="time"
+                                    step="1"
                                     className="input w-full bg-gray-100"
                                 />
                             </div>
