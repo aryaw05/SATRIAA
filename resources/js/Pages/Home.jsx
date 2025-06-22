@@ -4,8 +4,9 @@ import MenuBar from "../components/menu-bar/Menu-bar";
 import MapProvider from "../data/MapProvider";
 
 export default function Home(props) {
+console.log(props);
 
-    const { halte , buses } = props;
+    const { halte , buses , jadwal  } = props;
     
     const mapProviderRef = useRef(null);
 
@@ -43,6 +44,7 @@ export default function Home(props) {
             <MapProvider halte={halte} isAdmin={false} ref={mapProviderRef} />
             <MenuBar
                 totalBus={buses}
+                totalJadwal={jadwal}
                 onClickBus={busSearch}
                 onClickUser={Location}
             />
