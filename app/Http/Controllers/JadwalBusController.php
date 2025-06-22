@@ -31,10 +31,23 @@ class JadwalBusController extends Controller
         return redirect()->route('bus.index')->with('success', 'Jadwal berhasil ditambahkan');
     }
 
-    public function update(Request $request, JadwalBus $id)
+    // public function update(Request $request, $id)
+    // {
+    //     $jadwal = JadwalBus::findOrFail($id);
+    //     $jadwal->update($request->all());
+
+    //     return redirect()->route('bus.index')->with('success', 'Jadwal berhasil diupdate');
+    // }
+    public function update(Request $request, $id)
     {
+        $validated = $request->validate([
+            'id_bus' => 'required|exists:buses,id_bus',
+            'id_halte' => 'required|exists:haltes,id_halte',
+            'waktu_berangkat' => 'required|date_format:H:i:s',
+            'waktu_tiba' => 'required|date_format:H:i:s|after:waktu_berangkat'
+        ]);
         $jadwal = JadwalBus::findOrFail($id);
-        $jadwal->update($request->all());
+        $jadwal->update($validated);
 
         return redirect()->route('bus.index')->with('success', 'Jadwal berhasil diupdate');
     }

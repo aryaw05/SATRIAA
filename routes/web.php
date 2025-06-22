@@ -20,7 +20,7 @@ Route::middleware('web')->group(function () {
   Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':admin'])->group(function () {
     // jadwal
     Route::post('/admin/dashboard/jadwal/add', [JadwalBusController::class, 'store'])->name('store');
-    Route::put('/admin/dashboard/jadwal/edit/{id}', [JadwalBusController::class, 'update'])->name('update');
+    Route::put('/admin/dashboard/jadwal/edit/{id}', [JadwalBusController::class, 'update'])->name('jadwal.update');
     Route::delete('/admin/dashboard/jadwal/delete/{id}', [JadwalBusController::class, 'destroy'])->name('destroy');
 
     // UPDATE Kursi
