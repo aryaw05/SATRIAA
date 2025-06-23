@@ -16,28 +16,12 @@ const MapProvider = forwardRef((props, ref) => {
     const busMarkerRef = useRef({});
     const userMarkerRef = useRef(null);
 
-    let jumlahBus = [
-        {
-            id: 1,
-            lat: -7.8238,
-            lng: 112.0209,
-        },
-        {
-            id: 2,
-            lat: -7.8165,
-            lng: 112.0173,
-        },
-        {
-            id: 3,
-            lat: -7.8302,
-            lng: 112.0256,
-        },
-    ];
     const [myLocation, setMyLocation] = useState({
         lat: null,
         long: null,
     });
-    const { halte, onHalteClick, isAdmin = false } = props;
+    const { halte, onHalteClick, isAdmin = false , bus } = props;
+    
     const clickZoom = useCallback(
         (e) => {
             mapRef.current.setView(e.target.getLatLng(), 25);
@@ -86,7 +70,7 @@ const MapProvider = forwardRef((props, ref) => {
     useEffect(() => {
         if (!mapRef.current || isAdmin) return;
         // Lokasi Bus
-        jumlahBus.map((bus) => {
+        bus.map((bus) => {
             if (!busMarkerRef.current[bus.id]) {
                 const busMarker = (busMarkerRef.current[bus.id] = L.marker(
                     [bus.lat, bus.lng],
@@ -98,7 +82,7 @@ const MapProvider = forwardRef((props, ref) => {
                     .on("click", clickZoom));
             }
         });
-    }, [jumlahBus]);
+    }, [bus]);
     // halte
     useEffect(() => {
         // terminal
@@ -129,13 +113,16 @@ const MapProvider = forwardRef((props, ref) => {
                 .on("click", clickZoom);
         }
     }, [myLocation]);
-    const busSearchHandle = useCallback((busId) => {
-        const bus = jumlahBus.find((b) => b.id === busId);
-        if (bus && mapRef.current) {
-            0;
-            mapRef.current.flyTo([bus.lat, bus.lng], 17);
+    const  busSearchHandle  = useCallback((busId)  => {
+        if(bus.length === 0) {
+            alert("Tidak ada bus yang ditemukan");
+            return;
         }
-    }, []);
+        const buses =  bus.find((b) => b.id === busId); 
+        if (buses && mapRef.current) {
+            mapRef.current.flyTo([buses.lat, buses.lng], 17);
+        }
+    }, [bus]);
 
     const userLocationHandle = useCallback(() => {
         if (navigator.geolocation) {

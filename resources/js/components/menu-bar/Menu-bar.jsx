@@ -3,7 +3,7 @@ import NavigationButton from "./Navigation-button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSwipeable } from "react-swipeable";
 export default function MenuBar(props) {
-    const { onClickBus, onClickUser, totalBus , totalJadwal } = props;
+    const { onClickBus, onClickUser, totalBus , totalJadwal , detailBus } = props;
     
     
     // state id bus 
@@ -40,8 +40,8 @@ export default function MenuBar(props) {
     });
 
 
-    const busSearchData = (id , index) => {
-        setIdBus(index);
+    const busSearchData = (id) => {
+        setIdBus(id);
         onClickBus(id);
     }
     // Manual toggle function
@@ -87,8 +87,8 @@ export default function MenuBar(props) {
                 <div className="flex gap-4">
                     {totalBus.map((item , index) => (
                         <NavigationButton
-                            onClick={() => busSearchData(item.id_bus , index)}
-                            id={item.id_bus}
+                            onClick={() => busSearchData(item.id )}
+                            id={item.id}
                             key={index}
                             icon={"fa-solid fa-bus"}
                             className={"text-white text-2xl"}
@@ -117,7 +117,7 @@ export default function MenuBar(props) {
                             <p className="text-lg font-medium">
                                 Kapasitas  Tersedia
                             </p>
-                            <p className="text-lg font-medium">{idBus  !== null ? totalBus[idBus].kapasitas_tempat_duduk : "-"}%</p>
+                            <p className="text-lg font-medium">{detailBus.find(bus => bus.id_bus === idBus)?.kapasitas_tempat_duduk || "-"}%</p>
                         </div>
                     </div>
                     <p className="text-xl font-medium mt-9 mb-4">Detail Bus</p>
@@ -129,7 +129,7 @@ export default function MenuBar(props) {
                                 className="text-4xl text-white"
                             />
                             <p className="text-md text-white font-semibold">
-                                { idBus !== null ? totalBus[idBus].nomor_bus : "-" }
+                                {detailBus.find(bus => bus.id_bus === idBus)?.nomor_bus || "-"}
                             </p>
                         </div>
 
@@ -139,14 +139,16 @@ export default function MenuBar(props) {
                                 <span>Jenis Bus</span>
                                 <span>:</span>
                                 <span className="text-black font-bold">
-                                    { idBus !== null ? totalBus[idBus].jenis_bus : "-" }
+                                    {detailBus.find(bus => bus.id_bus === idBus)?.jenis_bus || "-"}
                                 </span>
                             </div>
                             <div className="grid grid-cols-[90px_10px_1fr] text-md font-medium">
                                 <span>Plat Nomor</span>
                                 <span>:</span>
                                 <span className="text-black font-bold">
-                                    { idBus !== null ? totalBus[idBus].plat_nomor : "-" }
+                                    {
+                                        detailBus.find(bus => bus.id_bus === idBus)?.plat_nomor || "-"
+                                    }
                                 </span>
                             </div>
                         </div>
@@ -158,10 +160,10 @@ export default function MenuBar(props) {
                     
 
                     {
-                        totalJadwal.find((e) => e.id_bus === (idBus !== null ? totalBus[idBus].id_bus : null)) ? (
+                        totalJadwal.find((e) => e.id_bus === idBus ) ? (
                             <div className="flex flex-col space-y-4">
                                 {totalJadwal
-                                    .filter((e) => e.id_bus === (idBus !== null ? totalBus[idBus].id_bus : null))
+                                    .filter((e) => e.id_bus === idBus)
                                     .map((e, index) => (
                                         <div
                                             key={index}

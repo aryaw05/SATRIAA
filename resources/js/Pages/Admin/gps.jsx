@@ -8,14 +8,11 @@ import {
   faCircleXmark,
   faBus,
 } from "@fortawesome/free-solid-svg-icons";
-import { handleEdit, handleEditNotForm, handleLogout } from "../../utils/handleCRUD";
 
-const GpsSatria = (props) => {
-    console.log(props);
-    const { bus } = props;
 
 const GpsSatria = (props) => {
   const { bus } = props;
+
   const [isActive, setIsActive] = useState(false);
   const [kepadatan, setKepadatan] = useState("Pilih Tingkat Kepadatan");
   const [statusBus, setStatusBus] = useState("Pilih Status Bus");
@@ -41,8 +38,7 @@ const GpsSatria = (props) => {
           await set(ref(db, `buses/${bus.id_bus}`), {
             lat,
             lng,
-            kepadatan,
-            statusBus,
+            id_bus: bus.id_bus,
             updatedAt: new Date().toISOString(),
           });
           console.log(`Lokasi Bus ${bus.id_bus} terkirim:`, lat, lng);
@@ -333,6 +329,5 @@ const GpsSatria = (props) => {
     </div>
   );
 };
-};
-
 export default GpsSatria ;
+
