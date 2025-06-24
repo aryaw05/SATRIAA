@@ -44,10 +44,7 @@ export default function InputAkunKernet(props) {
         if (modal) modal.showModal();
         setFormData({});
     }
-       const showModalEdit = (index , modalId , component) => {
-        const modal = document.getElementById(modalId);
-        if (modal) modal.showModal();
-    };
+      
 
     return (
         <>

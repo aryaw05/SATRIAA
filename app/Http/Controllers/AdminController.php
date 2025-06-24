@@ -82,7 +82,7 @@ class AdminController extends Controller
         $halte = Halte::findOrFail($id);
         $halte->update($request->only(['nama_halte', 'lokasi_lat', 'lokasi_long']));
 
-        return redirect('/halte')->with('success', 'Data Halte berhasil diupdate!');
+        return redirect()->back()->with('success', 'Data Halte berhasil diupdate!');
     }
 
     public function deleteHalte($id)
@@ -90,7 +90,7 @@ class AdminController extends Controller
         $halte = Halte::findOrFail($id);
         $halte->delete();
 
-        return redirect('/halte')->with('success', 'Data Halte berhasil dihapus!');
+        return redirect()->back()->with('success', 'Data Halte berhasil dihapus!');
     }
 
 
