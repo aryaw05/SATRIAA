@@ -21,6 +21,7 @@ const MapProvider = forwardRef((props, ref) => {
         long: null,
     });
     const { halte, onHalteClick, isAdmin = false , bus } = props;
+    // console.log("busMarker" , busMarkerRef.current);
     
     const clickZoom = useCallback(
         (e) => {
@@ -80,9 +81,24 @@ const MapProvider = forwardRef((props, ref) => {
                 )
                     .addTo(mapRef.current)
                     .on("click", clickZoom));
+                    
+                }
+                else{
+                 const existingMarker = busMarkerRef.current[bus.id];
+                const currentLatLng = existingMarker.getLatLng();
+
+            if (
+                currentLatLng.lat !== bus.lat ||
+                currentLatLng.lng !== bus.lng
+            ) {
+                existingMarker.setLatLng([bus.lat, bus.lng]);
             }
-        });
-    }, [bus]);
+                // console.log(busMarkerRef.current);
+                }
+           
+                
+        } );
+    }, [bus ]);
     // halte
     useEffect(() => {
         // terminal

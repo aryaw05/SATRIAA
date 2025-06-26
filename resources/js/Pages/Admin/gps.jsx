@@ -38,6 +38,8 @@ const GpsSatria = (props) => {
           await set(ref(db, `buses/${bus.id_bus}`), {
             lat,
             lng,
+            kepadatan,
+            statusBus,
             id_bus: bus.id_bus,
             updatedAt: new Date().toISOString(),
           });

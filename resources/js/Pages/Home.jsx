@@ -22,6 +22,8 @@ export default function Home(props) {
                     id: parseInt(id),
                     lat: val.lat,
                     lng: val.lng,
+                    kepadatan : val.kepadatan,
+                    statusBus: val.statusBus,
                 }));
                 setJumlahBus(buses);
             }

@@ -8,6 +8,7 @@ export default function MenuBar(props) {
     
     // state id bus 
     const [idBus , setIdBus]  = useState(null);
+    
     const [swipeCount, setSwipeCount] = useState(0);
     const [openState, setOpenState] = useState("closed");
     // Reset swipe count after 500ms
@@ -117,7 +118,7 @@ export default function MenuBar(props) {
                             <p className="text-lg font-medium">
                                 Kapasitas  Tersedia
                             </p>
-                            <p className="text-lg font-medium">{detailBus.find(bus => bus.id_bus === idBus)?.kapasitas_tempat_duduk || "-"}%</p>
+                            <p className="text-lg font-medium">{totalBus.find(bus => bus.id === idBus)?.kepadatan || "-"}</p>
                         </div>
                     </div>
                     <p className="text-xl font-medium mt-9 mb-4">Detail Bus</p>
@@ -139,7 +140,7 @@ export default function MenuBar(props) {
                                 <span>Jenis Bus</span>
                                 <span>:</span>
                                 <span className="text-black font-bold">
-                                    {detailBus.find(bus => bus.id_bus === idBus)?.jenis_bus || "-"}
+                                    {totalBus.find(bus => bus.id === idBus)?.statusBus || "-"}
                                 </span>
                             </div>
                             <div className="grid grid-cols-[90px_10px_1fr] text-md font-medium">
