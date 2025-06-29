@@ -3,22 +3,19 @@ import { useId, useState } from "react";
 import useActionForm from "../../hooks/useActionForm";
 
 const LoginSatria = (props) => {
-    const id = useId();
-    console.log(id);
-
     const { errors } = props;
     const { formData, handleChange } = useActionForm({
         username: "",
         password: "",
     });
+    console.log(formData);
 
-    console.log(errors);
+    console.log(props);
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const res = router.post("/login", formData);
         console.log(res);
-        console.log(formData);
     };
     return (
         <div className="bg-gray-200 min-h-screen flex items-center justify-center px-4">

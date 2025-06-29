@@ -12,7 +12,7 @@ class KernetController extends Controller
     {
         // Ambil semua data bus (tanpa filter status)
         $buses = Bus::all();
-        return Inertia::render('Admin/kernet', compact('buses'));
+        return Inertia::render('Kernet/kernet', compact('buses'));
     }
 
     public function updateBusStatus(Request $request, Bus $bus)

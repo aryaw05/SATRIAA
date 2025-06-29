@@ -52,7 +52,7 @@ class BusLoginController extends Controller
             return redirect('/kernet/dashboard')->withErrors(['Bus tidak ditemukan']);
         }
 
-        return Inertia::render('Admin/gps', compact('bus'));
+        return Inertia::render('Kernet/gps', compact('bus'));
     }
     public function logoutBus()
     {
