@@ -8,6 +8,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BusLoginController;
 use App\Http\Controllers\JadwalBusController;
 use App\Http\Controllers\BusController;
+use App\Http\Controllers\BusLocationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KernetController;
 use Inertia\Inertia;
@@ -59,6 +60,7 @@ Route::middleware('web')->group(function () {
     Route::get('/kernet/dashboard/bus', [BusLoginController::class, 'dashboard'])->name('dashboard');
     Route::put('/kernet/dashboard/bus/updateStatus/{bus}', [KernetController::class, 'updateBusStatus'])->name('bus.update');
     Route::put('/kernet/dashboard/bus/updateKapasitas/{bus}', [KernetController::class, 'updateKapasitasDanKondisi'])->name('bus.update');
+    Route::post('/kernet/dashboard/location/update', [BusLocationController::class, 'updateLocation']);
   });
 });
 

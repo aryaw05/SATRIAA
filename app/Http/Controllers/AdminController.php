@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\LocationUpdated;
 use App\Models\Bus;
 use App\Models\Halte;
 use App\Models\JadwalBus;
+use App\Models\TrackingBus;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -27,12 +29,25 @@ class AdminController extends Controller
         $halte = Halte::all();
         $buses = Bus::all();
         $jadwal = JadwalBus::with(['bus', 'halte'])->get();
+        $tracking = TrackingBus::with('bus')->get();
+        // Kirim broadcast setiap data tracking
+    foreach ($tracking as $track) {
+        broadcast(new LocationUpdated(
+            $track->id_bus,
+            $track->lokasi_lat,
+            $track->lokasi_long
+        ));
+    }
         return Inertia::render('Admin/InputData', [
             'jadwal' => $jadwal,
             'buses' => $buses,
             'halte' => $halte
         ]);
+        
+  
+
     }
+    
     public function retrieveHalte()
     {
         $halte = Halte::get();
