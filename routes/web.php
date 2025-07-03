@@ -32,7 +32,7 @@ Route::middleware('web')->group(function () {
 
     // CRUD BUS
 
-    Route::get('/admin/dashboard/bus', [AdminController::class, 'retrieveData'])->name('bus.index');   // halaman setelah simpan (daftar bus)
+    Route::get('/admin/dashboard/bus', [AdminController::class, 'retrieveData'])->name('bus.index');   
     Route::post('/admin/dashboard/bus/add', [BusController::class, 'store'])->name('bus.store');  // simpan data
     Route::put('/admin/dashboard/bus/edit/{bus}', [BusController::class, 'update'])->name('bus.update');
     Route::delete('/admin/dashboard/bus/delete/{bus}', [BusController::class, 'destroy'])->name('bus.destroy');

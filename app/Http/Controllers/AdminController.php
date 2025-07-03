@@ -27,7 +27,7 @@ class AdminController extends Controller
         $halte = Halte::all();
         $buses = Bus::all();
         $jadwal = JadwalBus::with(['bus', 'halte'])->get();
-        return Inertia::render('Admin/InputData', [
+        return Inertia::render('Admin/Layout/DashboardLayout', [
             'jadwal' => $jadwal,
             'buses' => $buses,
             'halte' => $halte
