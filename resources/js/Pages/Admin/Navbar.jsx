@@ -11,7 +11,7 @@ export default function Navbar() {
                     <li>
                         <details className="dropdown">
                             <summary className="sm:text-3xl hover:bg-transparent focus:!bg-transparent focus:!text-inherit">
-                                Jadwal SATRIA
+                                Dashboard
                             </summary>
                             <ul className="menu dropdown rounded-t-none p-2">
                                 <li>

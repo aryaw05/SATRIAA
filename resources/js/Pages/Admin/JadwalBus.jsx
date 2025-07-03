@@ -13,16 +13,15 @@ export default function JadwalBus(props) {
     useEffect(() => {
         if (dataJadwal?.indexBus !== null) {
             const jadwalBus = jadwal[dataJadwal.indexBus];
-            console.log("jadwal bus", jadwalBus);
 
             setFormData({
                 id_jadwal: jadwalBus.id_jadwal || "",
                 id_bus: jadwalBus.id_bus || "",
-                id_halte: jadwalBus.id_halte || "",
                 waktu_berangkat: jadwalBus.waktu_berangkat || "",
                 waktu_tiba: jadwalBus.waktu_tiba || "",
             });
         }
+        setFormData({});
     }, [dataJadwal]);
 
     function editDataJadwal(modalId, index) {
@@ -178,6 +177,7 @@ export default function JadwalBus(props) {
                             </label>
                             <input
                                 onChange={handleChange}
+                                value={formData.waktu_berangkat || ""}
                                 required
                                 name="waktu_berangkat"
                                 type="time"
@@ -190,6 +190,7 @@ export default function JadwalBus(props) {
                             </label>
                             <input
                                 onChange={handleChange}
+                                value={formData.waktu_tiba || ""}
                                 required
                                 name="waktu_tiba"
                                 type="time"
@@ -215,7 +216,6 @@ export default function JadwalBus(props) {
                                 setdataJadwal({
                                     idBus: null,
                                     indexBus: null,
-                                    component: null,
                                 })
                             }
                         >
