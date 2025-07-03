@@ -4,7 +4,8 @@ import { handleDelete, handleEdit, handleSubmit } from "../../utils/handleCRUD";
 
 export default function JadwalBus(props) {
     const { buses, halte, jadwal } = props;
-
+    console.log("ini props", props);
+    const [isError, setIsError] = useState(null);
     const { formData, handleChange, setFormData } = useActionForm();
     const [dataJadwal, setdataJadwal] = useState({
         indexBus: null,
@@ -108,6 +109,20 @@ export default function JadwalBus(props) {
             </div>
             {/* Modal Tambah Jadwal */}
             <dialog id="my_modal_1" className="modal">
+                <div
+                    className={`toast toast-top toast-end ${
+                        isError ? "" : "hidden"
+                    }`}
+                >
+                    {isError !== null &&
+                        isError.map((e, index) => {
+                            return (
+                                <div key={index} className="alert alert-error">
+                                    <span>{e}</span>
+                                </div>
+                            );
+                        })}
+                </div>
                 <div className="modal-box rounded-3xl w-[95%] max-w-md">
                     <form method="dialog">
                         <button
@@ -131,7 +146,21 @@ export default function JadwalBus(props) {
                             handleSubmit(
                                 e,
                                 "/admin/dashboard/jadwal/add",
-                                formData
+                                formData,
+                                {
+                                    onSuccess: () => {
+                                        setdataJadwal({
+                                            indexBus: null,
+                                        });
+                                    },
+                                    onError: (errors) => {
+                                        setIsError(Object.values(errors));
+                                        console.log(
+                                            "Error:",
+                                            Object.values(errors)
+                                        );
+                                    },
+                                }
                             );
                         }}
                     >

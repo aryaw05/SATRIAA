@@ -1,11 +1,7 @@
 import { router } from "@inertiajs/react";
-function handleSubmit(e, route, formData) {
+function handleSubmit(e, route, formData, options = {}) {
     e.preventDefault();
-    router.post(route, formData, {
-        onError: (errors) => {
-            console.log("Error:", errors);
-        },
-    });
+    router.post(route, formData, options);
 }
 
 function handleDelete(id, route) {
