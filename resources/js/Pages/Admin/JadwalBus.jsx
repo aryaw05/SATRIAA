@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import useActionForm from "../../hooks/useActionForm";
 import { handleDelete, handleEdit, handleSubmit } from "../../utils/handleCRUD";
+import { useAlert } from "../../hooks/useAlert";
+import AlertList from "../../components/alert/AlertList";
 
 export default function JadwalBus(props) {
     const { buses, halte, jadwal } = props;
-    console.log("ini props", props);
-    const [isError, setIsError] = useState(null);
+    const { isAlert, showError, showSuccess, clearAlert } = useAlert();
+
     const { formData, handleChange, setFormData } = useActionForm();
     const [dataJadwal, setdataJadwal] = useState({
         indexBus: null,
@@ -24,6 +26,16 @@ export default function JadwalBus(props) {
         }
         setFormData({});
     }, [dataJadwal]);
+
+    useEffect(() => {
+        if (isAlert.errors?.length > 0 || isAlert.success?.length > 0) {
+            setTimeout(() => {
+                clearAlert();
+            }, 5000);
+        } else {
+            console.log("tidak ada alert");
+        }
+    }, [isAlert]);
 
     function editDataJadwal(modalId, index) {
         const modal = document.getElementById(modalId);
@@ -109,20 +121,7 @@ export default function JadwalBus(props) {
             </div>
             {/* Modal Tambah Jadwal */}
             <dialog id="my_modal_1" className="modal">
-                <div
-                    className={`toast toast-top toast-end ${
-                        isError ? "" : "hidden"
-                    }`}
-                >
-                    {isError !== null &&
-                        isError.map((e, index) => {
-                            return (
-                                <div key={index} className="alert alert-error">
-                                    <span>{e}</span>
-                                </div>
-                            );
-                        })}
-                </div>
+                <AlertList isAlert={isAlert} />
                 <div className="modal-box rounded-3xl w-[95%] max-w-md">
                     <form method="dialog">
                         <button
@@ -152,13 +151,10 @@ export default function JadwalBus(props) {
                                         setdataJadwal({
                                             indexBus: null,
                                         });
+                                        showSuccess(["Data Berhasil Ditambah"]);
                                     },
                                     onError: (errors) => {
-                                        setIsError(Object.values(errors));
-                                        console.log(
-                                            "Error:",
-                                            Object.values(errors)
-                                        );
+                                        showError(Object.values(errors));
                                     },
                                 }
                             );
@@ -278,7 +274,7 @@ export default function JadwalBus(props) {
                                 <option value={formData?.id_bus}>
                                     {
                                         jadwal[dataJadwal?.indexBus]?.bus
-                                            ?.nomor_bus
+                                            .nomor_bus
                                     }
                                 </option>
                             </select>
@@ -294,11 +290,8 @@ export default function JadwalBus(props) {
                             >
                                 <option value={formData?.id_halte}>
                                     {
-                                        halte?.find(
-                                            (h) =>
-                                                h.id_halte ===
-                                                formData?.id_halte
-                                        )?.nama_halte
+                                        jadwal[dataJadwal?.indexBus]?.halte
+                                            .nama_halte
                                     }
                                 </option>
                             </select>
