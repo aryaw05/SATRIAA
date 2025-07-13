@@ -38,7 +38,7 @@ class AdminController extends Controller
             $track->lokasi_long
         ));
     }
-        return Inertia::render('Admin/InputData', [
+        return Inertia::render('Admin/Layout/DashboardLayout', [
             'jadwal' => $jadwal,
             'buses' => $buses,
             'halte' => $halte

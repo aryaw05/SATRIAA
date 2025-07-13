@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import useActionForm from "../../hooks/useActionForm";
 import { handleDelete, handleEdit, handleSubmit } from "../../utils/handleCRUD";
+import { useAlert } from "../../hooks/useAlert";
+import AlertList from "../../components/alert/AlertList";
 
 export default function JadwalBus(props) {
     const { buses, halte, jadwal } = props;
+    const { isAlert, showError, showSuccess, clearAlert } = useAlert();
 
     const { formData, handleChange, setFormData } = useActionForm();
     const [dataJadwal, setdataJadwal] = useState({
@@ -13,17 +16,19 @@ export default function JadwalBus(props) {
     useEffect(() => {
         if (dataJadwal?.indexBus !== null) {
             const jadwalBus = jadwal[dataJadwal.indexBus];
-            console.log("jadwal bus", jadwalBus);
 
             setFormData({
+                id_halte: jadwalBus.id_halte || "",
                 id_jadwal: jadwalBus.id_jadwal || "",
                 id_bus: jadwalBus.id_bus || "",
-                id_halte: jadwalBus.id_halte || "",
                 waktu_berangkat: jadwalBus.waktu_berangkat || "",
                 waktu_tiba: jadwalBus.waktu_tiba || "",
             });
+        } else {
+            setFormData({});
         }
     }, [dataJadwal]);
+    console.log(formData);
 
     function editDataJadwal(modalId, index) {
         const modal = document.getElementById(modalId);
@@ -39,6 +44,8 @@ export default function JadwalBus(props) {
     }
     return (
         <>
+            <AlertList isAlert={isAlert} clearAlert={clearAlert} />
+
             <div className="lg:w-1/2 w-full">
                 <button
                     className="btn bg-orange-400 mb-3 rounded-lg w-1/2 lg:w-auto"
@@ -81,7 +88,26 @@ export default function JadwalBus(props) {
                                                     onClick={() =>
                                                         handleDelete(
                                                             e.id_jadwal,
-                                                            "admin/dashboard/jadwal/delete"
+                                                            "admin/dashboard/jadwal/delete",
+                                                            {
+                                                                onSuccess:
+                                                                    () => {
+                                                                        showSuccess(
+                                                                            [
+                                                                                "Data Berhasil Dihapus",
+                                                                            ]
+                                                                        );
+                                                                    },
+                                                                onError: (
+                                                                    errors
+                                                                ) => {
+                                                                    showError(
+                                                                        Object.values(
+                                                                            errors
+                                                                        )
+                                                                    );
+                                                                },
+                                                            }
                                                         )
                                                     }
                                                 >
@@ -109,6 +135,7 @@ export default function JadwalBus(props) {
             </div>
             {/* Modal Tambah Jadwal */}
             <dialog id="my_modal_1" className="modal">
+                <AlertList isAlert={isAlert} clearAlert={clearAlert} />
                 <div className="modal-box rounded-3xl w-[95%] max-w-md">
                     <form method="dialog">
                         <button
@@ -132,7 +159,18 @@ export default function JadwalBus(props) {
                             handleSubmit(
                                 e,
                                 "/admin/dashboard/jadwal/add",
-                                formData
+                                formData,
+                                {
+                                    onSuccess: () => {
+                                        setdataJadwal({
+                                            indexBus: null,
+                                        });
+                                        showSuccess(["Data Berhasil Ditambah"]);
+                                    },
+                                    onError: (errors) => {
+                                        showError(Object.values(errors));
+                                    },
+                                }
                             );
                         }}
                     >
@@ -178,6 +216,7 @@ export default function JadwalBus(props) {
                             </label>
                             <input
                                 onChange={handleChange}
+                                value={formData.waktu_berangkat || ""}
                                 required
                                 name="waktu_berangkat"
                                 type="time"
@@ -190,6 +229,7 @@ export default function JadwalBus(props) {
                             </label>
                             <input
                                 onChange={handleChange}
+                                value={formData.waktu_tiba || ""}
                                 required
                                 name="waktu_tiba"
                                 type="time"
@@ -207,15 +247,14 @@ export default function JadwalBus(props) {
 
             {/* Modal edit Data Jadwal */}
             <dialog id="my_modal_4" className="modal">
+                <AlertList isAlert={isAlert} clearAlert={clearAlert} />
                 <div className="modal-box rounded-3xl w-[95%] max-w-md">
                     <form method="dialog">
                         <button
                             className="btn btn-lg btn-circle absolute border-transparent right-4 top-4 bg-transparent hover:bg-transparent !hover:text-black"
                             onClick={() =>
                                 setdataJadwal({
-                                    idBus: null,
                                     indexBus: null,
-                                    component: null,
                                 })
                             }
                         >
@@ -233,7 +272,15 @@ export default function JadwalBus(props) {
                                 e,
                                 "admin/dashboard/jadwal/edit",
                                 formData?.id_jadwal,
-                                formData
+                                formData,
+                                {
+                                    onSuccess: () => {
+                                        showSuccess(["Data Berhasil Diubah"]);
+                                    },
+                                    onError: (errors) => {
+                                        showError(Object.values(errors));
+                                    },
+                                }
                             );
                         }}
                     >
@@ -249,7 +296,7 @@ export default function JadwalBus(props) {
                                 <option value={formData?.id_bus}>
                                     {
                                         jadwal[dataJadwal?.indexBus]?.bus
-                                            ?.nomor_bus
+                                            .nomor_bus
                                     }
                                 </option>
                             </select>
@@ -265,11 +312,8 @@ export default function JadwalBus(props) {
                             >
                                 <option value={formData?.id_halte}>
                                     {
-                                        halte?.find(
-                                            (h) =>
-                                                h.id_halte ===
-                                                formData?.id_halte
-                                        )?.nama_halte
+                                        jadwal[dataJadwal?.indexBus]?.halte
+                                            .nama_halte
                                     }
                                 </option>
                             </select>

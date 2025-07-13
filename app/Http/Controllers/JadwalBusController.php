@@ -5,9 +5,6 @@ namespace App\Http\Controllers;
 use App\Events\DataHalteEvent;
 use Illuminate\Http\Request;
 use App\Models\JadwalBus;
-use App\Models\Bus;
-use App\Models\Halte;
-use Inertia\Inertia;
 
 class JadwalBusController extends Controller
 {
@@ -17,8 +14,8 @@ class JadwalBusController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'id_bus' => 'exists:buses,id_bus',
-            'id_halte' => 'exists:haltes,id_halte',
+            'id_bus' => 'required|exists:buses,id_bus',
+            'id_halte' => 'required|exists:haltes,id_halte',
             'waktu_berangkat' => 'required|date_format:H:i',
             'waktu_tiba' => 'required|date_format:H:i',
         ]);
@@ -46,13 +43,6 @@ class JadwalBusController extends Controller
         // broadcast(new DataHalteEvent())
     }
 
-    // public function update(Request $request, $id)
-    // {
-    //     $jadwal = JadwalBus::findOrFail($id);
-    //     $jadwal->update($request->all());
-
-    //     return redirect()->route('bus.index')->with('success', 'Jadwal berhasil diupdate');
-    // }
     public function update(Request $request, $id)
     {
         $validated = $request->validate([

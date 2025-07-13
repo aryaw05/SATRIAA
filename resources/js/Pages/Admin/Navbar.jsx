@@ -4,14 +4,14 @@ import { handleLogout } from "../../utils/handleCRUD";
 
 export default function Navbar() {
     return (
-        <div className="navbar bg-base-100 fixed top-0 w-full z-50">
+        <div className="navbar bg-base-100 fixed top-0 w-full z-2">
             {/* Left Side */}
             <div className="flex-1">
-                <ul className="menu menu-horizontal px-auto text-xl relative z-50">
+                <ul className="menu menu-horizontal px-auto text-xl relative z-2">
                     <li>
                         <details className="dropdown">
                             <summary className="sm:text-3xl hover:bg-transparent focus:!bg-transparent focus:!text-inherit">
-                                Jadwal SATRIA
+                                Dashboard
                             </summary>
                             <ul className="menu dropdown rounded-t-none p-2">
                                 <li>
@@ -65,9 +65,15 @@ text-lg active:!bg-transparent active:!text-inherit"
                         className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm "
                     >
                         <li>
-                            <button type="button" onClick={() => {
-                                handleLogout("logout");
-                            }} className="text-red-500">Log Out</button>
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    handleLogout("logout");
+                                }}
+                                className="text-red-500"
+                            >
+                                Log Out
+                            </button>
                         </li>
                     </ul>
                 </div>

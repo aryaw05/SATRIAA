@@ -4,12 +4,16 @@ import { router } from "@inertiajs/react";
 import useActionForm from "../../hooks/useActionForm";
 import { handleSubmit } from "../../utils/handleCRUD";
 import GpsRealtime from "./gps"; // pastikan path sudah benar
+import { useAlert } from "../../hooks/useAlert";
+import AlertList from "../../components/alert/AlertList";
 
 const DashboardKernet = (props) => {
     const { buses } = props;
     const { formData, handleChange } = useActionForm({
         password: "",
     });
+
+    const { showError, showSuccess, clearAlert, isAlert } = useAlert();
 
     const [activeBus, setActiveBus] = useState(null);
 
@@ -85,55 +89,70 @@ const DashboardKernet = (props) => {
                         <div className="h-px bg-black w-full mb-5"></div>
 
                         <dialog id={`my_modal_${e.id_bus}`} className="modal">
-                            <div className="modal-box">
-                                <form method="dialog">
-                                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-                                        ✕
-                                    </button>
-                                </form>
-                                <h3 className="font-bold text-lg">
-                                    Masukkan Password {e.nomor_bus}
-                                </h3>
-
-                                <form
-                                    onSubmit={(ev) => {
-                                        ev.preventDefault();
-                                        // Kirim data login bus
-                                        const success = handleSubmit(
-                                            ev,
-                                            "/logBus",
-                                            {
-                                                ...formData,
-                                                id_bus: e.id_bus,
-                                            }
-                                        );
-
-                                        if (success) {
-                                            handleBusLogin(e.id_bus); // set bus aktif
-                                            document
-                                                .getElementById(
-                                                    `my_modal_${e.id_bus}`
-                                                )
-                                                .close();
-                                        }
-                                    }}
-                                >
-                                    <div className="flex flex-col justify-center px-9 min-h-60 gap-8">
-                                        <input
-                                            className="input input-bordered w-full"
-                                            type="password"
-                                            name="password"
-                                            placeholder="********"
-                                            onChange={handleChange}
-                                        />
-                                        <button
-                                            className="btn bg-orange-primary hover:opacity-80"
-                                            type="submit"
-                                        >
-                                            Submit
+                            <div className="flex flex-col items-center w-full">
+                                <AlertList
+                                    isAlert={isAlert}
+                                    clearAlert={clearAlert}
+                                />
+                                <div className="modal-box  ">
+                                    <form method="dialog">
+                                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                                            ✕
                                         </button>
-                                    </div>
-                                </form>
+                                    </form>
+                                    <h3 className="font-bold text-lg">
+                                        Masukkan Password {e.nomor_bus}
+                                    </h3>
+
+                                    <form
+                                        onSubmit={(ev) => {
+                                            ev.preventDefault();
+                                            // Kirim data login bus
+                                            const success = handleSubmit(
+                                                ev,
+                                                "/logBus",
+                                                {
+                                                    ...formData,
+                                                    id_bus: e.id_bus,
+                                                },
+                                                {
+                                                    onError: (errors) => {
+                                                        showError(
+                                                            Object.values(
+                                                                errors
+                                                            )
+                                                        );
+                                                    },
+                                                }
+                                            );
+
+                                            if (success) {
+                                                handleBusLogin(e.id_bus); // set bus aktif
+                                                document
+                                                    .getElementById(
+                                                        `my_modal_${e.id_bus}`
+                                                    )
+                                                    .close();
+                                            }
+                                        }}
+                                    >
+                                        <div className="flex flex-col justify-center px-9 min-h-60 gap-8">
+                                            <input
+                                                className="input input-bordered w-full"
+                                                type="password"
+                                                name="password"
+                                                placeholder="********"
+                                                onChange={handleChange}
+                                            />
+                                            <button
+                                                className="btn bg-orange-primary hover:opacity-80"
+                                                type="submit"
+                                            >
+                                                Submit
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </dialog>
                     </div>
