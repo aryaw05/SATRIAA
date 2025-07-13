@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bus;
+use App\Models\TrackingBus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
@@ -32,16 +33,17 @@ class BusController extends Controller
         $validated['status'] = $validated['status'] ?? 'aktif';
         $data['password'] = Hash::make($data['password']);
 
-        Bus::create($data);;
+       $bus =  Bus::create($data);;
+
+        TrackingBus::create([
+        'id_bus' => $bus->id_bus, 
+        'lokasi_lat' => 0.0, 
+        'lokasi_long' => 0.0,
+        'waktu_update' => now(),
+    ]);
 
         // Redirect ke halaman list bus dengan pesan sukses
         return redirect()->route('bus.index')->with('success', 'Bus berhasil ditambahkan');
-    }
-
-    // Menampilkan form edit bus
-    public function edit(Bus $bus)
-    {
-        return view('bus.edit', compact('bus'));  // view untuk form edit bus
     }
 
     // Update data bus

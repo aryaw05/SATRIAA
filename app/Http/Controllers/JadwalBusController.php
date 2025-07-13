@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Events\DataHalteEvent;
+use App\Models\Bus;
+use App\Models\Halte;
 use Illuminate\Http\Request;
 use App\Models\JadwalBus;
 

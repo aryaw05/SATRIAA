@@ -12,10 +12,12 @@ const DashboardKernet = (props) => {
     const { formData, handleChange } = useActionForm({
         password: "",
     });
-
-    const { showError, showSuccess, clearAlert, isAlert } = useAlert();
-
+    const { showError, clearAlert, isAlert } = useAlert();
     const [activeBus, setActiveBus] = useState(null);
+
+
+
+    
 
     function logoutButton() {
         router.post("/logout");

@@ -15,8 +15,8 @@ const GpsSatria = (props) => {
     const { bus } = props;
 
     const [isActive, setIsActive] = useState(false);
-    const [kepadatan, setKepadatan] = useState("Pilih Tingkat Kepadatan");
-    const [statusBus, setStatusBus] = useState("Pilih Status Bus");
+    const [kepadatan, setKepadatan] = useState(false);
+    const [statusBus, setStatusBus] = useState(false);
     const [openKepadatan, setOpenKepadatan] = useState(false);
     const [openStatusBus, setOpenStatusBus] = useState(false);
     const intervalRef = useRef(null);
@@ -83,6 +83,23 @@ const GpsSatria = (props) => {
         // );
     };
 
+    function updateKondisiBus() {
+        const data = {
+            id_bus: bus.id_bus,
+            status: statusBus,
+            kepadatan: kepadatan,
+        };
+
+        // Update status bus
+        router.put(`/kernet/dashboard/bus/updateStatus/${data.id_bus}`, data, {
+            onError: (errors) => {
+                console.error("Gagal kirim status bus:", errors);
+            },
+            onSuccess: () => {
+                console.log(`Status Bus ${bus.id_bus} terkirim:`, statusBus);
+            },
+        });
+    }
     useEffect(() => {
         if (isActive) {
             updateLocation();
@@ -96,13 +113,8 @@ const GpsSatria = (props) => {
         };
     }, [isActive, bus.id_bus, kepadatan, statusBus]);
 
-    // Update Firebase when kepadatan or statusBus changes
     useEffect(() => {
-        if (
-            isActive &&
-            (kepadatan !== "Pilih Tingkat Kepadatan" ||
-                statusBus !== "Pilih Status Bus")
-        ) {
+        if (isActive && (kepadatan || statusBus)) {
             updateLocation();
         }
     }, [kepadatan, statusBus]);
@@ -173,7 +185,9 @@ const GpsSatria = (props) => {
                                         setOpenKepadatan(!openKepadatan)
                                     }
                                 >
-                                    {kepadatan}
+                                    {kepadatan
+                                        ? kepadatan
+                                        : "Pilih Tingkat Kepadatan"}
                                     <svg
                                         className={`w-4 h-4 ml-2 transition-transform ${
                                             openKepadatan ? "rotate-180" : ""
@@ -270,7 +284,9 @@ const GpsSatria = (props) => {
                                         className="text-3xl text-black"
                                     />
                                     <span className="flex-1 text-left">
-                                        {statusBus}
+                                        {statusBus
+                                            ? statusBus
+                                            : "Pilih Status Bus"}
                                     </span>
                                     <svg
                                         className={`w-4 h-4 transition-transform ${
