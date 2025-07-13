@@ -4,17 +4,13 @@ function handleSubmit(e, route, formData, options = {}) {
     router.post(route, formData, options);
 }
 
-function handleDelete(id, route) {
-    const res = router.delete(`/${route}/${id}`);
+function handleDelete(id, route, options = {}) {
+    const res = router.delete(`/${route}/${id}`, options);
 }
 
-function handleEdit(e, route, id, formData) {
+function handleEdit(e, route, id, formData, options = {}) {
     e.preventDefault();
-    router.put(`/${route}/${id}`, formData, {
-        onError: (errors) => {
-            console.log("Error:", errors);
-        },
-    });
+    router.put(`/${route}/${id}`, formData, options);
 }
 
 function handleEditNotForm(route, id, formData) {

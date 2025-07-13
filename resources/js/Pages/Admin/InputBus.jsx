@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { handleDelete, handleEdit, handleSubmit } from "../../utils/handleCRUD";
 import useActionForm from "../../hooks/useActionForm";
+import { useAlert } from "../../hooks/useAlert";
+import AlertList from "../../components/alert/AlertList";
 
 export default function InputBus(props) {
     const { buses, halte } = props;
+    const { showError, showSuccess, clearAlert, isAlert } = useAlert();
     const [dataBus, setDataBus] = useState({
         index: null,
     });
@@ -38,6 +41,7 @@ export default function InputBus(props) {
     }
     return (
         <>
+            <AlertList isAlert={isAlert} clearAlert={clearAlert} />
             <div className="lg:w-1/2 w-full">
                 <button
                     className="btn bg-orange-500 mb-3 rounded-lg w-1/2 lg:w-auto"
@@ -77,7 +81,26 @@ export default function InputBus(props) {
                                                     onClick={() =>
                                                         handleDelete(
                                                             e.id_bus,
-                                                            "admin/dashboard/bus/delete"
+                                                            "admin/dashboard/bus/delete",
+                                                            {
+                                                                onSuccess:
+                                                                    () => {
+                                                                        showSuccess(
+                                                                            [
+                                                                                "Data bus berhasil dihapus",
+                                                                            ]
+                                                                        );
+                                                                    },
+                                                                onError: (
+                                                                    errors
+                                                                ) => {
+                                                                    showError(
+                                                                        Object.values(
+                                                                            errors
+                                                                        )
+                                                                    );
+                                                                },
+                                                            }
                                                         )
                                                     }
                                                 >
@@ -106,6 +129,7 @@ export default function InputBus(props) {
 
             {/* Modal Tambah Data Bus */}
             <dialog id="my_modal_2" className="modal">
+                <AlertList isAlert={isAlert} clearAlert={clearAlert} />
                 <div className="modal-box rounded-3xl w-[95%] max-w-md">
                     <form method="dialog">
                         <button
@@ -129,7 +153,17 @@ export default function InputBus(props) {
                             handleSubmit(
                                 e,
                                 "/admin/dashboard/bus/add",
-                                formData
+                                formData,
+                                {
+                                    onSuccess: () => {
+                                        showSuccess([
+                                            "Data bus berhasil ditambahkan",
+                                        ]);
+                                    },
+                                    onError: (errors) => {
+                                        showError(Object.values(errors));
+                                    },
+                                }
                             );
                         }}
                     >
@@ -178,7 +212,7 @@ export default function InputBus(props) {
                             </label>
                             <input
                                 onChange={handleChange}
-                                type="text"
+                                type="password"
                                 name="password"
                                 className="input w-full bg-gray-100"
                                 placeholder="Masukkan Password Bus"
@@ -198,6 +232,7 @@ export default function InputBus(props) {
 
             {/* Modal Edit Data Bus */}
             <dialog id="my_modal_3" className="modal">
+                <AlertList isAlert={isAlert} clearAlert={clearAlert} />
                 <div className="modal-box rounded-3xl w-[95%] max-w-md">
                     <form method="dialog">
                         <button
@@ -218,7 +253,17 @@ export default function InputBus(props) {
                                 e,
                                 "admin/dashboard/bus/edit",
                                 formData?.id_bus,
-                                formData
+                                formData,
+                                {
+                                    onSuccess: () => {
+                                        showSuccess([
+                                            "Data bus berhasil diubah",
+                                        ]);
+                                    },
+                                    onError: (errors) => {
+                                        showError(Object.values(errors));
+                                    },
+                                }
                             );
                         }}
                     >

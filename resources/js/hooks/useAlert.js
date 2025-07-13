@@ -19,6 +19,7 @@ export function useAlert() {
     };
 
     const clearAlert = () => {
+        console.log("clearing alert");
         setIsAlert({
             errors: [],
             success: [],

@@ -18,24 +18,17 @@ export default function JadwalBus(props) {
             const jadwalBus = jadwal[dataJadwal.indexBus];
 
             setFormData({
+                id_halte: jadwalBus.id_halte || "",
                 id_jadwal: jadwalBus.id_jadwal || "",
                 id_bus: jadwalBus.id_bus || "",
                 waktu_berangkat: jadwalBus.waktu_berangkat || "",
                 waktu_tiba: jadwalBus.waktu_tiba || "",
             });
-        }
-        setFormData({});
-    }, [dataJadwal]);
-
-    useEffect(() => {
-        if (isAlert.errors?.length > 0 || isAlert.success?.length > 0) {
-            setTimeout(() => {
-                clearAlert();
-            }, 5000);
         } else {
-            console.log("tidak ada alert");
+            setFormData({});
         }
-    }, [isAlert]);
+    }, [dataJadwal]);
+    console.log(formData);
 
     function editDataJadwal(modalId, index) {
         const modal = document.getElementById(modalId);
@@ -51,6 +44,8 @@ export default function JadwalBus(props) {
     }
     return (
         <>
+            <AlertList isAlert={isAlert} clearAlert={clearAlert} />
+
             <div className="lg:w-1/2 w-full">
                 <button
                     className="btn bg-orange-400 mb-3 rounded-lg w-1/2 lg:w-auto"
@@ -93,7 +88,26 @@ export default function JadwalBus(props) {
                                                     onClick={() =>
                                                         handleDelete(
                                                             e.id_jadwal,
-                                                            "admin/dashboard/jadwal/delete"
+                                                            "admin/dashboard/jadwal/delete",
+                                                            {
+                                                                onSuccess:
+                                                                    () => {
+                                                                        showSuccess(
+                                                                            [
+                                                                                "Data Berhasil Dihapus",
+                                                                            ]
+                                                                        );
+                                                                    },
+                                                                onError: (
+                                                                    errors
+                                                                ) => {
+                                                                    showError(
+                                                                        Object.values(
+                                                                            errors
+                                                                        )
+                                                                    );
+                                                                },
+                                                            }
                                                         )
                                                     }
                                                 >
@@ -121,7 +135,7 @@ export default function JadwalBus(props) {
             </div>
             {/* Modal Tambah Jadwal */}
             <dialog id="my_modal_1" className="modal">
-                <AlertList isAlert={isAlert} />
+                <AlertList isAlert={isAlert} clearAlert={clearAlert} />
                 <div className="modal-box rounded-3xl w-[95%] max-w-md">
                     <form method="dialog">
                         <button
@@ -233,13 +247,13 @@ export default function JadwalBus(props) {
 
             {/* Modal edit Data Jadwal */}
             <dialog id="my_modal_4" className="modal">
+                <AlertList isAlert={isAlert} clearAlert={clearAlert} />
                 <div className="modal-box rounded-3xl w-[95%] max-w-md">
                     <form method="dialog">
                         <button
                             className="btn btn-lg btn-circle absolute border-transparent right-4 top-4 bg-transparent hover:bg-transparent !hover:text-black"
                             onClick={() =>
                                 setdataJadwal({
-                                    idBus: null,
                                     indexBus: null,
                                 })
                             }
@@ -258,7 +272,15 @@ export default function JadwalBus(props) {
                                 e,
                                 "admin/dashboard/jadwal/edit",
                                 formData?.id_jadwal,
-                                formData
+                                formData,
+                                {
+                                    onSuccess: () => {
+                                        showSuccess(["Data Berhasil Diubah"]);
+                                    },
+                                    onError: (errors) => {
+                                        showError(Object.values(errors));
+                                    },
+                                }
                             );
                         }}
                     >

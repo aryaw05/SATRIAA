@@ -6,10 +6,14 @@ import Navbar from "./Navbar";
 import { handleDelete, handleEdit, handleSubmit } from "../../utils/handleCRUD";
 import useActionForm from "../../hooks/useActionForm";
 import MapProvider from "../../data/MapProvider";
+import { useAlert } from "../../hooks/useAlert";
+import AlertList from "../../components/alert/AlertList";
 
 const HalteSatria = (props) => {
     const { halte } = props;
     const { formData, handleChange, setFormData } = useActionForm();
+
+    const { isAlert, clearAlert, showError, showSuccess } = useAlert();
 
     const [dataHalte, setDataHalte] = useState({
         halte_id: null,
@@ -205,6 +209,7 @@ const HalteSatria = (props) => {
             {/* mdal edit halte */}
 
             <dialog id="editModal" className="modal">
+                <AlertList isAlert={isAlert} clearAlert={clearAlert} />
                 <div className="modal-box rounded-3xl w-[95%] max-w-md">
                     <form method="dialog">
                         <button className="btn btn-lg btn-circle absolute border-transparent right-4 top-4 bg-transparent hover:bg-transparent !hover:text-black">
@@ -222,7 +227,15 @@ const HalteSatria = (props) => {
                                 e,
                                 "editHalte",
                                 formData.halte_id,
-                                formData
+                                formData,
+                                {
+                                    onSuccess: () => {
+                                        showSuccess(["Data Berhasil Diubah"]);
+                                    },
+                                    onError: (errors) => {
+                                        showError(Object.values(errors));
+                                    },
+                                }
                             );
                         }}
                     >
