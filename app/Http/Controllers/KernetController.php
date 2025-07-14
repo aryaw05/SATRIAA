@@ -29,23 +29,56 @@ class KernetController extends Controller
         return redirect()->back()->with('success', 'Status bus berhasil diperbarui');
     }
 
-    public function updateKapasitasDanKondisi(Request $request, Bus $bus)
-    {
-        $request->validate([
-            'kapasitas_tempat_duduk' => 'integer',
-            'kondisi' => 'string|max:255',
-        ]);
 
-        $bus->update([
-            'kapasitas_tempat_duduk' => $request->kapasitas_tempat_duduk,
-            'kondisi' => $request->kondisi,
-        ]);
+    public function updateKapasitas(Request $request, Bus $bus)
+{
+    $request->validate([
+        'kapasitas_tempat_duduk' => 'integer',
+    ]);
 
-        // broadcast(new updateKapasitasBusEvent(
-        //     $bus->id_bus,
-        //     $bus->kapasitas_tempat_duduk
-        // ));
+    $bus->fill([
+        'kapasitas_tempat_duduk' => $request->kapasitas_tempat_duduk,
+    ]);
 
-        return redirect()->back()->with('success', 'Kapasitas dan kondisi bus berhasil diperbarui');
+    $kapasitasBerubah = $bus->isDirty('kapasitas_tempat_duduk'); 
+
+    $bus->save();
+
+    if ($kapasitasBerubah) {
+        broadcast(new updateKapasitasBusEvent([
+            [
+                'id_bus' => $bus->id_bus,
+                'kepadatan' => $bus->kapasitas_tempat_duduk,
+            ]
+        ]));
     }
+
+    return redirect()->back()->with('success', 'Kapasitas dan kondisi bus berhasil diperbarui');
+}
+ public function updateKondisi(Request $request, Bus $bus)
+{
+    $request->validate([
+        'kondisi' => 'string|max:255',
+    ]);
+
+    $bus->fill([
+        'kondisi' => $request->kondisi,
+    ]);
+
+    $kapasitasBerubah = $bus->isDirty('kondisi'); 
+
+    $bus->save();
+
+    if ($kapasitasBerubah) {
+        broadcast(new updateKapasitasBusEvent([
+            [
+                'id_bus' => $bus->id_bus,
+                'kondisi' => $bus->kondisi,
+            ]
+        ]));
+    }
+
+    return redirect()->back()->with('success', 'Kapasitas dan kondisi bus berhasil diperbarui');
+}
+
 }

@@ -3,8 +3,10 @@ import NavigationButton from "./Navigation-button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSwipeable } from "react-swipeable";
 export default function MenuBar(props) {
-    const { onClickBus, onClickUser, totalJadwal, detailBus } = props;
+    const { onClickBus, onClickUser, totalJadwal, detailBus, dataBus } = props;
+
     const [idBus, setIdBus] = useState(null);
+    console.log("Dataaa:", dataBus);
 
     const [swipeCount, setSwipeCount] = useState(0);
     const [openState, setOpenState] = useState("closed");
@@ -115,8 +117,12 @@ export default function MenuBar(props) {
                                 Kapasitas Tersedia
                             </p>
                             <p className="text-lg font-medium">
-                                {detailBus.find((bus) => bus.id_bus === idBus)
-                                    ?.kapasitas_tempat_duduk || "-"}
+                                {dataBus.find((bus) => bus.id_bus === idBus)
+                                    ?.kepadatan ||
+                                    detailBus.find(
+                                        (bus) => bus.id_bus === idBus
+                                    )?.kapasitas_tempat_duduk ||
+                                    "-"}
                             </p>
                         </div>
                     </div>
@@ -152,6 +158,18 @@ export default function MenuBar(props) {
                                     {detailBus.find(
                                         (bus) => bus.id_bus === idBus
                                     )?.plat_nomor || "-"}
+                                </span>
+                            </div>
+                            <div className="grid grid-cols-[90px_10px_1fr] text-md font-medium">
+                                <span>Kondisi Bus </span>
+                                <span>:</span>
+                                <span className="text-black font-bold">
+                                    {dataBus.find((bus) => bus.id_bus === idBus)
+                                        ?.kondisi ||
+                                        detailBus.find(
+                                            (bus) => bus.id_bus === idBus
+                                        )?.kondisi ||
+                                        "-"}
                                 </span>
                             </div>
                         </div>

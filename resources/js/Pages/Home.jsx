@@ -11,13 +11,7 @@ export default function Home(props) {
 
     const [jumlahBus, setJumlahBus] = useState([]);
 
-    const [dataBus, setDataBus] = useState({
-        namaBus: "",
-        namaHalte: "",
-        kepadatan: "",
-        statusBus: "",
-        id_bus: "",
-    });
+    const [dataBus, setDataBus] = useState([]);
     useEffect(() => {
         window.Echo.channel("data-halte").listen(".data.halte.updated", (e) => {
             setDataBus({
@@ -35,9 +29,22 @@ export default function Home(props) {
         window.Echo.channel("data-kepadatan-bus.").listen(
             ".kepadatan.updated",
             (e) => {
-                setDataBus({
-                    kepadatan: e.kepadatan,
-                    id_bus: e.id_bus,
+                setDataBus((prevData) => {
+                    let updated = [...prevData];
+
+                    e.data.forEach((incoming) => {
+                        const index = updated.findIndex(
+                            (b) => b.id_bus === incoming.id_bus
+                        );
+
+                        if (index !== -1) {
+                            updated[index] = { ...updated[index], ...incoming };
+                        } else {
+                            updated.push(incoming);
+                        }
+                    });
+
+                    return updated;
                 });
             }
         );
@@ -59,7 +66,6 @@ export default function Home(props) {
 
     return (
         <div>
-            <h1>TES NAMA HALTE : {dataBus.kepadatan}</h1>
             <MapProvider
                 halte={halte}
                 isAdmin={false}
@@ -71,6 +77,7 @@ export default function Home(props) {
                 onClickBus={busSearch}
                 onClickUser={Location}
                 detailBus={buses}
+                dataBus={dataBus}
             />
         </div>
     );

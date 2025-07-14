@@ -58,13 +58,12 @@ Route::middleware('web')->group(function () {
     Route::post('/logBus', [BusLoginController::class, 'prosesLoginBus'])->name('prosesLoginBus')->middleware('auth');
     Route::post('/logoutBus', [BusLoginController::class, 'logoutBus'])->name('logoutBus')->middleware('auth');
     Route::get('/kernet/dashboard/bus', [BusLoginController::class, 'dashboard'])->name('dashboard');
-    Route::put('/kernet/dashboard/bus/updateStatus/{bus}', [KernetController::class, 'updateBusStatus'])->name('bus.update');
-    Route::put('/kernet/dashboard/bus/updateKapasitas/{bus}', [KernetController::class, 'updateKapasitasDanKondisi'])->name('bus.update');
+    Route::put('/kernet/dashboard/bus/updateKondisi/{bus}', [KernetController::class, 'updateKondisi'])->name('bus.update');
+    Route::put('/kernet/dashboard/bus/updateKapasitas/{bus}', [KernetController::class, 'updateKapasitas'])->name('bus.update');
     Route::post('/kernet/dashboard/location/update', [BusLocationController::class, 'updateLocation']);
   });
 });
 
 
-// Route::resource('crudDataBus', \App\Http\Controllers\JadwalBusController::class);
 
 Route::get('/', [HomeController::class, 'index'])->name('index');

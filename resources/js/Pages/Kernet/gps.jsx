@@ -91,9 +91,9 @@ const GpsSatria = (props) => {
 
     function updateStatusBus() {
         router.put(
-            `/kernet/dashboard/bus/updateStatus/${bus.id_bus}`,
+            `/kernet/dashboard/bus/updateKondisi/${bus.id_bus}`,
             {
-                status: statusBus,
+                kondisi: statusBus,
             },
             {
                 onError: (errors) => {
