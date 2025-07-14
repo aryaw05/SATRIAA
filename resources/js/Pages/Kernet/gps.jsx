@@ -20,6 +20,7 @@ const GpsSatria = (props) => {
     const [openKepadatan, setOpenKepadatan] = useState(false);
     const [openStatusBus, setOpenStatusBus] = useState(false);
     const intervalRef = useRef(null);
+    console.log("duduk", kepadatan);
 
     const toggleGps = () => setIsActive((prev) => !prev);
     const updateLocation = () => {
@@ -82,23 +83,46 @@ const GpsSatria = (props) => {
         //     { enableHighAccuracy: true }
         // );
     };
+    // const data = {
+    //     id_bus: bus.id_bus,
+    //     status: statusBus,
+    //     kepadatan: kepadatan,
+    // };
 
-    function updateKondisiBus() {
-        const data = {
-            id_bus: bus.id_bus,
-            status: statusBus,
-            kepadatan: kepadatan,
-        };
-
-        // Update status bus
-        router.put(`/kernet/dashboard/bus/updateStatus/${data.id_bus}`, data, {
-            onError: (errors) => {
-                console.error("Gagal kirim status bus:", errors);
+    function updateStatusBus() {
+        router.put(
+            `/kernet/dashboard/bus/updateStatus/${bus.id_bus}`,
+            {
+                status: statusBus,
             },
-            onSuccess: () => {
-                console.log(`Status Bus ${bus.id_bus} terkirim:`, statusBus);
+            {
+                onError: (errors) => {
+                    console.error("Gagal kirim status bus:", errors);
+                },
+                onSuccess: () => {
+                    console.log(
+                        `Status Bus ${bus.id_bus} terkirim:`,
+                        statusBus
+                    );
+                },
+            }
+        );
+    }
+    function updateKapasitasBus() {
+        router.put(
+            `/kernet/dashboard/bus/updateKapasitas/${bus.id_bus}`,
+            {
+                kapasitas_tempat_duduk: kepadatan,
             },
-        });
+            {
+                onError: (errors) => {
+                    console.error("Gagal kirim status bus:", errors);
+                },
+                onSuccess: () => {
+                    console.log(`Kapasitas ${bus.id_bus} terkirim:`, kepadatan);
+                },
+            }
+        );
     }
     useEffect(() => {
         if (isActive) {
@@ -114,10 +138,16 @@ const GpsSatria = (props) => {
     }, [isActive, bus.id_bus, kepadatan, statusBus]);
 
     useEffect(() => {
-        if (isActive && (kepadatan || statusBus)) {
-            updateLocation();
+        if (isActive && kepadatan) {
+            updateKapasitasBus();
         }
-    }, [kepadatan, statusBus]);
+    }, [kepadatan]);
+
+    useEffect(() => {
+        if (isActive && statusBus) {
+            updateStatusBus();
+        }
+    }, [statusBus]);
 
     return (
         <div className="bg-gray-100 min-h-screen items-center justify-center">
@@ -133,9 +163,7 @@ const GpsSatria = (props) => {
             {/* Konten */}
             <div className="bg-gray-100 min-h-screen mx-5">
                 <div className="bg-white rounded-3xl mt-10 mx-5 px-6 py-6 w-full max-w-md mx-auto">
-                    <h1 className="font-bold text-2xl mb-0">
-                        SATRIA {bus.id_bus}
-                    </h1>
+                    <h1 className="font-bold text-2xl mb-0">{bus.nomor_bus}</h1>
 
                     <h2 className="text-gray-400 text-xl mb-3">ON/OFF GPS</h2>
 
@@ -186,7 +214,7 @@ const GpsSatria = (props) => {
                                     }
                                 >
                                     {kepadatan
-                                        ? kepadatan
+                                        ? kepadatan + "%"
                                         : "Pilih Tingkat Kepadatan"}
                                     <svg
                                         className={`w-4 h-4 ml-2 transition-transform ${
@@ -211,7 +239,7 @@ const GpsSatria = (props) => {
                                             <button
                                                 className="bg-yellow-100"
                                                 onClick={() => {
-                                                    setKepadatan("10% Sedikit");
+                                                    setKepadatan(10);
                                                     setOpenKepadatan(false);
                                                 }}
                                             >
@@ -221,7 +249,7 @@ const GpsSatria = (props) => {
                                         <li>
                                             <button
                                                 onClick={() => {
-                                                    setKepadatan("30% Sedikit");
+                                                    setKepadatan(30);
                                                     setOpenKepadatan(false);
                                                 }}
                                             >
@@ -232,9 +260,7 @@ const GpsSatria = (props) => {
                                             <button
                                                 className="bg-yellow-100"
                                                 onClick={() => {
-                                                    setKepadatan(
-                                                        "50% Cukup Ramai"
-                                                    );
+                                                    setKepadatan(50);
                                                     setOpenKepadatan(false);
                                                 }}
                                             >
@@ -244,7 +270,7 @@ const GpsSatria = (props) => {
                                         <li>
                                             <button
                                                 onClick={() => {
-                                                    setKepadatan("70% Ramai");
+                                                    setKepadatan(70);
                                                     setOpenKepadatan(false);
                                                 }}
                                             >
@@ -255,7 +281,7 @@ const GpsSatria = (props) => {
                                             <button
                                                 className="bg-yellow-100"
                                                 onClick={() => {
-                                                    setKepadatan("100% Ramai");
+                                                    setKepadatan(100);
                                                     setOpenKepadatan(false);
                                                 }}
                                             >

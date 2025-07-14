@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\updateKapasitasBusEvent;
 use App\Models\Bus;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -39,6 +40,11 @@ class KernetController extends Controller
             'kapasitas_tempat_duduk' => $request->kapasitas_tempat_duduk,
             'kondisi' => $request->kondisi,
         ]);
+
+        // broadcast(new updateKapasitasBusEvent(
+        //     $bus->id_bus,
+        //     $bus->kapasitas_tempat_duduk
+        // ));
 
         return redirect()->back()->with('success', 'Kapasitas dan kondisi bus berhasil diperbarui');
     }

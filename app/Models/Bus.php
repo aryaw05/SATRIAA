@@ -16,7 +16,7 @@ class Bus extends Model
                 'plat_nomor',
                 'jenis_bus',
                 'rute',
-                'kapsitas_tempat_duduk',
+                'kapasitas_tempat_duduk',
                 'status',
                 'kondisi',
                 'password'

@@ -20,9 +20,9 @@ const MapProvider = forwardRef((props, ref) => {
         lat: null,
         long: null,
     });
-    const { halte, onHalteClick, isAdmin = false , bus } = props;
+    const { halte, onHalteClick, isAdmin = false, bus } = props;
     // console.log("busMarker" , busMarkerRef.current);
-    
+
     const clickZoom = useCallback(
         (e) => {
             mapRef.current.setView(e.target.getLatLng(), 25);
@@ -81,24 +81,20 @@ const MapProvider = forwardRef((props, ref) => {
                 )
                     .addTo(mapRef.current)
                     .on("click", clickZoom));
-                    
-                }
-                else{
-                 const existingMarker = busMarkerRef.current[bus.id];
+            } else {
+                const existingMarker = busMarkerRef.current[bus.id];
                 const currentLatLng = existingMarker.getLatLng();
 
-            if (
-                currentLatLng.lat !== bus.lat ||
-                currentLatLng.lng !== bus.lng
-            ) {
-                existingMarker.setLatLng([bus.lat, bus.lng]);
-            }
-                // console.log(busMarkerRef.current);
+                if (
+                    currentLatLng.lat !== bus.lat ||
+                    currentLatLng.lng !== bus.lng
+                ) {
+                    existingMarker.setLatLng([bus.lat, bus.lng]);
                 }
-           
-                
-        } );
-    }, [bus ]);
+                // console.log(busMarkerRef.current);
+            }
+        });
+    }, [bus]);
     // halte
     useEffect(() => {
         // terminal
@@ -129,16 +125,19 @@ const MapProvider = forwardRef((props, ref) => {
                 .on("click", clickZoom);
         }
     }, [myLocation]);
-    const  busSearchHandle  = useCallback((busId)  => {
-        if(bus.length === 0) {
-            alert("Tidak ada bus yang ditemukan");
-            return;
-        }
-        const buses =  bus.find((b) => b.id === busId); 
-        if (buses && mapRef.current) {
-            mapRef.current.flyTo([buses.lat, buses.lng], 17);
-        }
-    }, [bus]);
+    const busSearchHandle = useCallback(
+        (busId) => {
+            // if(bus.length === 0) {
+            //     alert("Tidak ada bus yang ditemukan");
+            //     return;
+            // }
+            const buses = bus.find((b) => b.id === busId);
+            if (buses && mapRef.current) {
+                mapRef.current.flyTo([buses.lat, buses.lng], 17);
+            }
+        },
+        [bus]
+    );
 
     const userLocationHandle = useCallback(() => {
         if (navigator.geolocation) {

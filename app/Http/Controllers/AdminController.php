@@ -30,18 +30,12 @@ class AdminController extends Controller
         $buses = Bus::all();
         $jadwal = JadwalBus::with(['bus', 'halte'])->get();
         $tracking = TrackingBus::with('bus')->get();
-        // Kirim broadcast setiap data tracking
-    foreach ($tracking as $track) {
-        broadcast(new LocationUpdated(
-            $track->id_bus,
-            $track->lokasi_lat,
-            $track->lokasi_long
-        ));
-    }
+        
         return Inertia::render('Admin/Layout/DashboardLayout', [
             'jadwal' => $jadwal,
             'buses' => $buses,
             'halte' => $halte
+
         ]);
         
   
