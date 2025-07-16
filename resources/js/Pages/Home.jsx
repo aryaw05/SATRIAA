@@ -5,26 +5,11 @@ import MenuBar from "../components/menu-bar/Menu-bar";
 import MapProvider from "../data/MapProvider";
 import "../bootstrap.js";
 export default function Home(props) {
-    const { halte, buses, jadwal } = props;
+    const { halte, buses, jadwal, tracking } = props;
 
     const mapProviderRef = useRef(null);
-
-    const [jumlahBus, setJumlahBus] = useState([]);
-
     const [dataBus, setDataBus] = useState([]);
-    useEffect(() => {
-        window.Echo.channel("data-halte").listen(".data.halte.updated", (e) => {
-            setDataBus({
-                namaBus: e.namaBus,
-                namaHalte: e.namaHalte,
-            });
-        });
-
-        return () => {
-            window.Echo.leave("data-halte");
-        };
-    }, []);
-
+    const [location, setLocation] = useState([]);
     useEffect(() => {
         window.Echo.channel("data-kepadatan-bus.").listen(
             ".kepadatan.updated",
@@ -53,6 +38,63 @@ export default function Home(props) {
             window.Echo.leave("data-kepadatan-bus.");
         };
     }, []);
+
+    // useEffect(() => {
+    //     const channel = window.Echo.channel("location-updated.");
+
+    //     channel.listen(".bus.location.updated", (e) => {
+    //         // Update object keyed by id_bus
+    //         setLocation((prev) => {
+    //             const updated = { ...prev };
+
+    //             e.data.forEach((bus) => {
+    //                 updated[bus.id_bus] = bus;
+    //             });
+
+    //             return updated;
+    //         });
+    //     });
+
+    //     return () => {
+    //         window.Echo.leave("location-updated.");
+    //     };
+    // }, []);
+    // const BusLocationData = Object.values(location).map((bus) => ({ bus }));
+
+    // console.log(BusLocationData);
+
+    // console.log(location);
+    useEffect(() => {
+        window.Echo.channel("location-updated.").listen(
+            ".bus.location.updated",
+            (e) => {
+                setLocation((prevData) => {
+                    let updated = [...prevData];
+
+                    e.data.forEach((incoming) => {
+                        const index = updated.findIndex(
+                            (b) => b.id_bus === incoming.id_bus
+                        );
+
+                        if (index !== -1) {
+                            updated[index] = { ...updated[index], ...incoming };
+                        } else {
+                            updated.push(incoming);
+                        }
+                    });
+                    console.log(updated);
+
+                    return updated;
+                });
+            }
+        );
+
+        return () => {
+            window.Echo.leave("location-updated.");
+        };
+    }, []);
+    console.log(location);
+
     const Location = () => {
         if (mapProviderRef.current) {
             mapProviderRef.current.userLocationHandle();
@@ -70,7 +112,9 @@ export default function Home(props) {
                 halte={halte}
                 isAdmin={false}
                 ref={mapProviderRef}
-                bus={jumlahBus}
+                bus={tracking}
+                realTimeBus={location}
+                
             />
             <MenuBar
                 totalJadwal={jadwal}

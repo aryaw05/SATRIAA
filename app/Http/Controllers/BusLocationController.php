@@ -6,6 +6,7 @@ use App\Events\LocationUpdated;
 use App\Models\TrackingBus;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Events\updateKapasitasBusEvent;
 
 class BusLocationController extends Controller
 {
@@ -26,11 +27,15 @@ class BusLocationController extends Controller
                 'waktu_update' => now(),
             ]
         );
+          broadcast(new LocationUpdated([
+              [
+            'id_bus' => $tracking->id_bus,
+            'lokasi_lat' => $tracking->lokasi_lat,
+            'lokasi_long' => $tracking->lokasi_long,
+          ]
+        ]));
 
-
-        // return response()->json([
-        //     'message' => 'Lokasi berhasil diperbarui',
-        //     'data' => $tracking
-        // ]);
     }
+      
+
 }

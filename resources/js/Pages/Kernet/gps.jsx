@@ -29,65 +29,60 @@ const GpsSatria = (props) => {
             return;
         }
 
-        // navigator.geolocation.getCurrentPosition(
-        //     async (position) => {
-        //         const lat = position.coords.latitude;
-        //         const lng = position.coords.longitude;
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
 
-        //         try {
-        //             await set(ref(db, `buses/${bus.id_bus}`), {
-        //                 lat,
-        //                 lng,
-        //                 kepadatan,
-        //                 statusBus,
-        //                 id_bus: bus.id_bus,
-        //                 updatedAt: new Date().toISOString(),
-        //             });
-        //             console.log(`Lokasi Bus ${bus.id_bus} terkirim:`, lat, lng);
-        //         } catch (error) {
-        //             console.error("Gagal kirim lokasi:", error);
-        //         }
-        //     },
-        //     (error) => {
-        //         console.error("Gagal dapatkan lokasi:", error);
-        //     },
-        //     { enableHighAccuracy: true }
-        // );
+                try {
+                    await set(ref(db, `buses/${bus.id_bus}`), {
+                        lat,
+                        lng,
+                        kepadatan,
+                        statusBus,
+                        id_bus: bus.id_bus,
+                        updatedAt: new Date().toISOString(),
+                    });
+                    console.log(`Lokasi Bus ${bus.id_bus} terkirim:`, lat, lng);
+                } catch (error) {
+                    console.error("Gagal kirim lokasi:", error);
+                }
+            },
+            (error) => {
+                console.error("Gagal dapatkan lokasi:", error);
+            },
+            { enableHighAccuracy: true }
+        );
 
-        // navigator.geolocation.getCurrentPosition(
-        //     (position) => {
-        //         const lat = position.coords.latitude;
-        //         const lng = position.coords.longitude;
-        //         const data = {
-        //             id_bus: bus.id_bus,
-        //             lokasi_lat: lat,
-        //             lokasi_long: lng,
-        //         };
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                const data = {
+                    id_bus: bus.id_bus,
+                    lokasi_lat: lat,
+                    lokasi_long: lng,
+                };
 
-        //         router.post("/kernet/dashboard/location/update", data, {
-        //             onError: (errors) => {
-        //                 console.error("Gagal kirim lokasi:", errors);
-        //             },
-        //             onSuccess: () => {
-        //                 console.log(
-        //                     `Lokasi Bus ${bus.id_bus} terkirim:`,
-        //                     lat,
-        //                     lng
-        //                 );
-        //             },
-        //         });
-        //     },
-        //     (error) => {
-        //         console.error("Gagal dapatkan lokasi:", error);
-        //     },
-        //     { enableHighAccuracy: true }
-        // );
+                router.post("/kernet/dashboard/location/update", data, {
+                    onError: (errors) => {
+                        console.error("Gagal kirim lokasi:", errors);
+                    },
+                    onSuccess: () => {
+                        console.log(
+                            `Lokasi Bus ${bus.id_bus} terkirim:`,
+                            lat,
+                            lng
+                        );
+                    },
+                });
+            },
+            (error) => {
+                console.error("Gagal dapatkan lokasi:", error);
+            },
+            { enableHighAccuracy: true }
+        );
     };
-    // const data = {
-    //     id_bus: bus.id_bus,
-    //     status: statusBus,
-    //     kepadatan: kepadatan,
-    // };
 
     function updateStatusBus() {
         router.put(
@@ -127,7 +122,7 @@ const GpsSatria = (props) => {
     useEffect(() => {
         if (isActive) {
             updateLocation();
-            intervalRef.current = setInterval(updateLocation, 3000); // update tiap 3 detik
+            intervalRef.current = setInterval(updateLocation, 5000); // update tiap 3 detik
         } else {
             if (intervalRef.current) clearInterval(intervalRef.current);
         }

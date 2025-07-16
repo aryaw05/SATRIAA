@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import NavigationButton from "./Navigation-button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSwipeable } from "react-swipeable";
@@ -66,8 +66,11 @@ export default function MenuBar(props) {
                 return "translate-y-[83%]";
         }
     };
-    let setJadwal = [];
-    if (idBus) {
+
+    const setJadwal = useMemo(() => {
+        if (!idBus) {
+            return [];
+        }
         const hasil = [];
         totalJadwal.forEach((e) => {
             if (e.id_bus === idBus) {
@@ -75,13 +78,9 @@ export default function MenuBar(props) {
                 hasil.push(namaHalte);
             }
         });
-        setJadwal = [...new Set(hasil)];
 
-        // setJadwal.map((e) => {
-        //     console.log("Jadwal:", e);
-        // });
-    }
-    // console.log("Jadwal:", setJadwal);
+        return [...new Set(hasil)];
+    }, [idBus, totalJadwal]);
 
     return (
         <div
@@ -196,30 +195,6 @@ export default function MenuBar(props) {
                         Jadwal Kedatangan Satria
                     </p>
 
-                    {/* {totalJadwal.find((e) => e.id_bus === idBus) ? (
-                        <div className="flex flex-col space-y-4">
-                            {totalJadwal
-                                .filter((e) => e.id_bus === idBus)
-                                .map((e, index) => {
-                                    <div
-                                        key={index}
-                                        className="flex items-center bg-orange-secondary rounded-2xl px-6 py-5 gap-4"
-                                    >
-                                        <span className="text-md font-medium text-black">
-                                            {e.halte.nama_halte}
-                                        </span>
-                                        <span className="bg-white text-black text-md font-semibold px-2 py-2 rounded-md ">
-                                            {e.waktu_tiba}
-                                        </span>
-                                    </div>;
-                                })}
-                        </div>
-                    ) : (
-                        <p className="text-center text-gray-500">
-                            Tidak ada jadwal untuk bus ini.
-                        </p>
-                    )} */}
-
                     {setJadwal && setJadwal.length > 0 ? (
                         <div className="flex flex-col space-y-4">
                             {setJadwal.map((e, index) => (
@@ -233,8 +208,11 @@ export default function MenuBar(props) {
                                     <div className="flex flex-wrap gap-2">
                                         {totalJadwal
                                             .filter((e) => e.id_bus === idBus)
-                                            .map((e) => (
-                                                <span className="bg-white text-black text-md font-semibold  rounded-md px-2 py-4">
+                                            .map((e, index) => (
+                                                <span
+                                                    key={index}
+                                                    className="bg-white text-black text-md font-semibold  rounded-md px-2 py-4"
+                                                >
                                                     {e.waktu_tiba}
                                                 </span>
                                             ))}

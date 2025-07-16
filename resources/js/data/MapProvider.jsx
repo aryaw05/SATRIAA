@@ -20,12 +20,19 @@ const MapProvider = forwardRef((props, ref) => {
         lat: null,
         long: null,
     });
-    const { halte, onHalteClick, isAdmin = false, bus } = props;
-    // console.log("busMarker" , busMarkerRef.current);
+    const {
+        halte,
+        onHalteClick,
+        isAdmin = false,
+        bus,
+        realTimeBus = [],
+    } = props;
 
+    // fitur pada admin
     const clickZoom = useCallback(
         (e) => {
             mapRef.current.setView(e.target.getLatLng(), 25);
+            if (!isAdmin) return;
             onHalteClick({
                 halte_id: e.target.options.id,
                 lat: e.target.getLatLng().lat,
@@ -47,7 +54,7 @@ const MapProvider = forwardRef((props, ref) => {
         const northEast = L.latLng(-7.79468, 112.0451);
         const bounds = L.latLngBounds(southWest, northEast);
         const map = L.map(mapContainerRef.current, {
-            maxBounds: bounds,
+            // maxBounds: bounds,
             center: [-7.8238, 112.0209],
             zoom: 17,
             minZoom: 15,
@@ -71,30 +78,36 @@ const MapProvider = forwardRef((props, ref) => {
     useEffect(() => {
         if (!mapRef.current || isAdmin) return;
         // Lokasi Bus
-        bus.map((bus) => {
-            if (!busMarkerRef.current[bus.id]) {
-                const busMarker = (busMarkerRef.current[bus.id] = L.marker(
-                    [bus.lat, bus.lng],
+        (realTimeBus.length > 0 ? realTimeBus : bus).map((bus) => {
+            if (!busMarkerRef.current[bus.id_bus]) {
+                busMarkerRef.current[bus.id_bus] = L.marker(
+                    [bus.lokasi_lat, bus.lokasi_long],
                     {
-                        icon: createCustomIcon("bus", `bus${bus.id}`),
+                        icon: createCustomIcon("bus", `${bus.id_bus}`),
                     }
                 )
                     .addTo(mapRef.current)
-                    .on("click", clickZoom));
+                    .on("click", clickZoom);
             } else {
-                const existingMarker = busMarkerRef.current[bus.id];
+                const existingMarker = (busMarkerRef.current[bus.id_bus] =
+                    L.marker([bus.lokasi_lat, bus.lokasi_long], {
+                        icon: createCustomIcon("bus", `${bus.id_bus}`),
+                    })
+                        .addTo(mapRef.current)
+                        .on("click", clickZoom));
                 const currentLatLng = existingMarker.getLatLng();
+                console.log("Bus Marker:", existingMarker);
 
                 if (
-                    currentLatLng.lat !== bus.lat ||
-                    currentLatLng.lng !== bus.lng
+                    currentLatLng.lat !== bus.lokasi_lat ||
+                    currentLatLng.lng !== bus.lokasi_lng
                 ) {
-                    existingMarker.setLatLng([bus.lat, bus.lng]);
+                    existingMarker.setLatLng([bus.lokasi_lat, bus.lokasi_long]);
                 }
                 // console.log(busMarkerRef.current);
             }
         });
-    }, [bus]);
+    }, [bus, realTimeBus]);
     // halte
     useEffect(() => {
         // terminal
@@ -127,13 +140,13 @@ const MapProvider = forwardRef((props, ref) => {
     }, [myLocation]);
     const busSearchHandle = useCallback(
         (busId) => {
-            // if(bus.length === 0) {
-            //     alert("Tidak ada bus yang ditemukan");
-            //     return;
-            // }
-            const buses = bus.find((b) => b.id === busId);
+            if (bus.length === 0) {
+                alert("Tidak ada bus yang ditemukan");
+                return;
+            }
+            const buses = bus.find((b) => b.id_bus === busId);
             if (buses && mapRef.current) {
-                mapRef.current.flyTo([buses.lat, buses.lng], 17);
+                mapRef.current.flyTo([buses.lokasi_lat, buses.lokasi_long], 17);
             }
         },
         [bus]

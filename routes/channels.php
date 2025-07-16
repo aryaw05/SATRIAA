@@ -6,7 +6,7 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Broadcast::channel('public-updates', function () {
+Broadcast::channel('location-updated.', function () {
     return true;
 });
 
@@ -22,3 +22,4 @@ Broadcast::channel('data-kepadatan-bus', function () {
     // In a real application, you would implement proper authorization logic here
     return true; // Allow access for demonstration purposes
 });
+
