@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\DataHalteEvent;
+use App\Models\Bus;
+use App\Models\Halte;
 use Illuminate\Http\Request;
 use App\Models\JadwalBus;
 
@@ -25,7 +28,21 @@ class JadwalBusController extends Controller
 
         JadwalBus::create($request->all());
 
+           // Ambil nama bus dan nama halte berdasarkan ID
+    $namaBus = Bus::where('id_bus', $request->id_bus)->value('nomor_bus');
+    $namaHalte = Halte::where('id_halte', $request->id_halte)->value('nama_halte');
+
+    // Broadcast event
+    broadcast(new DataHalteEvent(
+        $namaBus,
+        $namaHalte,
+        $request->waktu_berangkat,
+        $request->waktu_tiba
+    ));
+
         return redirect()->route('bus.index')->with('success', 'Jadwal berhasil ditambahkan');
+
+        // broadcast(new DataHalteEvent())
     }
 
     public function update(Request $request, $id)

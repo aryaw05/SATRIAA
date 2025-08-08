@@ -15,17 +15,24 @@ const MapProvider = forwardRef((props, ref) => {
     const mapContainerRef = useRef(null);
     const busMarkerRef = useRef({});
     const userMarkerRef = useRef(null);
-
     const [myLocation, setMyLocation] = useState({
         lat: null,
         long: null,
     });
-    const { halte, onHalteClick, isAdmin = false , bus } = props;
-    // console.log("busMarker" , busMarkerRef.current);
-    
+    const {
+        halte,
+        onHalteClick,
+        onHalteLocation,
+        isAdmin = false,
+        bus,
+        realTimeBus = [],
+    } = props;
+
+    // fitur pada admin
     const clickZoom = useCallback(
         (e) => {
             mapRef.current.setView(e.target.getLatLng(), 25);
+            if (!isAdmin) return;
             onHalteClick({
                 halte_id: e.target.options.id,
                 lat: e.target.getLatLng().lat,
@@ -47,7 +54,7 @@ const MapProvider = forwardRef((props, ref) => {
         const northEast = L.latLng(-7.79468, 112.0451);
         const bounds = L.latLngBounds(southWest, northEast);
         const map = L.map(mapContainerRef.current, {
-            maxBounds: bounds,
+            // maxBounds: bounds,
             center: [-7.8238, 112.0209],
             zoom: 17,
             minZoom: 15,
@@ -59,7 +66,17 @@ const MapProvider = forwardRef((props, ref) => {
 
         mapRef.current = map;
     }, []);
-    // jalur Bus
+
+    useEffect(() => {
+        if (!isAdmin) return;
+        mapRef.current.on("click", function (e) {
+            onHalteLocation({
+                lokasi_lat: e.latlng.lat,
+                lokasi_long: e.latlng.lng,
+            });
+        });
+    }, [onHalteClick, isAdmin]);
+
     useEffect(() => {
         const flipCoords = kediriPolygon.map((coord) => [coord[1], coord[0]]);
         L.polyline(flipCoords, { color: "#298FFD", weight: 4 }).addTo(
@@ -71,34 +88,30 @@ const MapProvider = forwardRef((props, ref) => {
     useEffect(() => {
         if (!mapRef.current || isAdmin) return;
         // Lokasi Bus
-        bus.map((bus) => {
-            if (!busMarkerRef.current[bus.id]) {
-                const busMarker = (busMarkerRef.current[bus.id] = L.marker(
-                    [bus.lat, bus.lng],
+        (realTimeBus.length > 0 ? realTimeBus : bus).map((bus) => {
+            if (!busMarkerRef.current[bus.id_bus]) {
+                busMarkerRef.current[bus.id_bus] = L.marker(
+                    [bus.lokasi_lat, bus.lokasi_long],
                     {
-                        icon: createCustomIcon("bus", `bus${bus.id}`),
+                        icon: createCustomIcon("bus", `${bus.id_bus}`),
                     }
                 )
                     .addTo(mapRef.current)
-                    .on("click", clickZoom));
-                    
-                }
-                else{
-                 const existingMarker = busMarkerRef.current[bus.id];
+                    .on("click", clickZoom);
+            } else {
+                const existingMarker = busMarkerRef.current[bus.id_bus];
                 const currentLatLng = existingMarker.getLatLng();
+                console.log("Bus Marker:", existingMarker);
 
-            if (
-                currentLatLng.lat !== bus.lat ||
-                currentLatLng.lng !== bus.lng
-            ) {
-                existingMarker.setLatLng([bus.lat, bus.lng]);
-            }
-                // console.log(busMarkerRef.current);
+                if (
+                    currentLatLng.lat !== bus.lokasi_lat ||
+                    currentLatLng.lng !== bus.lokasi_lng
+                ) {
+                    existingMarker.setLatLng([bus.lokasi_lat, bus.lokasi_long]);
                 }
-           
-                
-        } );
-    }, [bus ]);
+            }
+        });
+    }, [bus, realTimeBus]);
     // halte
     useEffect(() => {
         // terminal
@@ -129,16 +142,19 @@ const MapProvider = forwardRef((props, ref) => {
                 .on("click", clickZoom);
         }
     }, [myLocation]);
-    const  busSearchHandle  = useCallback((busId)  => {
-        if(bus.length === 0) {
-            alert("Tidak ada bus yang ditemukan");
-            return;
-        }
-        const buses =  bus.find((b) => b.id === busId); 
-        if (buses && mapRef.current) {
-            mapRef.current.flyTo([buses.lat, buses.lng], 17);
-        }
-    }, [bus]);
+    const busSearchHandle = useCallback(
+        (busId) => {
+            if (bus.length === 0) {
+                alert("Tidak ada bus yang ditemukan");
+                return;
+            }
+            const buses = bus.find((b) => b.id_bus === busId);
+            if (buses && mapRef.current) {
+                mapRef.current.flyTo([buses.lokasi_lat, buses.lokasi_long], 17);
+            }
+        },
+        [bus]
+    );
 
     const userLocationHandle = useCallback(() => {
         if (navigator.geolocation) {

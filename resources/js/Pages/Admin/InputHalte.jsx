@@ -1,6 +1,5 @@
-import { Head, router } from "@inertiajs/react";
-
-import { useState } from "react";
+import { Head } from "@inertiajs/react";
+import { use, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Navbar from "./Navbar";
 import { handleDelete, handleEdit, handleSubmit } from "../../utils/handleCRUD";
@@ -21,10 +20,23 @@ const HalteSatria = (props) => {
         lng: null,
         halteName: null,
     });
-    console.log(dataHalte.halteName);
+
+    function latLngData() {
+        setFormData({
+            lokasi_lat: dataHalte.lat || "",
+            lokasi_long: dataHalte.lng || "",
+        });
+    }
+    useEffect(() => {
+        latLngData();
+    }, [dataHalte]);
 
     function clickZoom(e) {
         setDataHalte(e);
+    }
+
+    function clickHalteLocation(e) {
+        setFormData(e);
     }
 
     const showModalEdit = (modalId) => {
@@ -39,6 +51,9 @@ const HalteSatria = (props) => {
             });
         }
     };
+
+    console.log(formData);
+
     return (
         <>
             <Head>
@@ -57,6 +72,7 @@ const HalteSatria = (props) => {
                         <MapProvider
                             halte={halte}
                             onHalteClick={clickZoom}
+                            onHalteLocation={clickHalteLocation}
                             isAdmin={true}
                         />
                     </div>
@@ -95,7 +111,10 @@ const HalteSatria = (props) => {
                                             required
                                             step="any"
                                             name="lokasi_lat"
-                                            onChange={handleChange}
+                                            readOnly
+                                            defaultValue={
+                                                formData.lokasi_lat || ""
+                                            }
                                             className="input rounded-lg bg-gray-100 w-full"
                                             placeholder="Masukkan latitude"
                                         />
@@ -110,8 +129,9 @@ const HalteSatria = (props) => {
                                             type="number"
                                             step="any"
                                             required
+                                            readOnly
                                             name="lokasi_long"
-                                            onChange={handleChange}
+                                            value={formData.lokasi_long || ""}
                                             className="input rounded-lg bg-gray-100 w-full"
                                             placeholder="Masukkan longitude"
                                         />

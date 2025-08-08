@@ -1,16 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import NavigationButton from "./Navigation-button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSwipeable } from "react-swipeable";
 export default function MenuBar(props) {
-    const { onClickBus, onClickUser, totalBus , totalJadwal , detailBus } = props;
-    
-    
-    // state id bus 
-    const [idBus , setIdBus]  = useState(null);
-    
+    const { onClickBus, onClickUser, totalJadwal, detailBus, dataBus } = props;
+
+    const [idBus, setIdBus] = useState(null);
+
     const [swipeCount, setSwipeCount] = useState(0);
     const [openState, setOpenState] = useState("closed");
+
     // Reset swipe count after 500ms
     useEffect(() => {
         if (swipeCount > 0) {
@@ -40,11 +39,10 @@ export default function MenuBar(props) {
         preventDefaultTouchmoveEvent: true,
     });
 
-
     const busSearchData = (id) => {
         setIdBus(id);
         onClickBus(id);
-    }
+    };
     // Manual toggle function
     const toggleMenu = () => {
         if (openState === "closed") {
@@ -68,6 +66,22 @@ export default function MenuBar(props) {
                 return "translate-y-[83%]";
         }
     };
+
+    const setJadwal = useMemo(() => {
+        if (!idBus) {
+            return [];
+        }
+        const hasil = [];
+        totalJadwal.forEach((e) => {
+            if (e.id_bus === idBus) {
+                const namaHalte = e.halte.nama_halte;
+                hasil.push(namaHalte);
+            }
+        });
+
+        return [...new Set(hasil)];
+    }, [idBus, totalJadwal]);
+
     return (
         <div
             {...swipeHandlers}
@@ -86,10 +100,10 @@ export default function MenuBar(props) {
                 </button>
 
                 <div className="flex gap-4">
-                    {totalBus.map((item , index) => (
+                    {detailBus.map((item, index) => (
                         <NavigationButton
-                            onClick={() => busSearchData(item.id )}
-                            id={item.id}
+                            onClick={() => busSearchData(item.id_bus)}
+                            id={item.id_bus}
                             key={index}
                             icon={"fa-solid fa-bus"}
                             className={"text-white text-2xl"}
@@ -116,9 +130,16 @@ export default function MenuBar(props) {
                         </div>
                         <div className="flex-col">
                             <p className="text-lg font-medium">
-                                Kapasitas  Tersedia
+                                Kapasitas Tersedia
                             </p>
-                            <p className="text-lg font-medium">{totalBus.find(bus => bus.id === idBus)?.kepadatan || "-"}</p>
+                            <p className="text-lg font-medium">
+                                {dataBus.find((bus) => bus.id_bus === idBus)
+                                    ?.kepadatan ||
+                                    detailBus.find(
+                                        (bus) => bus.id_bus === idBus
+                                    )?.kapasitas_tempat_duduk ||
+                                    "-"}
+                            </p>
                         </div>
                     </div>
                     <p className="text-xl font-medium mt-9 mb-4">Detail Bus</p>
@@ -130,7 +151,8 @@ export default function MenuBar(props) {
                                 className="text-4xl text-white"
                             />
                             <p className="text-md text-white font-semibold">
-                                {detailBus.find(bus => bus.id_bus === idBus)?.nomor_bus || "-"}
+                                {detailBus.find((bus) => bus.id_bus === idBus)
+                                    ?.nomor_bus || "-"}
                             </p>
                         </div>
 
@@ -140,16 +162,30 @@ export default function MenuBar(props) {
                                 <span>Jenis Bus</span>
                                 <span>:</span>
                                 <span className="text-black font-bold">
-                                    {totalBus.find(bus => bus.id === idBus)?.statusBus || "-"}
+                                    {detailBus.find(
+                                        (bus) => bus.id_bus === idBus
+                                    )?.jenis_bus || "-"}
                                 </span>
                             </div>
                             <div className="grid grid-cols-[90px_10px_1fr] text-md font-medium">
                                 <span>Plat Nomor</span>
                                 <span>:</span>
                                 <span className="text-black font-bold">
-                                    {
-                                        detailBus.find(bus => bus.id_bus === idBus)?.plat_nomor || "-"
-                                    }
+                                    {detailBus.find(
+                                        (bus) => bus.id_bus === idBus
+                                    )?.plat_nomor || "-"}
+                                </span>
+                            </div>
+                            <div className="grid grid-cols-[90px_10px_1fr] text-md font-medium">
+                                <span>Kondisi Bus </span>
+                                <span>:</span>
+                                <span className="text-black font-bold">
+                                    {dataBus.find((bus) => bus.id_bus === idBus)
+                                        ?.kondisi ||
+                                        detailBus.find(
+                                            (bus) => bus.id_bus === idBus
+                                        )?.kondisi ||
+                                        "-"}
                                 </span>
                             </div>
                         </div>
@@ -158,33 +194,37 @@ export default function MenuBar(props) {
                     <p className="text-xl font-medium mt-9 mb-4 ">
                         Jadwal Kedatangan Satria
                     </p>
-                    
 
-                    {
-                        totalJadwal.find((e) => e.id_bus === idBus ) ? (
-                            <div className="flex flex-col space-y-4">
-                                {totalJadwal
-                                    .filter((e) => e.id_bus === idBus)
-                                    .map((e, index) => (
-                                        <div
-                                            key={index}
-                                            className="flex items-center bg-orange-secondary rounded-2xl px-6 py-5 gap-4"
-                                        >
-                                            <span className="text-md font-medium text-black">
-                                                {e.halte.nama_halte}
-                                            </span>
-                                            <span className="bg-white text-black text-md font-semibold px-2 py-2 rounded-md ">
-                                                {e.waktu_tiba}
-                                            </span>
-                                        </div>
-                                    ))}
-                            </div>
-                        ) : (
-                            <p className="text-center text-gray-500">Tidak ada jadwal untuk bus ini.</p>
-                        )
-                    }
-                    
-                    
+                    {setJadwal && setJadwal.length > 0 ? (
+                        <div className="flex flex-col space-y-4">
+                            {setJadwal.map((e, index) => (
+                                <div
+                                    key={index}
+                                    className="flex items-center bg-orange-secondary rounded-2xl px-5 py-8 gap-4 items-center"
+                                >
+                                    <span className="text-md font-medium text-black">
+                                        {e}
+                                    </span>
+                                    <div className="flex flex-wrap gap-2">
+                                        {totalJadwal
+                                            .filter((e) => e.id_bus === idBus)
+                                            .map((e, index) => (
+                                                <span
+                                                    key={index}
+                                                    className="bg-white text-black text-md font-semibold  rounded-md px-2 py-4"
+                                                >
+                                                    {e.waktu_tiba}
+                                                </span>
+                                            ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <p className="text-center text-gray-500">
+                            Tidak ada jadwal untuk bus ini.
+                        </p>
+                    )}
                 </div>
             </div>
         </div>

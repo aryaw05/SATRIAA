@@ -16,4 +16,5 @@ class Kursi extends Model
         'tempat_duduk_tersedia',
         'waktu_update'
     ];
+    
 }

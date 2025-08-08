@@ -12,7 +12,7 @@ export default function JadwalBus(props) {
     const [dataJadwal, setdataJadwal] = useState({
         indexBus: null,
     });
-
+    console.log("dataJadwal", formData);
     useEffect(() => {
         if (dataJadwal?.indexBus !== null) {
             const jadwalBus = jadwal[dataJadwal.indexBus];

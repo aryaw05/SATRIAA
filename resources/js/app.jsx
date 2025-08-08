@@ -10,10 +10,9 @@ import {
     faWheelchair,
     faEllipsis,
     faCircleUser,
-
 } from "@fortawesome/free-solid-svg-icons";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-
+import "./echo";
 createInertiaApp({
     resolve: (name) => {
         const pages = import.meta.glob("./Pages/**/*.jsx", { eager: true });

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\LocationUpdated;
 use App\Models\Bus;
 use App\Models\Halte;
 use App\Models\JadwalBus;
+use App\Models\TrackingBus;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -27,12 +29,19 @@ class AdminController extends Controller
         $halte = Halte::all();
         $buses = Bus::all();
         $jadwal = JadwalBus::with(['bus', 'halte'])->get();
+        $tracking = TrackingBus::with('bus')->get();
+        
         return Inertia::render('Admin/Layout/DashboardLayout', [
             'jadwal' => $jadwal,
             'buses' => $buses,
             'halte' => $halte
+
         ]);
+        
+  
+
     }
+    
     public function retrieveHalte()
     {
         $halte = Halte::get();
