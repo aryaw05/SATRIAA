@@ -14,19 +14,15 @@ class LocationUpdated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /**
-     * Create a new event instance.
-     */
+        /**
+         * Create a new event instance.
+         */
 
-    public $busId;
-    public $latitude;
-    public $longitude;
+    public array $location_list;
 
-    public function __construct( $busId, $latitude,  $longitude)
+    public function __construct(array $location_list)
     {
-        $this->busId = $busId;
-        $this->latitude = $latitude;
-        $this->longitude = $longitude;
+        $this->location_list = $location_list;
     }
 
     /**
@@ -37,21 +33,20 @@ class LocationUpdated implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('public-updates'),
+            new Channel('location-updated.'),
         ];
     }
+
     public function broadcastWith(): array
     {
         return [
-        'bus_id' => $this->busId,
-        'latitude' => $this->latitude,
-        'longitude' => $this->longitude,
+        'data' => $this->location_list
         ];
     }
 
         public function broadcastAs()
     {
-        return 'location.updated'; 
+        return 'bus.location.updated'; 
     }
 
 

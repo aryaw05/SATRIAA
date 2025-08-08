@@ -1,6 +1,5 @@
 import "leaflet/dist/leaflet.css";
 import { useState, useEffect, useRef } from "react";
-import { db, ref, onValue } from "../data/firebaseConfig";
 import MenuBar from "../components/menu-bar/Menu-bar";
 import MapProvider from "../data/MapProvider";
 import "../bootstrap.js";
@@ -114,7 +113,6 @@ export default function Home(props) {
                 ref={mapProviderRef}
                 bus={tracking}
                 realTimeBus={location}
-                
             />
             <MenuBar
                 totalJadwal={jadwal}

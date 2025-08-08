@@ -1,7 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ref, set } from "firebase/database";
-import { db } from "../../data/firebaseConfig";
-import Echo from "laravel-echo";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -28,31 +25,6 @@ const GpsSatria = (props) => {
             console.warn("Geolocation tidak didukung");
             return;
         }
-
-        navigator.geolocation.getCurrentPosition(
-            async (position) => {
-                const lat = position.coords.latitude;
-                const lng = position.coords.longitude;
-
-                try {
-                    await set(ref(db, `buses/${bus.id_bus}`), {
-                        lat,
-                        lng,
-                        kepadatan,
-                        statusBus,
-                        id_bus: bus.id_bus,
-                        updatedAt: new Date().toISOString(),
-                    });
-                    console.log(`Lokasi Bus ${bus.id_bus} terkirim:`, lat, lng);
-                } catch (error) {
-                    console.error("Gagal kirim lokasi:", error);
-                }
-            },
-            (error) => {
-                console.error("Gagal dapatkan lokasi:", error);
-            },
-            { enableHighAccuracy: true }
-        );
 
         navigator.geolocation.getCurrentPosition(
             (position) => {

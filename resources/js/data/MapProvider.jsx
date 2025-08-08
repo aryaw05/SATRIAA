@@ -15,7 +15,6 @@ const MapProvider = forwardRef((props, ref) => {
     const mapContainerRef = useRef(null);
     const busMarkerRef = useRef({});
     const userMarkerRef = useRef(null);
-
     const [myLocation, setMyLocation] = useState({
         lat: null,
         long: null,
@@ -23,6 +22,7 @@ const MapProvider = forwardRef((props, ref) => {
     const {
         halte,
         onHalteClick,
+        onHalteLocation,
         isAdmin = false,
         bus,
         realTimeBus = [],
@@ -66,7 +66,17 @@ const MapProvider = forwardRef((props, ref) => {
 
         mapRef.current = map;
     }, []);
-    // jalur Bus
+
+    useEffect(() => {
+        if (!isAdmin) return;
+        mapRef.current.on("click", function (e) {
+            onHalteLocation({
+                lokasi_lat: e.latlng.lat,
+                lokasi_long: e.latlng.lng,
+            });
+        });
+    }, [onHalteClick, isAdmin]);
+
     useEffect(() => {
         const flipCoords = kediriPolygon.map((coord) => [coord[1], coord[0]]);
         L.polyline(flipCoords, { color: "#298FFD", weight: 4 }).addTo(
@@ -89,12 +99,7 @@ const MapProvider = forwardRef((props, ref) => {
                     .addTo(mapRef.current)
                     .on("click", clickZoom);
             } else {
-                const existingMarker = (busMarkerRef.current[bus.id_bus] =
-                    L.marker([bus.lokasi_lat, bus.lokasi_long], {
-                        icon: createCustomIcon("bus", `${bus.id_bus}`),
-                    })
-                        .addTo(mapRef.current)
-                        .on("click", clickZoom));
+                const existingMarker = busMarkerRef.current[bus.id_bus];
                 const currentLatLng = existingMarker.getLatLng();
                 console.log("Bus Marker:", existingMarker);
 
@@ -104,7 +109,6 @@ const MapProvider = forwardRef((props, ref) => {
                 ) {
                     existingMarker.setLatLng([bus.lokasi_lat, bus.lokasi_long]);
                 }
-                // console.log(busMarkerRef.current);
             }
         });
     }, [bus, realTimeBus]);
