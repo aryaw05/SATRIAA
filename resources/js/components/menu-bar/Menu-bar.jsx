@@ -6,7 +6,7 @@ export default function MenuBar(props) {
     const { onClickBus, onClickUser, totalJadwal, detailBus, dataBus } = props;
 
     const [idBus, setIdBus] = useState(null);
-
+    const [busInformation, setBusInformation] = useState(null);
     const [swipeCount, setSwipeCount] = useState(0);
     const [openState, setOpenState] = useState("closed");
 
@@ -42,7 +42,12 @@ export default function MenuBar(props) {
     const busSearchData = (id) => {
         setIdBus(id);
         onClickBus(id);
+        const detailDataBus = detailBus.filter((e) => e.id_bus === id);
+        setBusInformation(detailDataBus[0]);
     };
+
+    console.log(busInformation);
+
     // Manual toggle function
     const toggleMenu = () => {
         if (openState === "closed") {
@@ -133,12 +138,7 @@ export default function MenuBar(props) {
                                 Kapasitas Tersedia
                             </p>
                             <p className="text-lg font-medium">
-                                {dataBus.find((bus) => bus.id_bus === idBus)
-                                    ?.kepadatan ||
-                                    detailBus.find(
-                                        (bus) => bus.id_bus === idBus
-                                    )?.kapasitas_tempat_duduk ||
-                                    "-"}
+                                {busInformation?.kapasitas_tempat_duduk || "-"}
                             </p>
                         </div>
                     </div>
@@ -151,8 +151,7 @@ export default function MenuBar(props) {
                                 className="text-4xl text-white"
                             />
                             <p className="text-md text-white font-semibold">
-                                {detailBus.find((bus) => bus.id_bus === idBus)
-                                    ?.nomor_bus || "-"}
+                                {busInformation?.nomor_bus || "-"}
                             </p>
                         </div>
 
@@ -162,30 +161,21 @@ export default function MenuBar(props) {
                                 <span>Jenis Bus</span>
                                 <span>:</span>
                                 <span className="text-black font-bold">
-                                    {detailBus.find(
-                                        (bus) => bus.id_bus === idBus
-                                    )?.jenis_bus || "-"}
+                                    {busInformation?.jenis_bus || "-"}
                                 </span>
                             </div>
                             <div className="grid grid-cols-[90px_10px_1fr] text-md font-medium">
                                 <span>Plat Nomor</span>
                                 <span>:</span>
                                 <span className="text-black font-bold">
-                                    {detailBus.find(
-                                        (bus) => bus.id_bus === idBus
-                                    )?.plat_nomor || "-"}
+                                    {busInformation?.plat_nomor || "-"}
                                 </span>
                             </div>
                             <div className="grid grid-cols-[90px_10px_1fr] text-md font-medium">
                                 <span>Kondisi Bus </span>
                                 <span>:</span>
                                 <span className="text-black font-bold">
-                                    {dataBus.find((bus) => bus.id_bus === idBus)
-                                        ?.kondisi ||
-                                        detailBus.find(
-                                            (bus) => bus.id_bus === idBus
-                                        )?.kondisi ||
-                                        "-"}
+                                    {busInformation?.kondisi || "-"}
                                 </span>
                             </div>
                         </div>
@@ -200,7 +190,7 @@ export default function MenuBar(props) {
                             {setJadwal.map((e, index) => (
                                 <div
                                     key={index}
-                                    className="flex items-center bg-orange-secondary rounded-2xl px-5 py-8 gap-4 items-center"
+                                    className="flex items-center bg-orange-secondary rounded-2xl px-5 py-8 gap-4 "
                                 >
                                     <span className="text-md font-medium text-black">
                                         {e}
