@@ -11,7 +11,6 @@ class Bus extends Model
         protected $table = 'buses';
         protected $primaryKey = 'id_bus';
         protected $fillable = [
-                'nama_bus',
                 'nomor_bus',
                 'plat_nomor',
                 'jenis_bus',
