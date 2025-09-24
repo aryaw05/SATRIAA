@@ -93,7 +93,7 @@ const MapProvider = forwardRef((props, ref) => {
                 busMarkerRef.current[bus.id_bus] = L.marker(
                     [bus.lokasi_lat, bus.lokasi_long],
                     {
-                        icon: createCustomIcon("bus", `${bus.id_bus}`),
+                        icon: createCustomIcon("bus", `${bus.lokasi_lat}`),
                     }
                 )
                     .addTo(mapRef.current)
@@ -192,4 +192,5 @@ const MapProvider = forwardRef((props, ref) => {
     );
 });
 
+MapProvider.displayName = "MapProvider";
 export default MapProvider;
