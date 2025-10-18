@@ -7,11 +7,22 @@ use App\Models\Bus;
 use App\Models\Halte;
 use Illuminate\Http\Request;
 use App\Models\JadwalBus;
+use Inertia\Inertia;
 
 class JadwalBusController extends Controller
 {
 
-
+    public function index()
+    {
+        $jadwal = JadwalBus::with(['bus', 'halte'])->get();
+        $buses  = Bus::all();
+        $halte  = Halte::all();
+        return Inertia::render('Admin/Jadwal/Index', [
+            'jadwal' => $jadwal,
+            'buses' => $buses,
+            'halte' => $halte
+        ]);
+    }
 
     public function store(Request $request)
     {

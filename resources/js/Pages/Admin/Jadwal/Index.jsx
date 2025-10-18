@@ -1,11 +1,16 @@
 import { use, useEffect, useState } from "react";
-import useActionForm from "../../hooks/useActionForm";
-import { handleDelete, handleEdit, handleSubmit } from "../../utils/handleCRUD";
-import { useAlert } from "../../hooks/useAlert";
-import AlertList from "../../components/alert/AlertList";
+import useActionForm from "../../../hooks/useActionForm";
+import {
+    handleDelete,
+    handleEdit,
+    handleSubmit,
+} from "../../../utils/handleCRUD";
+import { useAlert } from "../../../hooks/useAlert";
+import AlertList from "../../../components/alert/AlertList";
+import DashboardLayout from "../Layout/DashboardLayout";
 
 export default function JadwalBus(props) {
-    const { buses, halte, jadwal } = props;
+    const { jadwal, buses, halte } = props;
     const { isAlert, showError, showSuccess, clearAlert } = useAlert();
 
     const { formData, handleChange, setFormData } = useActionForm();
@@ -28,7 +33,6 @@ export default function JadwalBus(props) {
             setFormData({});
         }
     }, [dataJadwal]);
-    console.log(formData);
 
     function editDataJadwal(modalId, index) {
         const modal = document.getElementById(modalId);
@@ -43,10 +47,10 @@ export default function JadwalBus(props) {
         if (modal) modal.showModal();
     }
     return (
-        <>
+        <DashboardLayout>
             <AlertList isAlert={isAlert} clearAlert={clearAlert} />
 
-            <div className="lg:w-1/2 w-full">
+            <div className="px-4 py-6 pt-23">
                 <button
                     className="btn bg-orange-400 mb-3 rounded-lg w-1/2 lg:w-auto"
                     onClick={() => addDataJadwal("my_modal_1")}
@@ -354,6 +358,6 @@ export default function JadwalBus(props) {
                     </form>
                 </div>
             </dialog>
-        </>
+        </DashboardLayout>
     );
 }
