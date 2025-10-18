@@ -27,21 +27,20 @@ class AdminController extends Controller
     public function retrieveData()
     {
         $halte = Halte::all();
-        $buses = Bus::all();
-        $jadwal = JadwalBus::with(['bus', 'halte'])->get();
         $tracking = TrackingBus::with('bus')->get();
         
         return Inertia::render('Admin/Layout/DashboardLayout', [
-            'jadwal' => $jadwal,
-            'buses' => $buses,
             'halte' => $halte
 
         ]);
-        
-  
-
     }
-    
+    public function retrieveAdminBusData()
+    {
+        $buses = Bus::all();
+        return Inertia::render('Admin/InputBus', [
+            'buses' => $buses
+        ]);
+    }
     public function retrieveHalte()
     {
         $halte = Halte::get();
@@ -159,8 +158,8 @@ class AdminController extends Controller
     // Method untuk menampilkan daftar akun kernet
     public function listKernet()
     {
-        $kernet = User::where('role', 'kernet')->get(); // Ambil semua user dengan role kernet
-        return Inertia::render('Admin/InputAkunKernet', [
+        $kernet = User::where('role', 'kernet')->get(); 
+        return Inertia::render('Admin/Kernet/Index', [
             'kernet' => $kernet
         ]);
     }
