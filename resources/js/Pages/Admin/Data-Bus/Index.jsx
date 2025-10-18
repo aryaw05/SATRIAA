@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { handleDelete, handleEdit, handleSubmit } from "../../utils/handleCRUD";
-import useActionForm from "../../hooks/useActionForm";
-import { useAlert } from "../../hooks/useAlert";
-import AlertList from "../../components/alert/AlertList";
-
+import {
+    handleDelete,
+    handleEdit,
+    handleSubmit,
+} from "../../../utils/handleCRUD";
+import useActionForm from "../../../hooks/useActionForm";
+import { useAlert } from "../../../hooks/useAlert";
+import AlertList from "../../../components/alert/AlertList";
+import DashboardLayout from "../Layout/DashboardLayout";
 
 export default function InputBus(props) {
-    const { buses, halte } = props;
+    const { buses } = props;
     const { showError, showSuccess, clearAlert, isAlert } = useAlert();
     const [dataBus, setDataBus] = useState({
         index: null,
@@ -26,8 +29,6 @@ export default function InputBus(props) {
         }
     }, [dataBus]);
 
-    console.log("formData", formData);
-
     function editDataBus(modalId, index) {
         const modal = document.getElementById(modalId);
         if (modal) modal.showModal();
@@ -41,9 +42,9 @@ export default function InputBus(props) {
         if (modal) modal.showModal();
     }
     return (
-        <>
+        <DashboardLayout>
             <AlertList isAlert={isAlert} clearAlert={clearAlert} />
-            <div className="lg:w-1/2 w-full">
+            <div className="px-4 py-6 pt-23">
                 <button
                     className="btn bg-orange-500 mb-3 rounded-lg w-1/2 lg:w-auto"
                     onClick={() => addDataBus("my_modal_2")}
@@ -332,6 +333,6 @@ export default function InputBus(props) {
                     </form>
                 </div>
             </dialog>
-        </>
+        </DashboardLayout>
     );
 }
