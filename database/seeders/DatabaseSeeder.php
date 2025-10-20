@@ -22,35 +22,38 @@ class DatabaseSeeder extends Seeder
         DB::table('buses')->insert([
 
             [
+                'kode_bus' => 'B1',
                 'nomor_bus' => 'B001',
                 'plat_nomor' => 'AG 1234 CC',
                 'jenis_bus' => 'low-floor',
                 'kapasitas_tempat_duduk' => 40,
                 'status' => 'aktif',
                 'kondisi' => 'baik',
-                'password' => bcrypt('123'), // tambahkan password bus
+                'password' => bcrypt('123456'), // tambahkan password bus
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
+                'kode_bus' => 'B2',
                 'nomor_bus' => 'B002',
                 'plat_nomor' => 'AG 5678 DD',
                 'jenis_bus' => 'Microbus',
                 'kapasitas_tempat_duduk' => 35,
                 'status' => 'aktif',
                 'kondisi' => 'baik',
-                'password' => bcrypt('123'),
+                'password' => bcrypt('123456'),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
+                'kode_bus' => 'B3',
                 'nomor_bus' => 'B003',
                 'plat_nomor' => 'AG 9012 EE',
                 'jenis_bus' => 'Microbus',
                 'kapasitas_tempat_duduk' => 45,
                 'status' => 'tidak aktif',
                 'kondisi' => 'baik',
-                'password' => bcrypt('123'),
+                'password' => bcrypt('123456'),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

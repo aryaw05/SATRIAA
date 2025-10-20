@@ -21,9 +21,8 @@ const GpsSatria = (props) => {
 
     const toggleGps = () => setIsActive((prev) => !prev);
     const handleLogout = () => {
-        // konfirmasi sebelum logout
         if (confirm("Yakin ingin logout dari sistem?")) {
-            router.post("/logoutBus"); // sesuai route logout di Laravel
+            router.post("/logoutBus");
         }
     };
     const updateLocation = () => {
