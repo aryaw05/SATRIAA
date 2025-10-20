@@ -56,7 +56,7 @@ class BusController extends Controller
             'kapasitas_tempat_duduk' => 'integer',
             'status' => 'nullable|string|max:255',
             'kondisi' => 'string|max:255',
-            'password' => ' string|min:3',
+            'password' => 'nullable|string|min:3',
         ]);
 
         $data = $request->validate([

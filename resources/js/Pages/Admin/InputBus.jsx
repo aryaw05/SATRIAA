@@ -5,9 +5,8 @@ import useActionForm from "../../hooks/useActionForm";
 import { useAlert } from "../../hooks/useAlert";
 import AlertList from "../../components/alert/AlertList";
 
-
 export default function InputBus(props) {
-    const { buses, halte } = props;
+    const { buses } = props;
     const { showError, showSuccess, clearAlert, isAlert } = useAlert();
     const [dataBus, setDataBus] = useState({
         index: null,
@@ -25,8 +24,6 @@ export default function InputBus(props) {
             });
         }
     }, [dataBus]);
-
-    console.log("formData", formData);
 
     function editDataBus(modalId, index) {
         const modal = document.getElementById(modalId);
