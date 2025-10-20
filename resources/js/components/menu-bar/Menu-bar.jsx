@@ -129,7 +129,7 @@ export default function MenuBar(props) {
                     <div className="flex items-center m-7 space-x-4">
                         <div className="bg-orange-secondary rounded-3xl ">
                             <FontAwesomeIcon
-                                icon="fa-solid fa-wheelchair"
+                                icon="fa-solid fa-users"
                                 className="text-5xl text-white p-4"
                             />
                         </div>

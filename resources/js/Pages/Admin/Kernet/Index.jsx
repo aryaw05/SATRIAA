@@ -1,5 +1,5 @@
 import useActionForm from "../../../hooks/useActionForm";
-import { handleDelete,  handleSubmit } from "../../../utils/handleCRUD";
+import { handleDelete, handleSubmit } from "../../../utils/handleCRUD";
 import AlertList from "../../../components/alert/AlertList";
 import { useAlert } from "../../../hooks/useAlert";
 import DashboardLayout from "../Layout/DashboardLayout";
@@ -46,7 +46,7 @@ export default function InputAkunKernet(props) {
             <AlertList isAlert={isAlert} clearAlert={clearAlert} />
 
             {/* Konten */}
-            <div className="px-4 py-6 pt-23">
+            <div className="px-4 py-5">
                 <div className=" w-full">
                     <button
                         className="btn bg-orange-400 mb-3 rounded-lg w-1/2 lg:w-auto"

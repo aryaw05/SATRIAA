@@ -44,7 +44,7 @@ export default function InputBus(props) {
     return (
         <DashboardLayout>
             <AlertList isAlert={isAlert} clearAlert={clearAlert} />
-            <div className="px-4 py-6 pt-23">
+            <div className="px-4 py-5">
                 <button
                     className="btn bg-orange-500 mb-3 rounded-lg w-1/2 lg:w-auto"
                     onClick={() => addDataBus("my_modal_2")}

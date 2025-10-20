@@ -1,12 +1,12 @@
-import { Head } from "@inertiajs/react";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Navbar from "./Navbar";
+import Navbar from "../../components/navbar/Navbar";
 import { handleDelete, handleEdit, handleSubmit } from "../../utils/handleCRUD";
 import useActionForm from "../../hooks/useActionForm";
 import MapProvider from "../../data/MapProvider";
 import { useAlert } from "../../hooks/useAlert";
 import AlertList from "../../components/alert/AlertList";
+import DashboardLayout from "./Layout/DashboardLayout";
 
 const HalteSatria = (props) => {
     const { halte } = props;
@@ -20,7 +20,6 @@ const HalteSatria = (props) => {
         lng: null,
         halteName: null,
     });
-
     function latLngData() {
         setFormData({
             lokasi_lat: dataHalte.lat || "",
@@ -52,20 +51,12 @@ const HalteSatria = (props) => {
         }
     };
 
-    console.log(formData);
-
     return (
-        <>
-            <Head>
-                <title>Halte SATRIAAAAA</title>
-            </Head>
-
-            <div className="bg-white min-h-screen items-center justify-center">
-                {/* Navbar */}
-                <Navbar />
-
+        <DashboardLayout>
+            <div className="bg-white min-h-screen items-center justify-center w-full">
+                <AlertList isAlert={isAlert} clearAlert={clearAlert} />
                 {/* Grid Layout for Desktop */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-4 sm:h-screen pt-17 sm:pl-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-4 sm:h-screen  ">
                     {/* Main Content (empty for desktop) */}
                     <div className="bg-gray-400 sm:rounded-3xl sm:m-6 sm:block w-full h-screen sm:h-[92%] sm:w-[132%] overflow-hidden">
                         {/* Place for real-time map */}
@@ -81,14 +72,23 @@ const HalteSatria = (props) => {
                         <form
                             action=""
                             onSubmit={(e) =>
-                                handleSubmit(e, "/createHalte", formData)
+                                handleSubmit(e, "/createHalte", formData, {
+                                    onSuccess: () => {
+                                        showSuccess([
+                                            "Data halte berhasil ditambah!",
+                                        ]);
+                                    },
+                                    onError: (errors) => {
+                                        showError(Object.values(errors));
+                                    },
+                                })
                             }
                         >
                             <div className="fixed bottom-0 w-full bg-white pb-3 pt-4 sm:relative sm:w-4/6 sm:ml-auto sm:h-full sm:flex sm:flex-col sm:justify-start sm:items-end">
                                 <div className="w-full max-w-md mx-auto px-6 py-3 grid grid-cols-1 gap-4 sm:px-12 sm:pt-10">
                                     {/* Nama Halte */}
                                     <div>
-                                        <p className="text-lg font-semibold text-black">
+                                        <p className="text-md  text-black">
                                             Nama Halte
                                         </p>
                                         <input
@@ -103,7 +103,7 @@ const HalteSatria = (props) => {
 
                                     {/* Latitude */}
                                     <div>
-                                        <p className="text-lg font-semibold text-black">
+                                        <p className="text-md  text-black">
                                             Latitude
                                         </p>
                                         <input
@@ -122,7 +122,7 @@ const HalteSatria = (props) => {
 
                                     {/* Longitude */}
                                     <div>
-                                        <p className="text-lg font-semibold text-black">
+                                        <p className="text-md  text-black">
                                             Longitude
                                         </p>
                                         <input
@@ -151,7 +151,7 @@ const HalteSatria = (props) => {
                         </form>
 
                         {/* Detail Halte - Di luar form */}
-                        <div className="w-full px-6 mt-5 sm:w-4/6 sm:ml-auto sm:pr-12">
+                        <div className="w-full px-6 mt-5 sm:w-4/6 sm:ml-auto ">
                             <div className="flex justify-between rounded-3xl bg-[#f1c65d] shadow-md ">
                                 {/* Icon */}
                                 <div className="bg-orange-500 flex items-center justify-center px-5 py-4 rounded-l-3xl">
@@ -185,7 +185,14 @@ const HalteSatria = (props) => {
                                 {/* Dropdown */}
                                 <div className="flex items-center px-4">
                                     <div className="dropdown dropdown-top dropdown-end">
-                                        <div tabIndex={0}>
+                                        <div
+                                            tabIndex={0}
+                                            className={
+                                                dataHalte.halte_id
+                                                    ? "block"
+                                                    : "hidden"
+                                            }
+                                        >
                                             <FontAwesomeIcon icon="fa-solid fa-ellipsis" />
                                         </div>
                                         <ul
@@ -194,6 +201,12 @@ const HalteSatria = (props) => {
                                         >
                                             <li>
                                                 <button
+                                                    type="button"
+                                                    disabled={
+                                                        dataHalte.halte_id
+                                                            ? false
+                                                            : true
+                                                    }
                                                     onClick={() =>
                                                         showModalEdit(
                                                             "editModal"
@@ -206,11 +219,35 @@ const HalteSatria = (props) => {
                                             <li>
                                                 <button
                                                     type="button"
+                                                    disabled={
+                                                        dataHalte.halte_id
+                                                            ? false
+                                                            : true
+                                                    }
                                                     className="text-red-500"
                                                     onClick={() =>
                                                         handleDelete(
                                                             dataHalte.halte_id,
-                                                            "deleteHalte"
+                                                            "deleteHalte",
+                                                            {
+                                                                onSuccess:
+                                                                    () => {
+                                                                        showSuccess(
+                                                                            [
+                                                                                "Data halte berhasil dihapus!",
+                                                                            ]
+                                                                        );
+                                                                    },
+                                                                onError: (
+                                                                    errors
+                                                                ) => {
+                                                                    showError(
+                                                                        Object.values(
+                                                                            errors
+                                                                        )
+                                                                    );
+                                                                },
+                                                            }
                                                         )
                                                     }
                                                 >
@@ -229,7 +266,6 @@ const HalteSatria = (props) => {
             {/* mdal edit halte */}
 
             <dialog id="editModal" className="modal">
-                <AlertList isAlert={isAlert} clearAlert={clearAlert} />
                 <div className="modal-box rounded-3xl w-[95%] max-w-md">
                     <form method="dialog">
                         <button className="btn btn-lg btn-circle absolute border-transparent right-4 top-4 bg-transparent hover:bg-transparent !hover:text-black">
@@ -303,7 +339,7 @@ const HalteSatria = (props) => {
                     </form>
                 </div>
             </dialog>
-        </>
+        </DashboardLayout>
     );
 };
 

@@ -50,7 +50,7 @@ export default function JadwalBus(props) {
         <DashboardLayout>
             <AlertList isAlert={isAlert} clearAlert={clearAlert} />
 
-            <div className="px-4 py-6 pt-23">
+            <div className="px-4 py-5 ">
                 <button
                     className="btn bg-orange-400 mb-3 rounded-lg w-1/2 lg:w-auto"
                     onClick={() => addDataJadwal("my_modal_1")}
