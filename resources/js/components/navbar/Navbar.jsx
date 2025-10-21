@@ -1,84 +1,46 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "@inertiajs/react";
-import { handleLogout } from "../../utils/handleCRUD";
 
-const link = [
-    {
-        name: "Dashboard",
-        href: "/admin/dashboard",
-    },
-    {
-        name: "Data Bus",
-        href: "/admin/dashboard/bus",
-    },
-    {
-        name: "Jadwal",
-        href: "/admin/dashboard/jadwal",
-    },
-    {
-        name: "Kernet",
-        href: "/admin/dashboard/kernet",
-    },
-];
 export default function Navbar() {
     return (
-        <div className="navbar bg-base-100 fixed top-0 w-full z-2">
+        <div className="navbar  bg-white p-5 w-full ">
+            <div className="p-2 lg:hidden">
+                <label
+                    htmlFor="sidebar-toggle"
+                    className="btn btn-ghost btn-square"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M3.75 5.25h16.5M3.75 12h16.5m-16.5 6.75h16.5"
+                        />
+                    </svg>
+                </label>
+            </div>
             {/* Left Side */}
             <div className="flex-1">
-                <ul className="menu menu-horizontal px-auto text-xl relative z-2">
-                    <li>
-                        <details className="dropdown">
-                            <summary className="sm:text-3xl hover:bg-transparent focus:!bg-transparent focus:!text-inherit">
-                                Dashboard
-                            </summary>
-                            <ul className="menu dropdown rounded-t-none p-2">
-                                {link.map((item, index) => (
-                                    <li key={index}>
-                                        <Link
-                                            href={item.href}
-                                            className="whitespace-nowrap sm:text-lg text-lg active:!bg-transparent active:!text-inherit"
-                                        >
-                                            {item.name}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </details>
-                    </li>
-                </ul>
+                <h1>Dashboard</h1>
             </div>
 
             {/* Right Side */}
-            <div className=" pr-4 text-md sm:text-2xl flex  items-center gap-4">
+            <div className=" text-md  flex  items-center gap-4">
                 <div>
                     <div className="font-bold">Admin Dishub</div>
-                    <div className="text-sm sm:text-base text-gray-500">
-                        Admin
-                    </div>
                 </div>
                 <div className="dropdown dropdown-end">
-                    <div tabIndex={0} role="button">
+                    <div tabIndex={0}>
                         <FontAwesomeIcon
-                            icon="fa-solid fa-circle-user "
-                            className="md:text-5xl cursor-pointer"
+                            icon="fa-solid fa-circle-user"
+                            className="md:text-4xl cursor-pointer"
                         />
                     </div>
-                    <ul
-                        tabIndex={0}
-                        className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm "
-                    >
-                        <li>
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    handleLogout("logout");
-                                }}
-                                className="text-red-500"
-                            >
-                                Log Out
-                            </button>
-                        </li>
-                    </ul>
                 </div>
             </div>
         </div>
