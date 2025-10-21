@@ -14,7 +14,7 @@ class BusController extends Controller
     public function index()
     {
         $buses = Bus::all();
-        return Inertia::render('Admin/Data-Bus/Index', [
+        return Inertia::render('Admin/DataBus/Index', [
             'buses' => $buses,
         ]);
     }
