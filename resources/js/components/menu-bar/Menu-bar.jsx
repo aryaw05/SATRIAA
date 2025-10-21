@@ -42,13 +42,34 @@ export default function MenuBar(props) {
     const busSearchData = (id) => {
         setIdBus(id);
         onClickBus(id);
-        const detailDataBus = detailBus.filter((e) => e.id_bus === id);
-        setBusInformation(detailDataBus[0]);
     };
+    useEffect(() => {
+        if (idBus) {
+            const detailDataBus = detailBus.filter((e) => e.id_bus === idBus);
+            setBusInformation(detailDataBus[0]);
+            if (dataBus.length > 0) {
+                const realTimeData = dataBus.filter((e) => e.id_bus === idBus);
+                if (realTimeData.length === 0) return;
+                const detailDataBus = detailBus.filter(
+                    (e) => e.id_bus === idBus
+                );
 
-    console.log(busInformation);
+                setBusInformation((prevData) => {
+                    return {
+                        ...prevData,
+                        id_bus: idBus,
+                        nomor_bus: detailDataBus[0].nomor_bus,
+                        kapasitas_tempat_duduk: realTimeData[0].kepadatan,
+                        kondisi: realTimeData[0].kondisi,
+                        plat_nomor: detailDataBus[0].plat_nomor,
+                        tipe_bus: detailDataBus[0].tipe_bus,
+                        jenis_bus: detailDataBus[0].jenis_bus,
+                    };
+                });
+            }
+        }
+    }, [dataBus, idBus, detailBus]);
 
-    // Manual toggle function
     const toggleMenu = () => {
         if (openState === "closed") {
             setOpenState("partial");
@@ -71,7 +92,7 @@ export default function MenuBar(props) {
                 return "translate-y-[83%]";
         }
     };
-
+    console.log(busInformation);
     const setJadwal = useMemo(() => {
         if (!idBus) {
             return [];
