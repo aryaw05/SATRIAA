@@ -10,14 +10,14 @@ import { router } from "@inertiajs/react";
 
 const GpsSatria = (props) => {
     const { bus } = props;
-    const [isActive, setIsActive] = useState(bus.status);
+    const [isActive, setIsActive] = useState(!!bus.status);
     const [kepadatan, setKepadatan] = useState(bus.kapasitas_tempat_duduk);
     const [statusBus, setStatusBus] = useState(bus.kondisi);
     const [openKepadatan, setOpenKepadatan] = useState(false);
     const [openStatusBus, setOpenStatusBus] = useState(false);
     const intervalRef = useRef(null);
     console.log(isActive);
-    const toggleGps = () => setIsActive((prev) => (prev ? false : true));
+    const toggleGps = () => setIsActive((prev) => !prev);
     const updateLocation = () => {
         if (!navigator.geolocation) {
             console.warn("Geolocation tidak didukung");
@@ -147,13 +147,14 @@ const GpsSatria = (props) => {
 
             {/* Konten */}
             <div className="bg-gray-100 min-h-screen mx-5">
-                <div className="bg-white rounded-3xl mt-10 mx-5 px-6 py-6 w-full max-w-md mx-auto">
+                <div className="bg-white rounded-3xl mt-10  px-6 py-6 w-full max-w-md mx-auto">
                     <h1 className="font-bold text-2xl mb-0">{bus.nomor_bus}</h1>
 
                     <h2 className="text-gray-400 text-xl mb-3">ON/OFF GPS</h2>
 
                     {/* ON/OFF Toggle */}
-                    <div className="flex items-center justify-between mb-1"> ive ? (
+                    <div className="flex items-center justify-between mb-1">
+                        {isActive ? (
                             <div className="flex items-center space-x-2">
                                 <FontAwesomeIcon
                                     icon={faCircleCheck}
