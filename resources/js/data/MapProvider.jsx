@@ -101,7 +101,6 @@ const MapProvider = forwardRef((props, ref) => {
             } else {
                 const existingMarker = busMarkerRef.current[bus.id_bus];
                 const currentLatLng = existingMarker.getLatLng();
-                console.log("Bus Marker:", existingMarker);
 
                 if (
                     currentLatLng.lat !== bus.lokasi_lat ||
@@ -114,16 +113,26 @@ const MapProvider = forwardRef((props, ref) => {
     }, [bus, realTimeBus]);
     // halte
     useEffect(() => {
-        // terminal
-        halte.map((data) => {
+        if (!mapRef.current) return;
+
+        // Buat group layer
+        const halteLayer = L.layerGroup().addTo(mapRef.current);
+
+        halte.forEach((data) => {
             L.marker([data.lokasi_lat, data.lokasi_long], {
                 icon: createCustomIcon("halte", data.nama_halte),
                 alt: data.nama_halte,
                 id: data.id_halte,
             })
-                .addTo(mapRef.current)
+                .addTo(halteLayer)
                 .on("click", clickZoom);
         });
+
+        // Cleanup sebelum re-render
+        return () => {
+            halteLayer.clearLayers();
+            mapRef.current.removeLayer(halteLayer);
+        };
     }, [halte]);
     useEffect(() => {
         if (!mapRef.current || !myLocation.lat) return;
