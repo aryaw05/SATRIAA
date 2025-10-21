@@ -22,7 +22,7 @@ class BusLoginController extends Controller
     {
         $request->validate([
             'id_bus' => 'required|exists:buses,id_bus',
-            'password' => 'required',
+            'password' => 'required|min:6'
         ]);
 
         $bus = DB::table('buses')->where('id_bus', $request->id_bus)->first();

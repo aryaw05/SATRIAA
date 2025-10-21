@@ -55,7 +55,7 @@ const MapProvider = forwardRef((props, ref) => {
         const bounds = L.latLngBounds(southWest, northEast);
         const map = L.map(mapContainerRef.current, {
             // maxBounds: bounds,
-            center: [-7.8238, 112.0209],
+            center: [-7.817812, 112.0430911],
             zoom: 17,
             minZoom: 15,
         });
