@@ -15,10 +15,6 @@ const DashboardKernet = (props) => {
     const { showError, clearAlert, isAlert } = useAlert();
     const [activeBus, setActiveBus] = useState(null);
 
-
-
-    
-
     function logoutButton() {
         router.post("/logout");
     }
@@ -33,9 +29,7 @@ const DashboardKernet = (props) => {
             {/* Navbar */}
             <div className="navbar bg-base-100 w-full z-50">
                 <div className="flex-1">
-                    <h1 className="text-2xl font-bold p-4">
-                        Dashboard Kernet 11
-                    </h1>
+                    <h1 className="text-2xl font-bold p-4">Dashboard Kernet</h1>
                 </div>
                 <div className="flex-none pr-4 text-md sm:text-2xl flex flex-col items-end">
                     <div className="dropdown dropdown-end">
@@ -75,7 +69,6 @@ const DashboardKernet = (props) => {
                     >
                         <div className="flex items-center justify-between pb-2 mb-3">
                             <h1 className="text-4xl font-bold">
-                                {" "}
                                 {e.nomor_bus}
                             </h1>
                             <div className="indicator">

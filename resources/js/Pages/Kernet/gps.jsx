@@ -10,16 +10,14 @@ import { router } from "@inertiajs/react";
 
 const GpsSatria = (props) => {
     const { bus } = props;
-
-    const [isActive, setIsActive] = useState(false);
-    const [kepadatan, setKepadatan] = useState(false);
-    const [statusBus, setStatusBus] = useState(false);
+    const [isActive, setIsActive] = useState(bus.status);
+    const [kepadatan, setKepadatan] = useState(bus.kapasitas_tempat_duduk);
+    const [statusBus, setStatusBus] = useState(bus.kondisi);
     const [openKepadatan, setOpenKepadatan] = useState(false);
     const [openStatusBus, setOpenStatusBus] = useState(false);
     const intervalRef = useRef(null);
-    console.log("duduk", kepadatan);
-
-    const toggleGps = () => setIsActive((prev) => !prev);
+    console.log(isActive);
+    const toggleGps = () => setIsActive((prev) => (prev ? false : true));
     const updateLocation = () => {
         if (!navigator.geolocation) {
             console.warn("Geolocation tidak didukung");
@@ -56,7 +54,7 @@ const GpsSatria = (props) => {
         );
     };
 
-    function updateStatusBus() {
+    function updateKondisiBus() {
         router.put(
             `/kernet/dashboard/bus/updateKondisi/${bus.id_bus}`,
             {
@@ -91,10 +89,27 @@ const GpsSatria = (props) => {
             }
         );
     }
+
+    function updateStatusBus() {
+        router.put(
+            `/kernet/dashboard/bus/updateStatus/${bus.id_bus}`,
+            {
+                status: isActive,
+            },
+            {
+                onError: (errors) => {
+                    console.error("Gagal kirim status bus:", errors);
+                },
+                onSuccess: () => {
+                    console.log(`Status Bus ${bus.id_bus} terkirim:`, isActive);
+                },
+            }
+        );
+    }
     useEffect(() => {
         if (isActive) {
             updateLocation();
-            intervalRef.current = setInterval(updateLocation, 5000); // update tiap 3 detik
+            intervalRef.current = setInterval(updateLocation, 50000);
         } else {
             if (intervalRef.current) clearInterval(intervalRef.current);
         }
@@ -111,8 +126,11 @@ const GpsSatria = (props) => {
     }, [kepadatan]);
 
     useEffect(() => {
+        updateStatusBus();
+    }, [isActive]);
+    useEffect(() => {
         if (isActive && statusBus) {
-            updateStatusBus();
+            updateKondisiBus();
         }
     }, [statusBus]);
 
@@ -135,8 +153,7 @@ const GpsSatria = (props) => {
                     <h2 className="text-gray-400 text-xl mb-3">ON/OFF GPS</h2>
 
                     {/* ON/OFF Toggle */}
-                    <div className="flex items-center justify-between mb-1">
-                        {isActive ? (
+                    <div className="flex items-center justify-between mb-1"> ive ? (
                             <div className="flex items-center space-x-2">
                                 <FontAwesomeIcon
                                     icon={faCircleCheck}
