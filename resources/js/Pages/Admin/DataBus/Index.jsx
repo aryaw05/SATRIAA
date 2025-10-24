@@ -46,40 +46,39 @@ export default function InputBus(props) {
             <AlertList isAlert={isAlert} clearAlert={clearAlert} />
             <div className="px-4 py-5">
                 <button
-                    className="btn bg-orange-500 mb-3 rounded-lg w-1/2 lg:w-auto"
+                    className="btn text-sm bg-green-600 text-white mb-3 rounded-lg w-1/2 lg:w-auto"
                     onClick={() => addDataBus("my_modal_2")}
                 >
                     + Tambah Data
                 </button>
-                <div className="overflow-auto">
-                    <table className="table border border-collapse text-center w-full min-w-[500px]">
-                        <thead className="bg-orange-500">
+                <div className=" overflow-x-auto  rounded-lg bg-base-100 shadow-sm">
+                    <table className="table text-center w-full min-w-[500px]">
+                        <thead className="bg-gray-200 ">
                             <tr>
-                                <th className="border">Nama Bus</th>
-                                <th className="border">Jenis Bus</th>
-                                <th className="border">Plat Nomor</th>
-                                <th className="border">Status</th>
-                                <th className="border">Action</th>
+                                <th>Nama Bus</th>
+                                <th>Jenis Bus</th>
+                                <th>Plat Nomor</th>
+                                <th>Status</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {buses?.map((e, index) => {
                                 return (
-                                    <tr key={index}>
-                                        <td className="border">
-                                            {e.nomor_bus}
+                                    <tr
+                                        key={index}
+                                        className="bg-white border-b  border-gray-200 hover:bg-gray-50 "
+                                    >
+                                        <td>{e.nomor_bus}</td>
+                                        <td>{e.jenis_bus}</td>
+                                        <td>{e.plat_nomor}</td>
+                                        <td>
+                                            {e.status ? "Aktif" : "Tidak Aktif"}
                                         </td>
-                                        <td className="border">
-                                            {e.jenis_bus}
-                                        </td>
-                                        <td className="border">
-                                            {e.plat_nomor}
-                                        </td>
-                                        <td className="border"> {e.status}</td>
-                                        <td className="border">
+                                        <td>
                                             <div className="justify-center flex gap-2">
                                                 <button
-                                                    className="btn btn-error"
+                                                    className="btn bg-red-500 text-white"
                                                     onClick={() =>
                                                         handleDelete(
                                                             e.id_bus,
