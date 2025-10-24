@@ -19,7 +19,8 @@ Route::middleware('web')->group(function () {
   Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
   Route::middleware(['auth', \App\Http\Middleware\RoleMiddleware::class . ':admin'])->group(function () {
-    // jadwal
+    // jadwal routes
+    Route::get('/admin/dashboard/jadwal', [JadwalBusController::class, 'index'])->name('index');
     Route::post('/admin/dashboard/jadwal/add', [JadwalBusController::class, 'store'])->name('store');
     Route::put('/admin/dashboard/jadwal/edit/{id}', [JadwalBusController::class, 'update'])->name('jadwal.update');
     Route::delete('/admin/dashboard/jadwal/delete/{id}', [JadwalBusController::class, 'destroy'])->name('destroy');
@@ -31,19 +32,20 @@ Route::middleware('web')->group(function () {
     Route::get('/updateKondisi', [KondisiBusController::class, 'updateKondisi'])->name('updateKondisi');
     Route::post('/updateKondisiBus', [KondisiBusController::class, 'update'])->name('update');
 
-    // CRUD BUS
 
-    Route::get('/admin/dashboard/bus', [AdminController::class, 'retrieveData'])->name('bus.index');   
+
+// Routing data bus
+    Route::get('/admin/dashboard/bus', [BusController::class, 'index'])->name('bus.index');
     Route::post('/admin/dashboard/bus/add', [BusController::class, 'store'])->name('bus.store');  // simpan data
     Route::put('/admin/dashboard/bus/edit/{bus}', [BusController::class, 'update'])->name('bus.update');
     Route::delete('/admin/dashboard/bus/delete/{bus}', [BusController::class, 'destroy'])->name('bus.destroy');
 
     // akun Kernet
-
+   Route::get('/admin/dashboard/kernet', [App\Http\Controllers\AdminController::class, 'listKernet'])->name('kernet.list');
     Route::post('/admin/dashboard/kernet/add', [AdminController::class, 'storeKernet'])->name('admin.storeKernet');
     Route::delete('/admin/dashboard/kernet/delete/{id}', [AdminController::class, 'deleteKernet'])->name('admin.deleteKernet');
 
-    Route::get('/admin/dashboard/kernet', [App\Http\Controllers\AdminController::class, 'listKernet'])->name('kernet.list');
+ 
 
 
     Route::get('/admin/dashboard', [AdminController::class, 'storeHalte'])->name('storeHalte');
@@ -60,6 +62,7 @@ Route::middleware('web')->group(function () {
     Route::get('/kernet/dashboard/bus', [BusLoginController::class, 'dashboard'])->name('dashboard');
     Route::put('/kernet/dashboard/bus/updateKondisi/{bus}', [KernetController::class, 'updateKondisi'])->name('bus.update');
     Route::put('/kernet/dashboard/bus/updateKapasitas/{bus}', [KernetController::class, 'updateKapasitas'])->name('bus.update');
+    Route::put('/kernet/dashboard/bus/updateStatus/{bus}', [KernetController::class, 'updateStatus'])->name('bus.update');
     Route::post('/kernet/dashboard/location/update', [BusLocationController::class, 'updateLocation']);
   });
 });

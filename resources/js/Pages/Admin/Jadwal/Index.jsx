@@ -1,11 +1,16 @@
 import { use, useEffect, useState } from "react";
-import useActionForm from "../../hooks/useActionForm";
-import { handleDelete, handleEdit, handleSubmit } from "../../utils/handleCRUD";
-import { useAlert } from "../../hooks/useAlert";
-import AlertList from "../../components/alert/AlertList";
+import useActionForm from "../../../hooks/useActionForm";
+import {
+    handleDelete,
+    handleEdit,
+    handleSubmit,
+} from "../../../utils/handleCRUD";
+import { useAlert } from "../../../hooks/useAlert";
+import AlertList from "../../../components/alert/AlertList";
+import DashboardLayout from "../Layout/DashboardLayout";
 
 export default function JadwalBus(props) {
-    const { buses, halte, jadwal } = props;
+    const { jadwal, buses, halte } = props;
     const { isAlert, showError, showSuccess, clearAlert } = useAlert();
 
     const { formData, handleChange, setFormData } = useActionForm();
@@ -28,7 +33,6 @@ export default function JadwalBus(props) {
             setFormData({});
         }
     }, [dataJadwal]);
-    console.log(formData);
 
     function editDataJadwal(modalId, index) {
         const modal = document.getElementById(modalId);
@@ -43,48 +47,42 @@ export default function JadwalBus(props) {
         if (modal) modal.showModal();
     }
     return (
-        <>
+        <DashboardLayout>
             <AlertList isAlert={isAlert} clearAlert={clearAlert} />
 
-            <div className="lg:w-1/2 w-full">
+            <div className="px-4 py-5 ">
                 <button
-                    className="btn bg-orange-400 mb-3 rounded-lg w-1/2 lg:w-auto"
+                    className="btn bg-green-600 text-white mb-3 rounded-lg w-1/2 lg:w-auto"
                     onClick={() => addDataJadwal("my_modal_1")}
                 >
                     + Tambah Jadwal
                 </button>
-                <div className="overflow-auto">
-                    <table className="table border border-collapse text-center w-full min-w-[500px]">
-                        <thead className="bg-orange-400">
+                <div className=" overflow-x-auto  rounded-lg bg-base-100 shadow-sm">
+                    <table className="table  text-center w-full min-w-[500px]">
+                        <thead className="bg-gray-200">
                             <tr>
-                                <th className="border">Nama Bus</th>
-                                <th className="border">Nama Halte</th>
-                                <th className="border">Waktu Berangkat</th>
-                                <th className="border">Waktu Tiba</th>
-                                <th className="border">Action</th>
+                                <th>Nama Bus</th>
+                                <th>Nama Halte</th>
+                                <th>Waktu Berangkat</th>
+                                <th>Waktu Tiba</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {jadwal?.map((e, index) => {
                                 return (
-                                    <tr key={index}>
-                                        <td className="border">
-                                            {e.bus.nomor_bus}
-                                        </td>
-                                        <td className="border">
-                                            {e.halte.nama_halte}
-                                        </td>
-                                        <td className="border">
-                                            {" "}
-                                            {e.waktu_berangkat}
-                                        </td>
-                                        <td className="border">
-                                            {e.waktu_tiba}
-                                        </td>
-                                        <td className="border">
-                                            <div className="justify-center flex flex-col gap-2">
+                                    <tr
+                                        key={index}
+                                        className="bg-white border-b  border-gray-200 hover:bg-gray-50 "
+                                    >
+                                        <td>{e.bus.nomor_bus}</td>
+                                        <td>{e.halte.nama_halte}</td>
+                                        <td>{e.waktu_berangkat}</td>
+                                        <td>{e.waktu_tiba}</td>
+                                        <td>
+                                            <div className="justify-center flex  gap-2">
                                                 <button
-                                                    className="btn btn-error"
+                                                    className="btn bg-red-500 text-white"
                                                     onClick={() =>
                                                         handleDelete(
                                                             e.id_jadwal,
@@ -354,6 +352,6 @@ export default function JadwalBus(props) {
                     </form>
                 </div>
             </dialog>
-        </>
+        </DashboardLayout>
     );
 }

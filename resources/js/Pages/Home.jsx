@@ -27,7 +27,6 @@ export default function Home(props) {
                             updated.push(incoming);
                         }
                     });
-
                     return updated;
                 });
             }
@@ -37,7 +36,6 @@ export default function Home(props) {
             window.Echo.leave("data-kepadatan-bus.");
         };
     }, []);
-
     // useEffect(() => {
     //     const channel = window.Echo.channel("location-updated.");
 
@@ -81,7 +79,6 @@ export default function Home(props) {
                             updated.push(incoming);
                         }
                     });
-                    console.log(updated);
 
                     return updated;
                 });
@@ -92,7 +89,6 @@ export default function Home(props) {
             window.Echo.leave("location-updated.");
         };
     }, []);
-    console.log(location);
 
     const Location = () => {
         if (mapProviderRef.current) {

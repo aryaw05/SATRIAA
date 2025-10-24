@@ -14,13 +14,13 @@ export default function createCustomIcon(iconType, label) {
         },
     };
 
-    const config = iconConfig[iconType] || iconConfig.halte; // Fallback ke halte jika type tidak ada
+    const config = iconConfig[iconType] || iconConfig.halte;
 
     return L.divIcon({
         className: `my-div-icon ${config.className}`,
         html: `
             <img src="${config.iconUrl}" class="w-9 h-9" />
-            <span class="my-div-span font-semibold">${label}</span>
+            <span class="my-div-span font-semibold font-poppins ">${label}</span>
         `,
         iconAnchor: [17, 35],
         shadowAnchor: [4, 62],

@@ -42,13 +42,36 @@ export default function MenuBar(props) {
     const busSearchData = (id) => {
         setIdBus(id);
         onClickBus(id);
-        const detailDataBus = detailBus.filter((e) => e.id_bus === id);
-        setBusInformation(detailDataBus[0]);
     };
+    useEffect(() => {
+        if (idBus) {
+            const detailDataBus = detailBus.filter((e) => e.id_bus === idBus);
+            setBusInformation(detailDataBus[0]);
+            if (dataBus.length > 0) {
+                const realTimeData = dataBus.filter((e) => e.id_bus === idBus);
+                if (realTimeData.length === 0) return;
+                const detailDataBus = detailBus.filter(
+                    (e) => e.id_bus === idBus
+                );
+                setBusInformation((prevData) => {
+                    return {
+                        ...prevData,
+                        id_bus: idBus,
+                        nomor_bus: detailDataBus[0].nomor_bus,
+                        kapasitas_tempat_duduk:
+                            realTimeData[0].kepadatan ||
+                            detailDataBus[0].kapasitas_tempat_duduk,
+                        kondisi:
+                            realTimeData[0].kondisi || detailDataBus[0].kondisi,
+                        plat_nomor: detailDataBus[0].plat_nomor,
+                        tipe_bus: detailDataBus[0].tipe_bus,
+                        jenis_bus: detailDataBus[0].jenis_bus,
+                    };
+                });
+            }
+        }
+    }, [dataBus, idBus, detailBus]);
 
-    console.log(busInformation);
-
-    // Manual toggle function
     const toggleMenu = () => {
         if (openState === "closed") {
             setOpenState("partial");
@@ -71,7 +94,7 @@ export default function MenuBar(props) {
                 return "translate-y-[83%]";
         }
     };
-
+    console.log(busInformation);
     const setJadwal = useMemo(() => {
         if (!idBus) {
             return [];
@@ -94,13 +117,13 @@ export default function MenuBar(props) {
         >
             <div className="mb-4 mx-4 px-2 flex h-16 items-center justify-between">
                 <button
-                    className="bg-orange-primary p-3 rounded-xl flex items-center justify-center"
+                    className="bg-linear-65 from-red-500 from-10% to-red-secondary to-90% p-3 rounded-xl flex items-center justify-center"
                     onClick={onClickUser}
                     aria-label="Tambah user"
                 >
                     <FontAwesomeIcon
                         icon="fa-solid fa-location-crosshairs"
-                        className="text-2xl text-white"
+                        className="text-2xl text-white "
                     />
                 </button>
 
@@ -112,7 +135,6 @@ export default function MenuBar(props) {
                             key={index}
                             icon={"fa-solid fa-bus"}
                             className={"text-white text-2xl"}
-                            buttonColor={"orange-secondary"}
                         />
                     ))}
                 </div>
@@ -127,9 +149,9 @@ export default function MenuBar(props) {
                 </div>
                 <div className="bg-white-500 justify-items-center h-[calc(100%-20px)] overflow-y-auto">
                     <div className="flex items-center m-7 space-x-4">
-                        <div className="bg-orange-secondary rounded-3xl ">
+                        <div className="bg-red-secondary rounded-3xl ">
                             <FontAwesomeIcon
-                                icon="fa-solid fa-wheelchair"
+                                icon="fa-solid fa-users"
                                 className="text-5xl text-white p-4"
                             />
                         </div>
@@ -143,9 +165,9 @@ export default function MenuBar(props) {
                         </div>
                     </div>
                     <p className="text-xl font-medium mt-9 mb-4">Detail Bus</p>
-                    <div className="flex w-fit rounded-3xl overflow-hidden  bg-orange-primary">
+                    <div className="flex w-fit rounded-3xl overflow-hidden  bg-red-primary">
                         {/* Kiri: Ikon dan Nama */}
-                        <div className="bg-orange-secondary flex flex-col items-center justify-center px-5 py-4 rounded-3xl">
+                        <div className="bg-red-secondary flex flex-col items-center justify-center px-5 py-4 rounded-3xl">
                             <FontAwesomeIcon
                                 icon={"fa-solid fa-bus"}
                                 className="text-4xl text-white"
@@ -156,25 +178,25 @@ export default function MenuBar(props) {
                         </div>
 
                         {/* Kanan: Detail Info */}
-                        <div className="bg-orange-primary px-5 py-4 space-y-1">
+                        <div className="bg-red-primary px-5 py-4 space-y-1 text-white">
                             <div className="grid grid-cols-[90px_10px_1fr] text-md font-medium">
                                 <span>Jenis Bus</span>
                                 <span>:</span>
-                                <span className="text-black font-bold">
+                                <span className="text-white font-bold">
                                     {busInformation?.jenis_bus || "-"}
                                 </span>
                             </div>
                             <div className="grid grid-cols-[90px_10px_1fr] text-md font-medium">
                                 <span>Plat Nomor</span>
                                 <span>:</span>
-                                <span className="text-black font-bold">
+                                <span className="text-white font-bold">
                                     {busInformation?.plat_nomor || "-"}
                                 </span>
                             </div>
                             <div className="grid grid-cols-[90px_10px_1fr] text-md font-medium">
                                 <span>Kondisi Bus </span>
                                 <span>:</span>
-                                <span className="text-black font-bold">
+                                <span className="text-white font-bold">
                                     {busInformation?.kondisi || "-"}
                                 </span>
                             </div>
@@ -190,9 +212,9 @@ export default function MenuBar(props) {
                             {setJadwal.map((e, index) => (
                                 <div
                                     key={index}
-                                    className="flex items-center bg-orange-secondary rounded-2xl px-5 py-8 gap-4 "
+                                    className="flex items-center bg-red-secondary rounded-2xl px-5 py-8 gap-4 "
                                 >
-                                    <span className="text-md font-medium text-black">
+                                    <span className="text-md font-medium text-white">
                                         {e}
                                     </span>
                                     <div className="flex flex-wrap gap-2">

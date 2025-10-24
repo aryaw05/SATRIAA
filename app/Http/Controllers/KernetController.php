@@ -81,4 +81,17 @@ class KernetController extends Controller
     return redirect()->back()->with('success', 'Kapasitas dan kondisi bus berhasil diperbarui');
 }
 
+    public function updateStatus ( Request $request, Bus $bus)
+    {
+        $request->validate([
+            'status' => 'boolean',
+        ]);
+
+        $bus->update([
+            'status' => $request->status,
+        ]);
+        
+        return redirect()->back()->with('success', 'Status bus berhasil diperbarui');
+
+    }
 }

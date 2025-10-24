@@ -59,7 +59,7 @@ const LoginSatria = () => {
                     </svg>
                     <span>{isAlert && isAlert.errors}</span>
                 </div>
-                <div className="rounded-3xl w-full sm:w-[90%] md:w-[70%] lg:w-[40%] xl:w-[30%] max-w-md p-6 py-10 bg-white shadow-lg">
+                <div className="rounded-2xl w-full sm:w-[90%] md:w-[70%] lg:w-[40%] xl:w-[30%] max-w-md p-6 py-10 bg-white shadow-lg">
                     <h1 className="text-2xl font-semibold text-center mb-4">
                         Login
                     </h1>

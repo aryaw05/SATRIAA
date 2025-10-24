@@ -11,12 +11,6 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        // Seeder Users
-        DB::table('users')->insert([
-            ['nama' => 'Admin User', 'username' => 'admin@example.com', 'password' => bcrypt('password'), 'role' => 'admin'],
-            ['nama' => 'Sopir 1', 'username' => 'sopir1@example.com', 'password' => bcrypt('password'), 'role' => 'bus'],
-            ['nama' => 'Sopir 2', 'username' => 'sopir2@example.com', 'password' => bcrypt('password'), 'role' => 'bus']
-        ]);
 
         // Seeder Buses
         DB::table('buses')->insert([
@@ -28,7 +22,7 @@ class DatabaseSeeder extends Seeder
                 'kapasitas_tempat_duduk' => 40,
                 'status' => 'aktif',
                 'kondisi' => 'baik',
-                'password' => bcrypt('123'), // tambahkan password bus
+                'password' => bcrypt('bus123456'), 
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -39,7 +33,7 @@ class DatabaseSeeder extends Seeder
                 'kapasitas_tempat_duduk' => 35,
                 'status' => 'aktif',
                 'kondisi' => 'baik',
-                'password' => bcrypt('123'),
+                'password' => bcrypt('bus123456'), 
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -50,7 +44,7 @@ class DatabaseSeeder extends Seeder
                 'kapasitas_tempat_duduk' => 45,
                 'status' => 'tidak aktif',
                 'kondisi' => 'baik',
-                'password' => bcrypt('123'),
+                'password' => bcrypt('bus123456'), 
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -71,14 +65,10 @@ class DatabaseSeeder extends Seeder
             ['id_bus' => 3, 'tempat_duduk_tersedia' => 25, 'waktu_update' => now()]
         ]);
 
-        // Seeder Halte
-        DB::table('haltes')->insert([
-            ['nama_halte' => 'Halte A', 'lokasi_lat' => -6.220000, 'lokasi_long' => 106.830000],
-            ['nama_halte' => 'Halte B', 'lokasi_lat' => -6.221000, 'lokasi_long' => 106.831000],
-            ['nama_halte' => 'Halte C', 'lokasi_lat' => -6.222000, 'lokasi_long' => 106.832000]
-        ]);
         $this->call([
             UserSeeder::class,
         ]);
+        
+        $this->call(AdminUserSeeder::class);
     }
 }
