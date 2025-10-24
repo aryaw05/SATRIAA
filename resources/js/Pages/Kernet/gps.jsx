@@ -18,6 +18,9 @@ const GpsSatria = (props) => {
     const intervalRef = useRef(null);
     console.log(isActive);
     const toggleGps = () => setIsActive((prev) => !prev);
+    const handleLogout = () => {
+        router.post("/logoutBus");
+    };
     const updateLocation = () => {
         if (!navigator.geolocation) {
             console.warn("Geolocation tidak didukung");
@@ -137,20 +140,33 @@ const GpsSatria = (props) => {
     return (
         <div className="bg-gray-100 min-h-screen items-center justify-center">
             {/* Navbar */}
-            <div className="navbar bg-gray-100 w-full z-50">
-                <div className="flex-1">
-                    <h1 className="text-2xl font-bold p-4">
-                        Dashboard SATRIA{" "}
+            <div className="navbar bg-gray-100 w-full z-50 ">
+                <div className="flex justify-between w-full px-5 py-5">
+                    <h1 className="text-2xl font-bold ">
+                        Dashboard Trans Kediri
                     </h1>
+                    <button
+                        onClick={handleLogout}
+                        className="button bg-red-500 rounded-md px-6 py-2 shadow-md text-white font-bold hover:bg-red-400 cursor-pointer "
+                    >
+                        Logout
+                    </button>
                 </div>
             </div>
 
             {/* Konten */}
             <div className="bg-gray-100 min-h-screen mx-5">
                 <div className="bg-white rounded-3xl mt-10  px-6 py-6 w-full max-w-md mx-auto">
-                    <h1 className="font-bold text-2xl mb-0">{bus.nomor_bus}</h1>
-
-                    <h2 className="text-gray-400 text-xl mb-3">ON/OFF GPS</h2>
+                    <div className="flex justify-between w-full items-center">
+                        <div className="">
+                            <h1 className="font-bold text-2xl mb-0">
+                                {bus.nomor_bus}
+                            </h1>
+                            <h2 className="text-gray-400 text-xl mb-3">
+                                ON/OFF GPS
+                            </h2>
+                        </div>
+                    </div>
 
                     {/* ON/OFF Toggle */}
                     <div className="flex items-center justify-between mb-1">

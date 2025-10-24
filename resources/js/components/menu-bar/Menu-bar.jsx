@@ -204,7 +204,7 @@ export default function MenuBar(props) {
                     </div>
 
                     <p className="text-xl font-medium mt-9 mb-4 ">
-                        Jadwal Kedatangan Satria
+                        Jadwal Kedatangan Trans Kediri
                     </p>
 
                     {setJadwal && setJadwal.length > 0 ? (
