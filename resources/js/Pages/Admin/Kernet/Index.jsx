@@ -49,38 +49,36 @@ export default function InputAkunKernet(props) {
             <div className="px-4 py-5">
                 <div className=" w-full">
                     <button
-                        className="btn bg-orange-400 mb-3 rounded-lg w-1/2 lg:w-auto"
+                        className="btn bg-green-600 text-white mb-3 rounded-lg w-1/2 lg:w-auto"
                         onClick={() => showModal("my_modal_1")}
                     >
                         + Tambah Akun Kernet
                     </button>
-                    <div className="overflow-auto">
-                        <table className="table border border-collapse text-center w-full min-w-[500px]">
-                            <thead className="bg-orange-400">
+                    <div className="overflow-x-auto  rounded-lg bg-base-100 shadow-sm">
+                        <table className="table  text-center w-full min-w-[500px]">
+                            <thead className="bg-gray-200 ">
                                 <tr>
-                                    <th className="border">Nama Kernet</th>
-                                    <th className="border">username</th>
-                                    <th className="border">update terakhir</th>
-                                    <th className="border">Action</th>
+                                    <th>Nama Kernet</th>
+                                    <th>username</th>
+                                    <th>update terakhir</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {/* bagian kolom kernet */}
                                 {kernet?.map((e, index) => {
                                     return (
-                                        <tr key={index}>
-                                            <td className="border">{e.nama}</td>
-                                            <td className="border">
-                                                {" "}
-                                                {e.username}
-                                            </td>
-                                            <td className="border">
-                                                {e.updated_at}
-                                            </td>
-                                            <td className="border">
+                                        <tr
+                                            key={index}
+                                            className="bg-white border-b  border-gray-200 hover:bg-gray-50 "
+                                        >
+                                            <td>{e.nama}</td>
+                                            <td> {e.username}</td>
+                                            <td>{e.updated_at}</td>
+                                            <td>
                                                 <div className="justify-center flex flex-col gap-2">
                                                     <button
-                                                        className="btn btn-error"
+                                                        className="btn bg-red-500 text-white"
                                                         onClick={() =>
                                                             handleDelete(
                                                                 e.id_user,
