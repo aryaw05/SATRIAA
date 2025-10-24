@@ -140,7 +140,7 @@ const HalteSatria = (props) => {
                                     {/* Submit Button */}
                                     <div className="flex justify-center mt-3">
                                         <button
-                                            className="btn rounded-lg bg-orange-500 w-3/4 text-white"
+                                            className="btn rounded-lg bg-red-primary w-3/4 text-white"
                                             type="submit"
                                         >
                                             Submit
@@ -152,9 +152,9 @@ const HalteSatria = (props) => {
 
                         {/* Detail Halte - Di luar form */}
                         <div className="w-full px-6 mt-5 sm:w-4/6 sm:ml-auto ">
-                            <div className="flex justify-between rounded-3xl bg-[#f1c65d] shadow-md ">
+                            <div className="flex justify-between rounded-3xl bg-red-tertiary shadow-md ">
                                 {/* Icon */}
-                                <div className="bg-orange-500 flex items-center justify-center px-5 py-4 rounded-l-3xl">
+                                <div className="bg-red-secondaryx flex items-center justify-center px-5 py-4 rounded-l-3xl">
                                     <FontAwesomeIcon
                                         icon={"fa-solid fa-bus"}
                                         className="text-4xl text-white"
@@ -332,7 +332,7 @@ const HalteSatria = (props) => {
                             />
                         </div>
                         <div className="flex justify-center pt-4">
-                            <button className="btn bg-orange-500 w-4/5 text-white">
+                            <button className="btn bg-red-primary w-4/5 text-white">
                                 Submit
                             </button>
                         </div>
