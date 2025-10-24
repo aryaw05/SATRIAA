@@ -59,8 +59,11 @@ export default function MenuBar(props) {
                         ...prevData,
                         id_bus: idBus,
                         nomor_bus: detailDataBus[0].nomor_bus,
-                        kapasitas_tempat_duduk: realTimeData[0].kepadatan,
-                        kondisi: realTimeData[0].kondisi,
+                        kapasitas_tempat_duduk:
+                            realTimeData[0].kepadatan ||
+                            detailDataBus[0].kapasitas_tempat_duduk,
+                        kondisi:
+                            realTimeData[0].kondisi || detailDataBus[0].kondisi,
                         plat_nomor: detailDataBus[0].plat_nomor,
                         tipe_bus: detailDataBus[0].tipe_bus,
                         jenis_bus: detailDataBus[0].jenis_bus,
