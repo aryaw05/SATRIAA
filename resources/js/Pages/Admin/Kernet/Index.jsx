@@ -190,7 +190,7 @@ export default function InputAkunKernet(props) {
                             />
                         </div>
                         <div className="flex justify-center pt-4">
-                            <button className="btn bg-orange-500 w-4/5 text-white">
+                            <button className="btn bg-red-tertiary w-4/5 ">
                                 Submit
                             </button>
                         </div>
