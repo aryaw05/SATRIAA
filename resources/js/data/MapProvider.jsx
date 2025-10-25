@@ -79,7 +79,7 @@ const MapProvider = forwardRef((props, ref) => {
 
     useEffect(() => {
         const flipCoords = kediriPolygon.map((coord) => [coord[1], coord[0]]);
-        L.polyline(flipCoords, { color: "#298FFD", weight: 4 }).addTo(
+        L.polyline(flipCoords, { color: "#BF3131", weight: 4 }).addTo(
             mapRef.current
         );
     });

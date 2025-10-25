@@ -49,10 +49,9 @@ export default function JadwalBus(props) {
     return (
         <DashboardLayout>
             <AlertList isAlert={isAlert} clearAlert={clearAlert} />
-
             <div className="px-4 py-5 ">
                 <button
-                    className="btn bg-green-600 text-white mb-3 rounded-lg w-1/2 lg:w-auto"
+                    className="btn bg-red-tertiary  mb-3 rounded-lg w-1/2 lg:w-auto"
                     onClick={() => addDataJadwal("my_modal_1")}
                 >
                     + Tambah Jadwal
@@ -235,7 +234,7 @@ export default function JadwalBus(props) {
                             />
                         </div>
                         <div className="flex justify-center pt-4">
-                            <button className="btn bg-orange-500 w-4/5 text-white">
+                            <button className="btn bg-red-tertiary w-4/5 ">
                                 Submit
                             </button>
                         </div>
@@ -345,7 +344,7 @@ export default function JadwalBus(props) {
                             />
                         </div>
                         <div className="flex justify-center pt-4">
-                            <button className="btn bg-orange-500 w-4/5 text-white ">
+                            <button className="btn bg-red-tertiary w-4/5 ">
                                 Submit
                             </button>
                         </div>

@@ -46,7 +46,7 @@ export default function InputBus(props) {
             <AlertList isAlert={isAlert} clearAlert={clearAlert} />
             <div className="px-4 py-5">
                 <button
-                    className="btn text-sm bg-green-600 text-white mb-3 rounded-lg w-1/2 lg:w-auto"
+                    className="btn text-sm bg-red-tertiary  mb-3 rounded-lg w-1/2 lg:w-auto"
                     onClick={() => addDataBus("my_modal_2")}
                 >
                     + Tambah Data
@@ -221,7 +221,7 @@ export default function InputBus(props) {
                         </div>
                         <div className="flex justify-center pt-4">
                             <button
-                                className="btn bg-orange-500 w-4/5 text-white "
+                                className="btn bg-red-tertiary w-4/5 "
                                 type="submit"
                             >
                                 Submit
@@ -323,7 +323,7 @@ export default function InputBus(props) {
                         </div>
                         <div className="flex justify-center pt-4">
                             <button
-                                className="btn bg-orange-500 w-4/5 text-white "
+                                className="btn bg-red-tertiary w-4/5  "
                                 type="submit"
                             >
                                 Submit

@@ -10,10 +10,10 @@
 }
 
 @theme {
-    --color-orange-primary: #edb935;
-    --color-orange-secondary: #f48502;
-    --color-purple: #5b2f86;
-    --color-blue: #298ffd;
+    --color-red-primary: #7d0a0a;
+    --color-red-secondary: #bf3131;
+    --color-red-tertiary: #ead196;
+    --color-blue: #eeeeee;
     --font-poppins: "Poppins", sans-serif;
 }
 

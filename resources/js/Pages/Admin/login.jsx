@@ -95,7 +95,7 @@ const LoginSatria = () => {
                         <div className="flex justify-center pt-4">
                             <button
                                 type="submit"
-                                className="btn bg-orange-500 w-4/5 text-white p-2 rounded-md hover:bg-orange-600 transition"
+                                className="btn bg-red-primary w-4/5 text-white p-2 rounded-md hover:bg-red-secondary transition"
                             >
                                 Submit
                             </button>
