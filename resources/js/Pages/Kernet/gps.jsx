@@ -21,6 +21,20 @@ const GpsSatria = (props) => {
     const handleLogout = () => {
         router.post("/logoutBus");
     };
+
+    const resetLocation = () => {
+        const resetData = {
+            id_bus: bus.id_bus,
+            lokasi_lat: -7.810829,
+            lokasi_long: 112.063374,
+        };
+
+        router.post("/kernet/dashboard/location/update", resetData, {
+            onError: (errors) => {
+                console.error("Gagal kirim lokasi:", errors);
+            },
+        });
+    };
     const updateLocation = () => {
         if (!navigator.geolocation) {
             console.warn("Geolocation tidak didukung");
@@ -37,18 +51,28 @@ const GpsSatria = (props) => {
                     lokasi_long: lng,
                 };
 
-                router.post("/kernet/dashboard/location/update", data, {
-                    onError: (errors) => {
-                        console.error("Gagal kirim lokasi:", errors);
-                    },
-                    onSuccess: () => {
-                        console.log(
-                            `Lokasi Bus ${bus.id_bus} terkirim:`,
-                            lat,
-                            lng
-                        );
-                    },
-                });
+                const resetData = {
+                    id_bus: bus.id_bus,
+                    lokasi_lat: -7.810829,
+                    lokasi_long: 112.063374,
+                };
+
+                router.post(
+                    "/kernet/dashboard/location/update",
+                    isActive ? data : resetData,
+                    {
+                        onError: (errors) => {
+                            console.error("Gagal kirim lokasi:", errors);
+                        },
+                        onSuccess: () => {
+                            console.log(
+                                `Lokasi Bus ${bus.id_bus} terkirim:`,
+                                lat,
+                                lng
+                            );
+                        },
+                    }
+                );
             },
             (error) => {
                 console.error("Gagal dapatkan lokasi:", error);
@@ -121,6 +145,10 @@ const GpsSatria = (props) => {
             if (intervalRef.current) clearInterval(intervalRef.current);
         };
     }, [isActive, bus.id_bus, kepadatan, statusBus]);
+
+    useEffect(() => {
+        if (!isActive) resetLocation();
+    }, [isActive]);
 
     useEffect(() => {
         if (isActive && kepadatan) {
