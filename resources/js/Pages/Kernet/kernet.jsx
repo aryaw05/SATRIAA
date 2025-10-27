@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { router } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import useActionForm from "../../hooks/useActionForm";
 import { handleSubmit } from "../../utils/handleCRUD";
 import GpsRealtime from "./gps"; // pastikan path sudah benar
@@ -26,6 +26,7 @@ const DashboardKernet = (props) => {
 
     return (
         <div className="bg-white min-h-screen flex flex-col">
+            <Head title="Dashboard Kernet | Trans Kediri" />
             {/* Navbar */}
             <div className="navbar bg-base-100 w-full z-50">
                 <div className="flex-1">
@@ -72,12 +73,12 @@ const DashboardKernet = (props) => {
                                 {e.nomor_bus}
                             </h1>
                             <div className="indicator">
-                                <span className="indicator-item badge badge-warning me-2">
+                                <span className="indicator-item badge bg-red-tertiary me-2 border-none">
                                     {e.id_bus}
                                 </span>
                                 <FontAwesomeIcon
                                     icon={"fa-solid fa-bus"}
-                                    className="text-7xl text-orange-500"
+                                    className="text-7xl text-red-primary"
                                 />
                             </div>
                         </div>
@@ -140,7 +141,7 @@ const DashboardKernet = (props) => {
                                                 onChange={handleChange}
                                             />
                                             <button
-                                                className="btn bg-orange-primary hover:opacity-80"
+                                                className="btn bg-red-tertiary hover:opacity-80"
                                                 type="submit"
                                             >
                                                 Submit
