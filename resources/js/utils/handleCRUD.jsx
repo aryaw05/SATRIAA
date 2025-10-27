@@ -5,7 +5,7 @@ function handleSubmit(e, route, formData, options = {}) {
 }
 
 function handleDelete(id, route, options = {}) {
-    const res = router.delete(`/${route}/${id}`, options);
+    router.delete(`/${route}/${id}`, options);
 }
 
 function handleEdit(e, route, id, formData, options = {}) {
