@@ -1,4 +1,4 @@
-import { router } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import useActionForm from "../../hooks/useActionForm";
 import AlertList from "../../components/alert/AlertList";
 import { useAlert } from "../../hooks/useAlert";
@@ -34,6 +34,7 @@ const LoginSatria = () => {
     };
     return (
         <div className="bg-gray-200 min-h-screen flex items-center justify-center px-4">
+            <Head title="Login Bus | Trans Kediri" />
             <div className="w-full flex flex-col justify-center items-center">
                 <div
                     role="alert"

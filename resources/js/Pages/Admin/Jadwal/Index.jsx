@@ -47,7 +47,7 @@ export default function JadwalBus(props) {
         if (modal) modal.showModal();
     }
     return (
-        <DashboardLayout>
+        <DashboardLayout title="Jadwal Bus">
             <AlertList isAlert={isAlert} clearAlert={clearAlert} />
             <div className="px-4 py-5 ">
                 <button

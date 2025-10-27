@@ -41,15 +41,15 @@ export default function InputAkunKernet(props) {
     };
 
     return (
-        <DashboardLayout>
-            {/* Alert List */}
+        <DashboardLayout title="Kernet">
+        {/* Alert List */}
             <AlertList isAlert={isAlert} clearAlert={clearAlert} />
 
             {/* Konten */}
             <div className="px-4 py-5">
                 <div className=" w-full">
                     <button
-                        className="btn bg-green-600 text-white mb-3 rounded-lg w-1/2 lg:w-auto"
+                        className="btn bg-red-tertiary mb-3 rounded-lg w-1/2 lg:w-auto"
                         onClick={() => showModal("my_modal_1")}
                     >
                         + Tambah Akun Kernet

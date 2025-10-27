@@ -3,13 +3,11 @@ import Sidebar from "../../../components/Sidebar";
 import Navbar from "../../../components/navbar/Navbar";
 
 const DashboardLayout = (props) => {
-    const { children } = props;
+    const { children, title = "Dashboard" } = props;
 
     return (
         <>
-            <Head>
-                <title>Dashboard</title>
-            </Head>
+            <Head title={`${title} | Trans Kediri`} />
 
             <Sidebar>
                 <Navbar />

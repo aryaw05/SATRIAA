@@ -51,7 +51,7 @@ const HalteSatria = (props) => {
     };
 
     return (
-        <DashboardLayout>
+        <DashboardLayout title="Halte">
             <div className="bg-white min-h-screen items-center justify-center w-full">
                 <AlertList isAlert={isAlert} clearAlert={clearAlert} />
                 {/* Grid Layout for Desktop */}

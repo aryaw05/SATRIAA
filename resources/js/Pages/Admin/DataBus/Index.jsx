@@ -42,7 +42,7 @@ export default function InputBus(props) {
         if (modal) modal.showModal();
     }
     return (
-        <DashboardLayout>
+        <DashboardLayout title="Data Bus">
             <AlertList isAlert={isAlert} clearAlert={clearAlert} />
             <div className="px-4 py-5">
                 <button
