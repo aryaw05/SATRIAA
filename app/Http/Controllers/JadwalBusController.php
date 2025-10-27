@@ -51,7 +51,7 @@ class JadwalBusController extends Controller
         $request->waktu_tiba
     ));
 
-        return redirect()->route('bus.index')->with('success', 'Jadwal berhasil ditambahkan');
+            return redirect()->back()->with('success', 'Jadwal berhasil ditambahkan');
 
         // broadcast(new DataHalteEvent())
     }
@@ -67,13 +67,13 @@ class JadwalBusController extends Controller
         $jadwal = JadwalBus::findOrFail($id);
         $jadwal->update($validated);
 
-        return redirect()->route('bus.index')->with('success', 'Jadwal berhasil diupdate');
+        return redirect()->back()->with('success', 'Jadwal berhasil diupdate');
     }
 
     public function destroy($id)
     {
         JadwalBus::destroy($id);
 
-        return redirect()->route('bus.index')->with('success', 'Jadwal berhasil dihapus');
+        return redirect()->back()->with('success', 'Jadwal berhasil dihapus');
     }
 }
