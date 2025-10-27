@@ -25,7 +25,7 @@
       Route::put('/admin/dashboard/jadwal/edit/{id}', [JadwalBusController::class, 'update'])->name('jadwal.update');
       Route::delete('/admin/dashboard/jadwal/delete/{id}', [JadwalBusController::class, 'destroy'])->name('destroy');
 
-      // UPDATE Kursi
+      // UPDATE KURSI
       Route::get('/pageAdmin', [KondisiBusController::class, 'pageAdmin'])->name('pageAdmin');
       Route::get('/updateKursi', [updateKursiController::class, 'updateKursi'])->name('updateKursi');
       Route::post('/update', [updateKursiController::class, 'update']);
