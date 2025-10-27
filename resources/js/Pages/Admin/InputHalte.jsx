@@ -7,7 +7,7 @@ import { useAlert } from "../../hooks/useAlert";
 import AlertList from "../../components/alert/AlertList";
 import DashboardLayout from "./Layout/DashboardLayout";
 
-const HalteSatria = (props) => {
+const Halte = (props) => {
     const { halte } = props;
     const { formData, handleChange, setFormData } = useActionForm();
 
@@ -342,4 +342,4 @@ const HalteSatria = (props) => {
     );
 };
 
-export default HalteSatria;
+export default Halte;

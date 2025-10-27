@@ -8,7 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { router } from "@inertiajs/react";
 
-const GpsSatria = (props) => {
+const Gps = (props) => {
     const { bus } = props;
     const [isActive, setIsActive] = useState(!!bus.status);
     const [kepadatan, setKepadatan] = useState(bus.kapasitas_tempat_duduk);
@@ -435,4 +435,4 @@ const GpsSatria = (props) => {
         </div>
     );
 };
-export default GpsSatria;
+export default Gps;

@@ -4,7 +4,7 @@ import AlertList from "../../components/alert/AlertList";
 import { useAlert } from "../../hooks/useAlert";
 import { useEffect } from "react";
 
-const LoginSatria = () => {
+const LoginBus = () => {
     const { formData, handleChange } = useActionForm({
         username: "",
         password: "",
@@ -108,4 +108,4 @@ const LoginSatria = () => {
     );
 };
 
-export default LoginSatria;
+export default LoginBus;
