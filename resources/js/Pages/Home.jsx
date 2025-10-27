@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import MenuBar from "../components/menu-bar/Menu-bar";
 import MapProvider from "../data/MapProvider";
 import "../bootstrap.js";
+import { Head } from "@inertiajs/react";
 export default function Home(props) {
     const { halte, buses, jadwal, tracking } = props;
 
@@ -103,6 +104,7 @@ export default function Home(props) {
 
     return (
         <div>
+            <Head title="Trans Kediri" />
             <MapProvider
                 halte={halte}
                 isAdmin={false}

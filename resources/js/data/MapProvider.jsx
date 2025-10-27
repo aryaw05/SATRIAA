@@ -1,4 +1,4 @@
-import L from "leaflet";
+import L, { map } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import {
     forwardRef,
@@ -134,6 +134,7 @@ const MapProvider = forwardRef((props, ref) => {
             mapRef.current.removeLayer(halteLayer);
         };
     }, [halte]);
+    // user Location
     useEffect(() => {
         if (!mapRef.current || !myLocation.lat) return;
 
@@ -158,11 +159,20 @@ const MapProvider = forwardRef((props, ref) => {
                 return;
             }
             const buses = bus.find((b) => b.id_bus === busId);
-            if (buses && mapRef.current) {
-                mapRef.current.flyTo([buses.lokasi_lat, buses.lokasi_long], 17);
+            console.log(buses.lokasi_lat, buses.lokasi_long);
+            mapRef.current.flyTo([buses.lokasi_lat, buses.lokasi_long], 17);
+            if (realTimeBus.length > 0) {
+                const realTimeData = realTimeBus.find(
+                    (b) => b.id_bus === busId
+                );
+                if (!realTimeData) return;
+                mapRef.current.flyTo(
+                    [realTimeData.lokasi_lat, realTimeData.lokasi_long],
+                    17
+                );
             }
         },
-        [bus]
+        [bus, realTimeBus]
     );
 
     const userLocationHandle = useCallback(() => {
