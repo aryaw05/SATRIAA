@@ -13,7 +13,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-       $buses = Bus::select(['id_bus', 'nomor_bus' ,'plat_nomor', 'jenis_bus','kapasitas_tempat_duduk' , 'kondisi'])->get();
+       $buses = Bus::select(['id_bus', 'nomor_bus' ,'plat_nomor', 'jenis_bus','kapasitas_tempat_duduk' , 'kode_bus' , 'kondisi'])->get();
         $halte = Halte::all();
         $jadwal = JadwalBus::with(['bus', 'halte'])->get();
         $tracking   = TrackingBus::with('bus')->get();

@@ -200,6 +200,13 @@ export default function MenuBar(props) {
                                     {busInformation?.kondisi || "-"}
                                 </span>
                             </div>
+                            <div className="grid grid-cols-[90px_10px_1fr] text-md font-medium">
+                                <span>Kode Bus</span>
+                                <span>:</span>
+                                <span className="text-white font-bold">
+                                    {busInformation?.kode_bus || "-"}
+                                </span>
+                            </div>
                         </div>
                     </div>
 
