@@ -28,7 +28,6 @@ const MapProvider = forwardRef((props, ref) => {
         realTimeBus = [],
     } = props;
 
-    // fitur pada admin
     const clickZoom = useCallback(
         (e) => {
             mapRef.current.setView(e.target.getLatLng(), 25);
@@ -93,7 +92,7 @@ const MapProvider = forwardRef((props, ref) => {
                 busMarkerRef.current[bus.id_bus] = L.marker(
                     [bus.lokasi_lat, bus.lokasi_long],
                     {
-                        icon: createCustomIcon("bus", `${bus.lokasi_lat}`),
+                        icon: createCustomIcon("bus", `${bus.bus.kode_bus}`),
                     }
                 )
                     .addTo(mapRef.current)

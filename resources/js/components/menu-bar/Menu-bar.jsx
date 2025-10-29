@@ -94,7 +94,6 @@ export default function MenuBar(props) {
                 return "translate-y-[83%]";
         }
     };
-    console.log(busInformation);
     const setJadwal = useMemo(() => {
         if (!idBus) {
             return [];
@@ -127,11 +126,11 @@ export default function MenuBar(props) {
                     />
                 </button>
 
-                <div className="flex gap-4">
+                <div className="flex gap-6">
                     {detailBus.map((item, index) => (
                         <NavigationButton
                             onClick={() => busSearchData(item.id_bus)}
-                            id={item.id_bus}
+                            id={item.kode_bus}
                             key={index}
                             icon={"fa-solid fa-bus"}
                             className={"text-white text-2xl"}
