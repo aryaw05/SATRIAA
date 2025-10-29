@@ -184,8 +184,8 @@ const GpsSatria = (props) => {
 
             {/* Konten */}
             <div className="bg-gray-100 min-h-screen mx-5">
-                <div className="bg-white rounded-3xl mt-10  px-6 py-6 w-full max-w-md mx-auto">
-                    <div className="flex justify-between w-full items-center">
+                <div className="bg-white rounded-3xl mt-10 mx-5 px-6 py-6 w-full max-w-md mx-auto">
+                    <div className="flex">
                         <div className="">
                             <h1 className="font-bold text-2xl mb-0">
                                 {bus.nomor_bus}
@@ -194,6 +194,12 @@ const GpsSatria = (props) => {
                                 ON/OFF GPS
                             </h2>
                         </div>
+                        <button
+                            onClick={handleLogout}
+                            className="bg-red-500 rounded-md px-6 h-12 shadow-md text-white font-bold hover:bg-red-400 cursor-pointer ml-auto"
+                        >
+                            Logout
+                        </button>
                     </div>
 
                     {/* ON/OFF Toggle */}
