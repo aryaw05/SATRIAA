@@ -158,7 +158,6 @@ const MapProvider = forwardRef((props, ref) => {
                 return;
             }
             const buses = bus.find((b) => b.id_bus === busId);
-            console.log(buses.lokasi_lat, buses.lokasi_long);
             mapRef.current.flyTo([buses.lokasi_lat, buses.lokasi_long], 17);
             if (realTimeBus.length > 0) {
                 const realTimeData = realTimeBus.find(
