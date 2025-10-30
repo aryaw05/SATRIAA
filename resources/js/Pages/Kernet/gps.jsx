@@ -8,16 +8,48 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { router } from "@inertiajs/react";
 
-const GpsSatria = (props) => {
+const trackData = [
+    {
+        id_bus: 49,
+        tracking: [
+            [112.05598166495463, -7.813669963504822],
+            [112.05441153347664, -7.812783503099894],
+            [112.05288908788071, -7.812201554946327],
+            [112.0513420911837, -7.811666826557527],
+            [112.05083847348004, -7.811499348680584],
+            [112.05036180970063, -7.811356785451196],
+            [112.04978621570513, -7.81114294051676],
+            [112.04916565342836, -7.8109380056839655],
+            [112.04858414566996, -7.810757089975382],
+            [112.04786622414525, -7.8104849062396795],
+            [112.0474222816606, -7.8103028679488915],
+            [112.04713286726019, -7.810217911015556],
+            [112.04659574510151, -7.81005696176851],
+            [112.046084998205, -7.809880958527415],
+            [112.04534085823576, -7.809643992794733],
+            [112.0447665147683, -7.809464713609842],
+            [112.04416856814396, -7.8092386658322255],
+            [112.04347620889502, -7.80904379696004],
+            [112.04306965508653, -7.808905146595137],
+        ],
+    },
+];
+
+const Gps = (props) => {
     const { bus } = props;
+
     const [isActive, setIsActive] = useState(!!bus.status);
     const [kepadatan, setKepadatan] = useState(bus.kapasitas_tempat_duduk);
     const [statusBus, setStatusBus] = useState(bus.kondisi);
     const [openKepadatan, setOpenKepadatan] = useState(false);
     const [openStatusBus, setOpenStatusBus] = useState(false);
+    const [index, setIndex] = useState(0);
     const intervalRef = useRef(null);
-    console.log(isActive);
     const toggleGps = () => setIsActive((prev) => !prev);
+
+    const currentBus =
+        trackData.find((t) => t.id_bus === bus.id_bus) || trackData[0];
+
     const handleLogout = () => {
         router.post("/logoutBus");
     };
@@ -35,50 +67,67 @@ const GpsSatria = (props) => {
             },
         });
     };
-    const updateLocation = () => {
-        if (!navigator.geolocation) {
-            console.warn("Geolocation tidak didukung");
-            return;
-        }
 
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const lat = position.coords.latitude;
-                const lng = position.coords.longitude;
-                const data = {
-                    id_bus: bus.id_bus,
-                    lokasi_lat: lat,
-                    lokasi_long: lng,
-                };
+    // const updateLocation = () => {
+    //     if (!navigator.geolocation) {
+    //         console.warn("Geolocation tidak didukung");
+    //         return;
+    //     }
 
-                const resetData = {
-                    id_bus: bus.id_bus,
-                    lokasi_lat: -7.810829,
-                    lokasi_long: 112.063374,
-                };
+    //     navigator.geolocation.getCurrentPosition(
+    //         (position) => {
+    //             const lat = position.coords.latitude;
+    //             const lng = position.coords.longitude;
+    //             const data = {
+    //                 id_bus: bus.id_bus,
+    //                 lokasi_lat: lat,
+    //                 lokasi_long: lng,
+    //             };
 
-                router.post(
-                    "/kernet/dashboard/location/update",
-                    isActive ? data : resetData,
-                    {
-                        onError: (errors) => {
-                            console.error("Gagal kirim lokasi:", errors);
-                        },
-                        onSuccess: () => {
-                            console.log(
-                                `Lokasi Bus ${bus.id_bus} terkirim:`,
-                                lat,
-                                lng
-                            );
-                        },
-                    }
-                );
-            },
-            (error) => {
-                console.error("Gagal dapatkan lokasi:", error);
-            },
-            { enableHighAccuracy: true }
-        );
+    //             router.post("/kernet/dashboard/location/update", data, {
+    //                 onError: (errors) => {
+    //                     console.error("Gagal kirim lokasi:", errors);
+    //                 },
+    //                 onSuccess: () => {
+    //                     console.log(
+    //                         `Lokasi Bus ${bus.id_bus} terkirim:`,
+    //                         lat,
+    //                         lng
+    //                     );
+    //                 },
+    //             });
+    //         },
+    //         (error) => {
+    //             console.error("Gagal dapatkan lokasi:", error);
+    //         },
+    //         { enableHighAccuracy: true }
+    //     );
+    // };
+
+    const updateLocationExample = () => {
+        if (!currentBus) return;
+
+        setIndex((prevIndex) => {
+            // Cek batas di dalam setState
+            if (prevIndex >= currentBus.tracking.length) {
+                return 0; // Reset ke 0
+            }
+
+            const [lng, lat] = currentBus.tracking[prevIndex];
+            const data = {
+                id_bus: bus.id_bus,
+                lokasi_lat: lat,
+                lokasi_long: lng,
+            };
+
+            router.post("/kernet/dashboard/location/update", data, {
+                onError: (errors) => {
+                    console.error("Gagal kirim lokasi:", errors);
+                },
+            });
+
+            return prevIndex + 1;
+        });
     };
 
     function updateKondisiBus() {
@@ -133,10 +182,23 @@ const GpsSatria = (props) => {
             }
         );
     }
+    // useEffect(() => {
+    //     if (isActive) {
+    //         updateLocation();
+    //         intervalRef.current = setInterval(updateLocation, 3000);
+    //     } else {
+    //         if (intervalRef.current) clearInterval(intervalRef.current);
+    //     }
+
+    //     return () => {
+    //         if (intervalRef.current) clearInterval(intervalRef.current);
+    //     };
+    // }, [isActive, bus.id_bus, kepadatan, statusBus]);
+
     useEffect(() => {
         if (isActive) {
-            updateLocation();
-            intervalRef.current = setInterval(updateLocation, 50000);
+            updateLocationExample();
+            intervalRef.current = setInterval(updateLocationExample, 3000);
         } else {
             if (intervalRef.current) clearInterval(intervalRef.current);
         }
@@ -194,12 +256,6 @@ const GpsSatria = (props) => {
                                 ON/OFF GPS
                             </h2>
                         </div>
-                        <button
-                            onClick={handleLogout}
-                            className="bg-red-500 rounded-md px-6 h-12 shadow-md text-white font-bold hover:bg-red-400 cursor-pointer ml-auto"
-                        >
-                            Logout
-                        </button>
                     </div>
 
                     {/* ON/OFF Toggle */}
@@ -441,4 +497,4 @@ const GpsSatria = (props) => {
         </div>
     );
 };
-export default GpsSatria;
+export default Gps;
