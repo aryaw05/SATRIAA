@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Navbar() {
     return (
-        <div className="navbar  bg-white p-5 w-full ">
+        <div className="navbar flex justify-end bg-white p-5 w-full ">
             <div className="p-2 lg:hidden">
                 <label
                     htmlFor="sidebar-toggle"
@@ -24,15 +24,15 @@ export default function Navbar() {
                     </svg>
                 </label>
             </div>
-            {/* Left Side */}
+            {/* Left Side
             <div className="flex-1">
                 <h1>Dashboard</h1>
-            </div>
+            </div> */}
 
             {/* Right Side */}
             <div className=" text-md  flex  items-center gap-4">
                 <div>
-                    <div className="font-bold">Admin Dishub</div>
+                    <div className="font-bold">Admin</div>
                 </div>
                 <div className="dropdown dropdown-end">
                     <div tabIndex={0}>
