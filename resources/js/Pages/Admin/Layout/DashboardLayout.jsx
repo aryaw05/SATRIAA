@@ -10,7 +10,7 @@ const DashboardLayout = (props) => {
             <Head title={`${title} | Trans Kediri`} />
 
             <Sidebar>
-                <Navbar />
+                <Navbar header={title} />
                 {children}
             </Sidebar>
         </>

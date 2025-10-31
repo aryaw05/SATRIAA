@@ -424,4 +424,4 @@ const Gps = (props) => {
         </div>
     );
 };
-export default GpsSatria;
+export default Gps;
