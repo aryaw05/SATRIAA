@@ -32,7 +32,7 @@ export default function Navbar({ header }) {
             {/* Right Side */}
             <div className=" text-md  flex  items-center gap-4">
                 <div>
-                    <div className="font-bold">Admin Dishub</div>
+                    <div className="font-bold">Admin</div>
                 </div>
                 <div className="dropdown dropdown-end">
                     <div tabIndex={0}>

@@ -36,7 +36,6 @@ class DatabaseSeeder extends Seeder
                 'status' => 'aktif',
                 'kondisi' => 'baik',
                 'password' => bcrypt('bus123456'), 
-                'password' => bcrypt('123456'),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -69,9 +68,6 @@ class DatabaseSeeder extends Seeder
             ['id_bus' => 3, 'tempat_duduk_tersedia' => 25, 'waktu_update' => now()]
         ]);
 
-        $this->call([
-            UserSeeder::class,
-        ]);
         
         $this->call(AdminUserSeeder::class);
     }

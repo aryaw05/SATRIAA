@@ -6,7 +6,6 @@ use App\Models\Bus;
 use App\Models\Halte;
 use App\Models\JadwalBus;
 use App\Models\TrackingBus;
-
 use Inertia\Inertia;
 
 class HomeController extends Controller
