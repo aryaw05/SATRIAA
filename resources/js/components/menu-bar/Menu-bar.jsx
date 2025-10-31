@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSwipeable } from "react-swipeable";
 export default function MenuBar(props) {
     const { onClickBus, onClickUser, totalJadwal, detailBus, dataBus } = props;
-
     const [idBus, setIdBus] = useState(null);
     const [busInformation, setBusInformation] = useState(null);
     const [swipeCount, setSwipeCount] = useState(0);
@@ -94,7 +93,6 @@ export default function MenuBar(props) {
                 return "translate-y-[83%]";
         }
     };
-    console.log(busInformation);
     const setJadwal = useMemo(() => {
         if (!idBus) {
             return [];
@@ -127,11 +125,11 @@ export default function MenuBar(props) {
                     />
                 </button>
 
-                <div className="flex gap-4">
+                <div className="flex gap-6">
                     {detailBus.map((item, index) => (
                         <NavigationButton
                             onClick={() => busSearchData(item.id_bus)}
-                            id={item.id_bus}
+                            id={item.kode_bus}
                             key={index}
                             icon={"fa-solid fa-bus"}
                             className={"text-white text-2xl"}
@@ -160,7 +158,8 @@ export default function MenuBar(props) {
                                 Kapasitas Tersedia
                             </p>
                             <p className="text-lg font-medium">
-                                {busInformation?.kapasitas_tempat_duduk || "-"}
+                                {busInformation?.kapasitas_tempat_duduk || "-"}{" "}
+                                %
                             </p>
                         </div>
                     </div>
@@ -200,6 +199,13 @@ export default function MenuBar(props) {
                                     {busInformation?.kondisi || "-"}
                                 </span>
                             </div>
+                            <div className="grid grid-cols-[90px_10px_1fr] text-md font-medium">
+                                <span>Kode Bus</span>
+                                <span>:</span>
+                                <span className="text-white font-bold">
+                                    {busInformation?.kode_bus || "-"}
+                                </span>
+                            </div>
                         </div>
                     </div>
 
@@ -209,17 +215,21 @@ export default function MenuBar(props) {
 
                     {setJadwal && setJadwal.length > 0 ? (
                         <div className="flex flex-col space-y-4">
-                            {setJadwal.map((e, index) => (
+                            {setJadwal.map((halte, index) => (
                                 <div
                                     key={index}
                                     className="flex items-center bg-red-secondary rounded-2xl px-5 py-8 gap-4 "
                                 >
                                     <span className="text-md font-medium text-white">
-                                        {e}
+                                        {halte}
                                     </span>
                                     <div className="flex flex-wrap gap-2">
                                         {totalJadwal
-                                            .filter((e) => e.id_bus === idBus)
+                                            .filter(
+                                                (e) =>
+                                                    e.id_bus === idBus &&
+                                                    e.halte.nama_halte === halte
+                                            )
                                             .map((e, index) => (
                                                 <span
                                                     key={index}

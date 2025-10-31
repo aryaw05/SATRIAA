@@ -18,6 +18,7 @@ class Bus extends Model
                 'kapasitas_tempat_duduk',
                 'status',
                 'kondisi',
+                'kode_bus',
                 'password'
 
         ];

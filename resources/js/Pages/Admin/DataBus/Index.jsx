@@ -24,11 +24,11 @@ export default function InputBus(props) {
                 nomor_bus: dataBuses.nomor_bus || "",
                 plat_nomor: dataBuses.plat_nomor || "",
                 jenis_bus: dataBuses.jenis_bus || "",
+                kode_bus: dataBuses.kode_bus || "",
                 password: "",
             });
         }
     }, [dataBus]);
-
     function editDataBus(modalId, index) {
         const modal = document.getElementById(modalId);
         if (modal) modal.showModal();
@@ -59,6 +59,7 @@ export default function InputBus(props) {
                                 <th>Jenis Bus</th>
                                 <th>Plat Nomor</th>
                                 <th>Status</th>
+                                <th>Kode Bus</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -75,6 +76,7 @@ export default function InputBus(props) {
                                         <td>
                                             {e.status ? "Aktif" : "Tidak Aktif"}
                                         </td>
+                                        <td>{e.kode_bus}</td>
                                         <td>
                                             <div className="justify-center flex gap-2">
                                                 <button
@@ -209,6 +211,19 @@ export default function InputBus(props) {
                         </div>
                         <div>
                             <label className="text-sm text-black">
+                                Kode Bus
+                            </label>
+                            <input
+                                onChange={handleChange}
+                                required
+                                name="kode_bus"
+                                type="text"
+                                className="input w-full bg-gray-100"
+                                placeholder="Masukkan Kode Bus"
+                            />
+                        </div>
+                        <div>
+                            <label className="text-sm text-black">
                                 Password Bus
                             </label>
                             <input
@@ -305,6 +320,19 @@ export default function InputBus(props) {
                                 name="jenis_bus"
                                 className="input w-full bg-gray-100"
                                 placeholder="Masukkan Jenis Bus"
+                            />
+                        </div>
+                        <div>
+                            <label className="text-sm text-black">
+                                Kode Bus
+                            </label>
+                            <input
+                                value={formData.kode_bus || ""}
+                                type="text"
+                                onChange={handleChange}
+                                name="kode_bus"
+                                className="input w-full bg-gray-100"
+                                placeholder="Masukkan Kode Bus"
                             />
                         </div>
                         <div>

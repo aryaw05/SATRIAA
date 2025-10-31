@@ -6,7 +6,7 @@ import {
     faCircleXmark,
     faBus,
 } from "@fortawesome/free-solid-svg-icons";
-import { router } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 
 const Gps = (props) => {
     const { bus } = props;
@@ -16,7 +16,6 @@ const Gps = (props) => {
     const [openKepadatan, setOpenKepadatan] = useState(false);
     const [openStatusBus, setOpenStatusBus] = useState(false);
     const intervalRef = useRef(null);
-    console.log(isActive);
     const toggleGps = () => setIsActive((prev) => !prev);
     const handleLogout = () => {
         router.post("/logoutBus");
@@ -51,28 +50,18 @@ const Gps = (props) => {
                     lokasi_long: lng,
                 };
 
-                const resetData = {
-                    id_bus: bus.id_bus,
-                    lokasi_lat: -7.810829,
-                    lokasi_long: 112.063374,
-                };
-
-                router.post(
-                    "/kernet/dashboard/location/update",
-                    isActive ? data : resetData,
-                    {
-                        onError: (errors) => {
-                            console.error("Gagal kirim lokasi:", errors);
-                        },
-                        onSuccess: () => {
-                            console.log(
-                                `Lokasi Bus ${bus.id_bus} terkirim:`,
-                                lat,
-                                lng
-                            );
-                        },
-                    }
-                );
+                router.post("/kernet/dashboard/location/update", data, {
+                    onError: (errors) => {
+                        console.error("Gagal kirim lokasi:", errors);
+                    },
+                    onSuccess: () => {
+                        console.log(
+                            `Lokasi Bus ${bus.id_bus} terkirim:`,
+                            lat,
+                            lng
+                        );
+                    },
+                });
             },
             (error) => {
                 console.error("Gagal dapatkan lokasi:", error);
@@ -167,6 +156,7 @@ const Gps = (props) => {
 
     return (
         <div className="bg-gray-100 min-h-screen items-center justify-center">
+            <Head title="GPS Bus | Trans Kediri" />
             {/* Navbar */}
             <div className="navbar bg-gray-100 w-full z-50 ">
                 <div className="flex justify-between w-full px-5 py-5">
@@ -184,8 +174,8 @@ const Gps = (props) => {
 
             {/* Konten */}
             <div className="bg-gray-100 min-h-screen mx-5">
-                <div className="bg-white rounded-3xl mt-10  px-6 py-6 w-full max-w-md mx-auto">
-                    <div className="flex justify-between w-full items-center">
+                <div className="bg-white rounded-3xl mt-10 mx-5 px-6 py-6 w-full max-w-md mx-auto">
+                    <div className="flex">
                         <div className="">
                             <h1 className="font-bold text-2xl mb-0">
                                 {bus.nomor_bus}
@@ -195,7 +185,6 @@ const Gps = (props) => {
                             </h2>
                         </div>
                     </div>
-
                     {/* ON/OFF Toggle */}
                     <div className="flex items-center justify-between mb-1">
                         {isActive ? (

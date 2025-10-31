@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         DB::table('buses')->insert([
 
             [
+                'kode_bus' => 'B1',
                 'nomor_bus' => 'B001',
                 'plat_nomor' => 'AG 1234 CC',
                 'jenis_bus' => 'low-floor',
@@ -27,6 +28,7 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'kode_bus' => 'B2',
                 'nomor_bus' => 'B002',
                 'plat_nomor' => 'AG 5678 DD',
                 'jenis_bus' => 'Microbus',
@@ -38,6 +40,7 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'kode_bus' => 'B3',
                 'nomor_bus' => 'B003',
                 'plat_nomor' => 'AG 9012 EE',
                 'jenis_bus' => 'Microbus',
@@ -65,9 +68,6 @@ class DatabaseSeeder extends Seeder
             ['id_bus' => 3, 'tempat_duduk_tersedia' => 25, 'waktu_update' => now()]
         ]);
 
-        $this->call([
-            UserSeeder::class,
-        ]);
         
         $this->call(AdminUserSeeder::class);
     }
