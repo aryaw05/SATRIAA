@@ -1,10 +1,10 @@
 # SATRIA TRACKER
 
-**SATRIA** is a comprehensive web-based platform designed to modernize and streamline the management of bus transportation systems. By leveraging real-time data and a user-centric interface, SATRIA bridges the gap between transportation administrators, bus conductors (*kernets*), and passengers, ensuring efficient operations and improved service delivery.
+**SATRIA Tracker** is a comprehensive web-based platform designed to modernize and streamline the management of bus transportation systems. By leveraging real-time data and a user-centric interface, SATRIA bridges the gap between transportation administrators, bus conductors (*kernets*), and passengers, ensuring efficient operations and improved service delivery.
 
 ## Project Overview
 
-SATRIA is a platform dedicated to the city's free bus service. The core mission of this project is to tackle the persistent issue of service irregularity by implementing real-time bus tracking. This feature allows passengers to monitor precise bus locations, eliminating uncertainty and significantly saving valuable time for commuters.
+SATRIA Tracker is a platform dedicated to the city's free bus service. The core mission of this project is to tackle the persistent issue of service irregularity by implementing real-time bus tracking. This feature allows passengers to monitor precise bus locations, eliminating uncertainty and significantly saving valuable time for commuters.
 
 ## Key Features
 
